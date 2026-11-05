@@ -48,7 +48,7 @@
   button { cursor: pointer; }
   :focus-visible { outline: 2px solid #7fb6ff; outline-offset: 2px; }
 
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 14px 16px 40px; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 14px 16px 40px; }
   .topnav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
   .back {
     font: 500 12px "JetBrains Mono", monospace; color: var(--muted); text-decoration: none;
@@ -180,7 +180,7 @@
   .ms:hover { color: var(--ink); }
   .ms.m.on { background: #5a2a2a; color: #ffb3b3; border-color: #a04646; }
   .ms.s.on { background: #5a4a1e; color: #ffe08a; border-color: #b28c2a; }
-  .muted .pad.on { opacity: .35; }
+  .muted .pad.on, .muted .nc.on { opacity: .35; }
   .steps { display: flex; gap: var(--gap); }
   .g4 { margin-left: 6px; }
   .pad {
@@ -193,10 +193,10 @@
   .pad:hover { background: var(--pad-hover); }
   .pad:active { transform: scale(.94); }
   .pad.on { background: var(--c); box-shadow: inset 0 -3px 0 rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.25), 0 0 14px -3px var(--c); }
-  .pad.on:not(.acc) { filter: saturate(.8) brightness(.82); }
+  .pad.on:not(.acc) { filter: saturate(.85) brightness(.9); }
   .pad.acc::after { content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: rgba(255,255,255,.92); box-shadow: 0 0 6px #fff; }
   .pad.ph { background: #3d404c; }
-  .pad.on.ph { filter: brightness(1.3) saturate(1.1); transform: scale(1.08); box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 0 24px 2px var(--c); }
+  .pad.on.ph { background: var(--c); filter: brightness(1.3) saturate(1.1); transform: scale(1.08); box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 0 24px 2px var(--c); }
   .pad.out { opacity: .28; }
   .rk { display: flex; gap: 8px; }
 
@@ -260,8 +260,8 @@
   .nc.on { background: var(--sc) !important; box-shadow: 0 0 10px -2px var(--sc), inset 0 1px 0 rgba(255,255,255,.3); }
   .nc.on.ph { filter: brightness(1.3); box-shadow: 0 0 18px 1px var(--sc); transform: scaleY(1.12); }
   .nc.out { opacity: .3; }
-  .params { display: grid; grid-template-columns: repeat(4, 54px); gap: 10px 8px; padding: 6px 4px 0; margin-left: auto; }
-  .params .knob { width: 54px; }
+  .params { display: grid; grid-template-columns: repeat(4, 50px); gap: 12px 6px; padding: 6px 0 0; margin-left: auto; }
+  .params .knob { width: 50px; }
 
   .fx .body { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: flex-end; }
   .fxg { display: flex; flex-direction: column; gap: 6px; }
@@ -299,7 +299,7 @@
     .params { margin-left: 0; }
   }
   @media (max-width: 720px) {
-    :root { --cell: 34px; --gap: 4px; --lab: 104px; --notes: 34px; }
+    :root { --cell: 34px; --gap: 4px; --lab: 120px; --notes: 34px; }
     .wrap { padding: 10px 10px 30px; }
     .topnav .hint { display: none; }
     .chassis { padding: 12px; border-radius: 18px; }
@@ -312,7 +312,8 @@
     .bar { gap: 10px; padding: 10px; }
     .sep { display: none; }
     .push { margin-left: 0; }
-    .lab .name { padding: 0 4px 0 6px; font-size: 12px; gap: 6px; }
+    .lab .name { padding: 0 2px 0 4px; font-size: 12px; gap: 5px; }
+    .lab .name::before { width: 6px; height: 6px; }
     .lab .name .full { display: none; } .lab .name .short { display: inline; }
     .panel { padding: 10px 10px 12px; }
     .rctl { width: 100%; flex-direction: row; flex-wrap: wrap; align-items: center; }
@@ -349,7 +350,7 @@
     <section class="head">
       <div class="brand">
         <div class="logo">GROOVE<span>BOX</span></div>
-        <div class="model">GB-16 synthesized rhythm composer</div>
+        <div class="model">GB-16 rhythm composer</div>
         <div class="stripes" aria-hidden="true"><i style="background:#ff5d5d"></i><i style="background:#ffad42"></i><i style="background:#ffd84a"></i><i style="background:#7be36f"></i><i style="background:#35d6c0"></i><i style="background:#4cb2ff"></i><i style="background:#9b84ff"></i><i style="background:#ff6fcf"></i></div>
       </div>
       <div class="lcd" aria-live="off">
@@ -1231,11 +1232,10 @@ function buildSynth() {
 
   const params = $('#synParams');
   SYN_KEYS.forEach(key => params.appendChild(makeKnob({
-    spec: SYN_P[key], label: SYN_LABELS[key], aria: () => 0,
+    spec: SYN_P[key], label: SYN_LABELS[key], aria: 'Bass ' + SYN_LABELS[key].toLowerCase(),
     get: () => state.syn[curSyn][key], set: v => { state.syn[curSyn][key] = v; }, kind: 'syn'
   })));
-  // fix aria labels to include track name dynamically
-  knobs.slice(-SYN_KEYS.length).forEach((k, i) => { k.o.aria = undefined; k.synKey = SYN_KEYS[i]; });
+  knobs.slice(-SYN_KEYS.length).forEach((k, i) => { k.synKey = SYN_KEYS[i]; });
 }
 
 function buildFx() {

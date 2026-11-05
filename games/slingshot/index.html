@@ -260,7 +260,7 @@ const LEVELS = [
     pad:[170,740], portal:[1420,260], planets:[[820,500,75,260]], moons:[[820,500,175,24,0.7,0]], stars:[[520,683],[849,606],[1153,439]] },
   { name:'Boomerang', par:3, hint:'A wall of rubble. The way forward is around and back.',
     pad:[220,820], portal:[340,190], pr:40, planets:[[880,500,100,220]],
-    belts:[{x:260,y:2500,R:2000,w:10,n:30,from:-100,to:-86,speed:0}], stars:null },
+    belts:[{x:260,y:2500,R:2000,w:10,n:30,from:-100,to:-86,speed:0}], stars:[[1176,803],[1248,504],[1000,110]] },
   { name:'Rubble Ring', par:2, hint:'Thread the gap in the asteroid belt.',
     pad:[170,720], portal:[1270,430], planets:[[700,330,60,140]], belts:[{x:1270,y:430,R:135,w:14,n:30,from:0,to:360,speed:0.2,gaps:[[145,215]]}], stars:[[474,654],[737,590],[998,511]] },
   { name:'Fold', par:2, hint:'Wormholes come in pairs. Enter one, leave by the other.',
@@ -451,7 +451,7 @@ function genEndless(seed, sector){
       xr = xr || [420,1200]; yr = yr || [110,890];
       for(let t=0;t<50;t++){
         const x = R(xr[0],xr[1]), y = R(yr[0],yr[1]);
-        if(occ.every(o => Math.hypot(o.x-x, o.y-y) > o.r + r + 46)){ occ.push({x, y, r}); return [Math.round(x), Math.round(y)]; }
+        if(occ.every(o => Math.hypot(o.x-x, o.y-y) > o.r + r + 46)){ const q = [Math.round(x), Math.round(y)]; occ.push({x:q[0], y:q[1], r}); return q; }
       }
       return null;
     };
@@ -461,7 +461,7 @@ function genEndless(seed, sector){
     if(sector >= 2 && rng() < 0.22 + diff*0.35){ const q = place(60); if(q) def.rep.push([q[0], q[1]]); }
     if(sector >= 4 && def.planets.length && rng() < 0.3 + diff*0.4){
       const p = def.planets[(rng()*def.planets.length)|0]; const orb = p[2] + R(55, 95);
-      const clear = occ.every(o => (o.x === p[0] && o.y === p[1]) || Math.hypot(o.x-p[0], o.y-p[1]) > o.r + orb + 30);
+      const clear = occ.every(o => (o.x === p[0] && o.y === p[1]) || Math.hypot(o.x-p[0], o.y-p[1]) > o.r + orb + 24);
       if(clear) def.moons.push([p[0], p[1], Math.round(orb), Math.round(R(14,22)), +(R(0.4,0.9)*(rng() < 0.5 ? -1 : 1)).toFixed(2), Math.round(R(0,360))]);
     }
     if(sector >= 5 && rng() < 0.25 + diff*0.35){
@@ -1129,7 +1129,7 @@ function drawParticles(dt){
     ctx.beginPath(); ctx.arc(q.x, q.y, q.size*(0.4 + f*0.6), 0, TAU); ctx.fill();
   }
   for(let i=rings.length-1;i>=0;i--){
-    const r = rings[i]; r.t += dt; if(r.t >= r.max){ rings.splice(i, 1); continue; }
+    const r = rings[i]; r.t += dt; if(r.t >= r.max){ rings.splice(i, 1); continue; } if(r.t < 0) continue;
     const f = r.t/r.max; const e = 1 - Math.pow(1-f, 3);
     ctx.strokeStyle = 'rgba(' + r.c + ',' + ((1-f)*0.8).toFixed(3) + ')'; ctx.lineWidth = 4*(1-f) + 0.5;
     ctx.beginPath(); ctx.arc(r.x, r.y, r.r0 + (r.r1-r.r0)*e, 0, TAU); ctx.stroke();
@@ -1296,7 +1296,7 @@ showScreen('menu');
 requestAnimationFrame(t => { last = t; requestAnimationFrame(frame); });
 
 // Small debug surface for automated checks.
-window.__slingshot = { LEVELS, buildLevel, simulate, findSolution, starsFromPath, genEndless, mulberry32, startCampaign, startEndless, showScreen, state:P, MAXV, w2s,
+window.__slingshot = { LEVELS, buildLevel, simulate, findSolution, starsFromPath, genEndless, mulberry32, startCampaign, startEndless, showScreen, state:P, MAXV, w2s, launch,
   bakeStars(i, seed){ const L = buildLevel(LEVELS[i]); const s = findSolution(L, mulberry32(seed||1), 0, FLIGHT_MAX, 2); return s ? starsFromPath(L, s.path) : null; } };
 })();
 </script>
