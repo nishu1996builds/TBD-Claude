@@ -52,15 +52,15 @@
   .brand h1 { margin: 0; font: 400 22px/1 "IM Fell English SC", Georgia, serif; letter-spacing: .04em; }
   .brand span { color: var(--muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .bar .spacer { flex: 1; }
-  .drawer-btn { display: none; }
+  .bar .drawer-btn { display: none; }
   main { flex: 1 1 auto; display: flex; min-height: 0; }
   .stage { position: relative; flex: 1 1 auto; min-width: 0; background: var(--desk); overflow: hidden; touch-action: none; }
   .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; }
   .stage canvas.dragging { cursor: grabbing; }
   .stage canvas.hovering { cursor: pointer; }
-  .zoom { position: absolute; right: 12px; bottom: 12px; display: flex; flex-direction: column; gap: 6px; z-index: 3; }
+  .zoom { position: absolute; right: 12px; bottom: 10px; display: flex; gap: 6px; z-index: 3; }
   .zoom button {
-    width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
+    width: 32px; height: 32px; opacity: .92; border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
     box-shadow: var(--shadow); cursor: pointer; font-size: 17px; line-height: 1; display: grid; place-items: center;
   }
   .zoom button:hover { color: var(--accent); }
@@ -122,10 +122,11 @@
   }
   .toast.on { opacity: 1; transform: translate(-50%, 0); }
   .scrim { display: none; }
+  .m-info { display: none; }
 
   @media (max-width: 820px) {
     .brand span { display: none; }
-    .drawer-btn { display: inline-flex; }
+    .bar .drawer-btn { display: inline-flex; }
     .bar { padding: 8px 16px; gap: 10px; }
     .panel {
       position: fixed; left: 0; right: 0; bottom: 0; width: auto; max-height: 80dvh; z-index: 30;
@@ -137,7 +138,16 @@
     .panel.open { transform: none; }
     .scrim { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.3); z-index: 29; opacity: 0; pointer-events: none; transition: opacity .2s; }
     .scrim.on { opacity: 1; pointer-events: auto; }
-    .lore { left: 12px !important; right: 12px; bottom: 12px; top: auto !important; width: auto; }
+    main { flex-direction: column; overflow-y: auto; overflow-x: hidden; }
+    .stage { flex: 0 0 auto; height: calc((100vw - 8px) * 2 / 3 + 8px); }
+    .zoom { right: 8px; bottom: 8px; flex-direction: row; }
+    .zoom button { width: 30px; height: 30px; border-radius: 8px; font-size: 15px; }
+    .m-info { display: flex; flex-direction: column; gap: 12px; padding: 16px 16px 28px; }
+    .m-info h2 { margin: 0; font: 400 28px/1.05 "IM Fell English SC", Georgia, serif; letter-spacing: .02em; }
+    .m-info .pre { font: italic 16px "IM Fell English", Georgia, serif; color: var(--muted); }
+    .m-info .realms { font-size: 13px; color: var(--muted); margin: 0; }
+    .m-info .row .seg { flex: 1; }
+    .lore { position: fixed; left: 12px !important; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); top: auto !important; width: auto; max-width: none; }
   }
 </style>
 </head>
@@ -164,6 +174,22 @@
       <p id="loreText"></p>
     </div>
   </div>
+  <section class="m-info" aria-label="World summary">
+    <div><div class="pre" id="mPre"></div><h2 id="mName"></h2></div>
+    <p class="realms" id="mRealms"></p>
+    <div class="row">
+      <div class="seg" role="group" aria-label="Render style">
+        <button data-style="parchment" aria-pressed="true">Parchment</button>
+        <button data-style="atlas" aria-pressed="false">Atlas</button>
+        <button data-style="night" aria-pressed="false">Night</button>
+      </div>
+    </div>
+    <div class="row">
+      <button class="btn" id="mRandom" style="flex:1">&#9861; New world</button>
+      <button class="btn" id="mControls" style="flex:1">All controls</button>
+    </div>
+    <p class="hint">Tap a town to read its lore. Pinch to zoom, drag to pan.</p>
+  </section>
   <aside class="panel" id="panel">
     <section>
       <h2>Seed</h2>
@@ -429,8 +455,8 @@ function makeLanguages(r) {
   });
 }
 const VOW = /[aeiouy]/;
-function validName(s) {
-  if (s.length < 3 || s.length > 10) return false;
+function validName(s, maxLen) {
+  if (s.length < 3 || s.length > (maxLen || 10)) return false;
   if (/(.)\1\1/.test(s)) return false;
   if (/[aeiouy]{3}/.test(s)) return false;
   if (/[^aeiouy]{4}/.test(s)) return false;
@@ -461,14 +487,23 @@ function makeNamer(langs, r) {
   return {
     root: (ci) => uniq(() => cap(root(langs[ci], 1, 3))),
     place: (ci) => uniq(() => {
-      const c = langs[ci]; let s = root(c, 1, 2);
-      if (r() < 0.55) { const e = pick(r, c.ends); if (VOW.test(s.slice(-1)) && VOW.test(e[0])) s = s.slice(0, -1); s += e; }
-      return s.length > 12 ? cap(s.slice(0, 9)) : cap(s);
+      const c = langs[ci];
+      for (let t = 0; t < 20; t++) {
+        let s = root(c, 1, 2);
+        if (r() < 0.55) { const e = pick(r, c.ends); if (VOW.test(s.slice(-1)) && VOW.test(e[0])) s = s.slice(0, -1); s += e; }
+        if (validName(s, 11)) return cap(s);
+      }
+      return cap(root(c, 2, 2));
     }),
     region: (ci) => uniq(() => {
-      const c = langs[ci]; let s = root(c, 2, 3); const e = pick(r, c.regionEnds);
-      if (e && VOW.test(s.slice(-1)) && VOW.test(e[0])) s = s.slice(0, -1);
-      return cap(s + e);
+      const c = langs[ci];
+      for (let t = 0; t < 20; t++) {
+        let s = root(c, 2, 2 + (r() < 0.3 ? 1 : 0)); const e = pick(r, c.regionEnds);
+        if (e && VOW.test(s.slice(-1)) && VOW.test(e[0])) s = s.slice(0, -1);
+        s += e;
+        if (validName(s, 11)) return cap(s);
+      }
+      return cap(root(c, 2, 2));
     }),
     person: (ci) => cap(root(langs[ci], 2, 3)),
     langs
@@ -493,7 +528,7 @@ const B = { OCEAN: 0, LAKE: 1, BEACH: 2, GRASS: 3, FOREST: 4, TAIGA: 5, DESERT: 
 
 /* ---------------- World generation ---------------- */
 function generateWorld(P) {
-  const t0 = performance.now(); const prof = {}; let tl = t0; const mark = n => { const t = performance.now(); prof[n] = Math.round(t - tl); tl = t; };
+  const t0 = performance.now();
   const seedNum = xmur3('carto:' + String(P.seed))();
   const sub = salt => mulberry32((seedNum ^ Math.imul(salt + 1, 0x9E3779B1)) >>> 0);
   const nA = makeSimplex(sub(1)), nB = makeSimplex(sub(2)), nC = makeSimplex(sub(3)), nD = makeSimplex(sub(4)), nE = makeSimplex(sub(5));
@@ -514,29 +549,31 @@ function generateWorld(P) {
     for (let i = 0; i < n; i++) blobs.push({ x: (RS() - 0.5) * 2.3, y: (RS() - 0.5) * 1.3, rx: 0.36 + RS() * 0.3, ry: 0.3 + RS() * 0.25 });
   }
 
-  const E = new Float32Array(N), tex = new Float32Array(N);
-  const gain = 0.47 + rug * 0.1;
+  const E = new Float32Array(N), tex = new Float32Array(N), RID = new Float32Array(N), BELT = new Float32Array(N);
+  const gain = 0.43 + rug * 0.1;
   let k = 0;
   for (let j = 0; j < GH; j++) {
     const y = gy(j), ay = (y - H / 2) / (H / 2);
     for (let i = 0; i < GW; i++, k++) {
       const x = gx(i), ax = (x - W / 2) / (H / 2);
-      const qx = fbm(nB, ax * 1.25 + 3.1, ay * 1.25 + 7.7, 4, 0.5), qy = fbm(nB, ax * 1.25 - 5.3, ay * 1.25 + 1.9, 4, 0.5);
+      const qx = fbm(nB, ax * 1.25 + 3.1, ay * 1.25 + 7.7, 3, 0.5), qy = fbm(nB, ax * 1.25 - 5.3, ay * 1.25 + 1.9, 3, 0.5);
       const wx = ax + qx * 0.55, wy = ay + qy * 0.55;
-      const base = fbm(nA, wx * 1.7 + 0.5, wy * 1.7 - 0.3, 7, gain);
+      const base = fbm(nA, wx * 1.7 + 0.5, wy * 1.7 - 0.3, 6, gain);
       let mask = -9;
       for (let b = 0; b < blobs.length; b++) { const o = blobs[b], dx = (wx - o.x) / o.rx, dy = (wy - o.y) / o.ry, v = 1 - Math.sqrt(dx * dx + dy * dy); if (v > mask) mask = v; }
-      const r1 = 1 - Math.abs(nC(wx * 2.1 + 11.3, wy * 2.1 - 4.1)), r2 = 1 - Math.abs(nC(wx * 4.4 - 7.7, wy * 4.4 + 2.2));
-      const ridge = r1 * r1 * r1 * 0.7 + r2 * r2 * 0.3;
+      /* ridged multifractal for mountain ranges, confined to belts */
+      let rs = 0, amp = 0.55, fr = 2.9, prev = 1;
+      for (let o = 0; o < 4; o++) { let n = 1 - Math.abs(nC(wx * fr + o * 17.3 + 11.3, wy * fr - o * 9.1 - 4.1)); n *= n; rs += n * amp * prev; prev = n; fr *= 2.15; amp *= 0.5; }
+      const belt = smooth(0.0, 0.36, fbm(nC, wx * 0.75 - 31.7, wy * 0.75 + 12.9, 2, 0.5) + rug * 0.1);
+      RID[k] = rs; BELT[k] = belt;
       let e = base * 0.95 + mask * 0.7;
-      e += (0.12 + rug * 0.5) * ridge * smooth(0.05, 0.55, e);
+      e += (0.06 + rug * 0.2) * rs * belt * smooth(0.05, 0.55, e);
       const ed = Math.min(x, W - x, y, H - y) / H;
       const edge = smooth(0.02, 0.12, ed);
       E[k] = e * edge - (1 - edge) * 1.2;
       tex[k] = nE(ax * 9, ay * 9);
     }
   }
-  mark('noise');
   const sorted = E.slice().sort();
   const sea = sorted[Math.min(N - 1, Math.floor((1 - landFrac) * N))];
   const water = new Uint8Array(N);
@@ -556,18 +593,34 @@ function generateWorld(P) {
       if (O.sizes[c] < 36) { water[k] = 0; E[k] = sea + 0.003; } else water[k] = 2;
     }
   }
+  const distLand = chamfer(n => water[n] === 1);
+  const distOcean = chamfer(n => water[n] !== 1);
+  /* relief: gentle lowlands rising inland, with ridged ranges where belts allow */
   let maxE = -1e9, minE = 1e9;
   for (k = 0; k < N; k++) { if (water[k] === 0 && E[k] > maxE) maxE = E[k]; if (E[k] < minE) minE = E[k]; }
   const h = new Float32Array(N);
+  const mAmp = 0.35 + rug * 0.9;
+  let maxH = 0;
   for (k = 0; k < N; k++) {
-    if (water[k] === 1) h[k] = Math.min(-0.0005, -(sea - E[k]) / (sea - minE));
-    else { const v = Math.max(0, (E[k] - sea) / (maxE - sea)); h[k] = water[k] === 2 ? v * 0.3 : Math.max(0.0008, Math.pow(v, 1.12)); }
+    if (water[k] === 1) { h[k] = Math.min(-0.0005, -(sea - E[k]) / (sea - minE)); continue; }
+    const L = Math.max(0, (E[k] - sea) / (maxE - sea));
+    const inland = 1 - Math.exp(-distLand[k] / 16);
+    const v = 0.16 * L + 0.14 * inland + mAmp * Math.pow(RID[k] * BELT[k], 1.6) * smooth(0.5, 5, distLand[k]) * (0.35 + 0.65 * inland);
+    h[k] = v; if (water[k] === 0 && v > maxH) maxH = v;
   }
-
-  mark('sea+clean');
-  /* distances */
-  const distLand = chamfer(n => water[n] === 1);
-  const distOcean = chamfer(n => water[n] !== 1);
+  {
+    /* remap so a predictable share of the land rises above the mountain line */
+    const vals = []; for (k = 0; k < N; k++) if (water[k] === 0) vals.push(h[k]);
+    vals.sort((a, b) => a - b);
+    const fm = 0.025 + rug * 0.09;
+    const vm = vals[Math.floor(vals.length * (1 - fm))] || maxH * 0.6;
+    for (k = 0; k < N; k++) {
+      if (water[k] === 1) continue;
+      const v = h[k];
+      const r = v < vm ? 0.58 * Math.pow(v / vm, 1.15) : 0.58 + 0.42 * Math.pow((v - vm) / Math.max(1e-6, maxH - vm), 0.75);
+      h[k] = water[k] === 2 ? r * 0.3 : Math.max(0.0008, r);
+    }
+  }
 
   /* climate */
   const RC = sub(7);
@@ -583,7 +636,6 @@ function generateWorld(P) {
     temp[k] = clamp(t, 0, 1);
   }
 
-  mark('dist+climate');
   /* hydrology: priority flood, lakes, flow */
   const hf = new Float32Array(h), closed = new Uint8Array(N), order = new Int32Array(N);
   let on = 0;
@@ -650,7 +702,6 @@ function generateWorld(P) {
   const isRiver = new Uint8Array(N);
   for (k = 0; k < N; k++) if (water[k] === 0 && flux[k] >= T && mouthOf[k] >= 0 && selMouth[mouthOf[k]]) isRiver[k] = 1;
 
-  mark('hydro');
   /* river polylines (x, y, width) */
   const jitX = k => (hashInt(k * 7 + seedNum) - 0.5) * CS * 0.7, jitY = k => (hashInt(k * 13 + 5 + seedNum) - 0.5) * CS * 0.7;
   const rwidth = f => clamp(0.55 + Math.sqrt(f / T) * 0.42, 0.7, 6.5);
@@ -680,7 +731,6 @@ function generateWorld(P) {
     if (p.length >= 9) rivers.push(chaikin(p, false, 3, 3));
   }
 
-  mark('riverlines');
   /* biomes */
   const riverNear = chamfer(n => isRiver[n] === 1);
   const biome = new Uint8Array(N);
@@ -703,18 +753,19 @@ function generateWorld(P) {
   /* slope and hillshade */
   const slope = new Float32Array(N), shade = new Float32Array(N);
   {
-    const Z = 70 / (2 * CS), lx = -0.6, ly = -0.65, lz = 0.47, ll = Math.hypot(lx, ly, lz);
+    const Z = 24 / (2 * CS), lx = -0.6, ly = -0.65, lz = 0.47, ll = Math.hypot(lx, ly, lz);
+    const hb = new Float32Array(N); for (k = 0; k < N; k++) hb[k] = Math.max(0, h[k]);
+    boxBlur(hb, 1);
     for (let j = 1; j < GH - 1; j++) for (let i = 1; i < GW - 1; i++) {
       const k2 = j * GW + i;
-      const hv = n => Math.max(0, h[n]);
+      const hv = n => hb[n];
       const dzx = (hv(k2 + 1) - hv(k2 - 1)) * Z, dzy = (hv(k2 + GW) - hv(k2 - GW)) * Z;
       slope[k2] = Math.hypot(dzx, dzy);
       const dot = (dzx * -lx + dzy * -ly) * -1 + lz;
-      shade[k2] = dot / ll / Math.sqrt(dzx * dzx + dzy * dzy + 1) - lz / ll;
+      shade[k2] = clamp(dot / ll / Math.sqrt(dzx * dzx + dzy * dzy + 1) - lz / ll, -0.45, 0.32);
     }
   }
 
-  mark('biome+shade');
   /* landmasses */
   const LM = components(n => water[n] !== 1, true);
   const landmass = LM.lab;
@@ -787,7 +838,6 @@ function generateWorld(P) {
   const byT = regInfo.slice().sort((a, b) => a.t - b.t);
   byT.forEach((o, idx) => { o.culture = nReg < 3 ? Math.min(2, Math.floor(o.t * 3)) : Math.min(2, Math.floor(idx * 3 / nReg)); });
 
-  mark('regions');
   const RN = sub(10);
   const langs = makeLanguages(RN), namer = makeNamer(langs, RN);
   const REGION_COLORS = ['#b5523b', '#5b7f4a', '#4f6d8f', '#b88a2e', '#7d5a8a', '#3f8a86', '#a0603a', '#6b7a2e'];
@@ -819,24 +869,28 @@ function generateWorld(P) {
     }
   }
 
-  mark('regionborders');
   /* coastline geometry */
   const coastF = new Float32Array(N);
-  for (k = 0; k < N; k++) coastF[k] = water[k] === 1 ? h[k] - 0.002 : water[k] === 2 ? -0.03 : h[k] + 0.002;
+  for (k = 0; k < N; k++) {
+    const d = E[k] - sea;
+    if (water[k] === 1) coastF[k] = Math.min(d, -1e-5);
+    else if (water[k] === 2) coastF[k] = d < 0 ? d : -Math.max(1e-5, (hf[k] - h[k]) * (maxE - sea) * 0.5);
+    else coastF[k] = Math.max(d, 1e-5);
+  }
   const coast = smoothLines(contour(coastF, 0), 2);
   const landPath = linesPath(coast);
   const ripples = [];
   for (const lv of [1.5, 3.2, 5.2, 7.6, 10.5]) ripples.push({ lv, lines: smoothLines(contour(distOcean, lv), 3) });
   const bathy = [];
-  for (const lv of [-0.06, -0.18, -0.38, -0.62]) {
-    const f = new Float32Array(N); for (k = 0; k < N; k++) f[k] = water[k] === 1 ? h[k] : 0.01;
-    bathy.push({ lv, lines: smoothLines(contour(f, lv), 3) });
+  {
+    const f = new Float32Array(N); for (k = 0; k < N; k++) f[k] = water[k] === 1 ? -h[k] * 0.45 + smooth(0, 38, distOcean[k]) * 0.55 : -0.01;
+    boxBlur(f, 1);
+    for (const lv of [0.12, 0.3, 0.5]) bathy.push({ lv, lines: smoothLines(contour(f, lv), 2) });
   }
   const lakeF = new Float32Array(N); for (k = 0; k < N; k++) lakeF[k] = water[k] === 2 ? 1 : 0;
   boxBlur(lakeF, 1);
   const lakeLines = smoothLines(contour(lakeF, 0.5), 2);
 
-  mark('contours');
   /* named natural features */
   const RF = sub(11);
   const seas = [];
@@ -903,7 +957,6 @@ function generateWorld(P) {
   }
   riverNames.sort((a, b) => b.len - a.len);
 
-  mark('features');
   /* settlements */
   const RP = sub(12);
   const score = new Float32Array(N).fill(-1e9);
@@ -968,11 +1021,9 @@ function generateWorld(P) {
   settlements.sort((a, b) => b.pop - a.pop);
   settlements.forEach((s, i) => { s.id = i; });
 
-  mark('settle');
   /* roads: A* over a half-resolution grid, reusing existing roads */
   const roads = buildRoads(settlements, { h, water, isRiver, biome, slope });
 
-  mark('roads');
   /* decorative glyphs */
   const RG = sub(13);
   const glyphs = [];
@@ -998,7 +1049,7 @@ function generateWorld(P) {
     const px = x + RG() * 6.5, py = y + RG() * 6.5, c = nodeAt(px, py);
     if (water[c] !== 0) continue;
     const bi = biome[c];
-    if ((bi === B.FOREST || bi === B.TAIGA) && RG() < 0.55 + moist[c] * 0.4) {
+    if ((bi === B.FOREST || bi === B.TAIGA) && RG() < 0.4 + moist[c] * 0.42) {
       if (riverNear[c] < 1.2 || roadMask[c] || distLand[c] < 1.3 || nearSettle(px, py, 11)) continue;
       glyphs.push({ t: bi === B.TAIGA || temp[c] < 0.42 ? 'pine' : 'tree', x: px, y: py, s: 5 + RG() * 2.2, r1: RG() });
     } else if (bi === B.DESERT && RG() < 0.08 && !nearSettle(px, py, 12)) {
@@ -1011,7 +1062,6 @@ function generateWorld(P) {
   }
   glyphs.sort((a, b) => a.y - b.y);
 
-  mark('glyphs');
   /* corner furniture: cartouche, compass, scale; placed over the most open sea */
   const corners = [[0, 0], [1, 0], [0, 1], [1, 1]];
   const items = [{ key: 'cart', w: 380, h: 128, wt: 1.6 }, { key: 'compass', w: 150, h: 160, wt: 1.0 }, { key: 'scale', w: 250, h: 86, wt: 0.7 }];
@@ -1020,15 +1070,11 @@ function generateWorld(P) {
     return { x: c[0] ? W - m - it.w : m, y: c[1] ? H - m - it.h : m, w: it.w, h: it.h };
   };
   const landIn = r => { let l = 0, t = 0; for (let y = r.y; y < r.y + r.h; y += 8) for (let x = r.x; x < r.x + r.w; x += 8) { t++; if (water[nodeAt(x, y)] !== 1) l++; } return l / t; };
-  let bestPerm = null, bestScore = 1e9;
-  const perms = [[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]];
-  for (const pc of [[0, 1, 2, 3]].concat()) {
-    for (let a = 0; a < 4; a++) for (let b = 0; b < 4; b++) for (let c = 0; c < 4; c++) {
-      if (a === b || b === c || a === c) continue;
-      const sc = landIn(rectAt(items[0], corners[a])) * items[0].wt + landIn(rectAt(items[1], corners[b])) * items[1].wt + landIn(rectAt(items[2], corners[c])) * items[2].wt + (corners[a][1] ? 0.04 : 0);
-      if (sc < bestScore) { bestScore = sc; bestPerm = [a, b, c]; }
-    }
-    void pc; void perms;
+  let bestPerm = [3, 0, 2], bestScore = 1e9;
+  for (let a = 0; a < 4; a++) for (let b = 0; b < 4; b++) for (let c = 0; c < 4; c++) {
+    if (a === b || b === c || a === c) continue;
+    const sc = landIn(rectAt(items[0], corners[a])) * items[0].wt + landIn(rectAt(items[1], corners[b])) * items[1].wt + landIn(rectAt(items[2], corners[c])) * items[2].wt + (corners[a][1] ? 0.04 : 0);
+    if (sc < bestScore) { bestScore = sc; bestPerm = [a, b, c]; }
   }
   const furniture = {};
   items.forEach((it, i) => { furniture[it.key] = Object.assign(rectAt(it, corners[bestPerm[i]]), { corner: corners[bestPerm[i]] }); });
@@ -1050,7 +1096,7 @@ function generateWorld(P) {
   return {
     P, seedNum, h, water, biome, moist, temp, shade, tex, distLand, distOcean, flux, isRiver, region, landmass,
     coast, landPath, ripples, bathy, lakeLines, regions, rivers, riverNames, riverOfMouth, mouthOf, settlements, roads, glyphs,
-    seas, ranges, forests, deserts, lakes, furniture, title, langs, T, genMs, prof
+    seas, ranges, forests, deserts, lakes, furniture, title, langs, T, genMs
   };
 }
 function boxBlur(f, r) {
@@ -1199,7 +1245,7 @@ function loreFor(world, s) {
   if (lake) wheres.push(`beside ${lake.name}`);
   if (range) wheres.push(`in the foothills of ${the(range.name)}`);
   if (forest && (bi === B.FOREST || bi === B.TAIGA)) wheres.push(`at the edge of ${the(forest.name)}`);
-  if (desert && bi === B.DESERT) wheres.push(`amid ${the(desert.name).replace(/^the /, 'the ')}`);
+  if (desert && bi === B.DESERT) wheres.push(`amid ${the(desert.name)}`);
   if (!wheres.length) wheres.push(bi === B.TUNDRA ? `on the frozen steppe of ${R.name}` : bi === B.FOREST ? `deep in the woods of ${R.name}` : `on the open plains of ${R.name}`);
   const where = wheres[0];
   const kinds = s.capital ? ['capital', 'royal seat', 'crowned city'] : s.type === 'city' ? (s.coastal ? ['harbor city', 'port city', 'walled city'] : ['walled city', 'trade city', 'old city']) :
@@ -1208,17 +1254,17 @@ function loreFor(world, s) {
   const adjs = bi === B.DESERT ? ['sun-baked', 'dust-red', 'shaded', 'whitewashed'] : bi === B.TUNDRA || bi === B.TAIGA ? ['frost-rimmed', 'timber-walled', 'smoky', 'hardy'] :
     s.coastal ? ['fog-bound', 'salt-stained', 'bustling', 'gull-haunted'] : ['prosperous', 'sleepy', 'ancient', 'proud', 'quiet', 'lantern-lit'];
   const goods = [];
-  if (s.coastal) goods.push('salt fish', 'shipwrights', 'pearl divers', 'sea charts');
-  if (s.river) goods.push('river barges', 'eel pies', 'water mills');
-  if (range) goods.push('silver', 'iron', 'pale marble', 'stone masons');
+  if (s.coastal) goods.push('salt fish', 'tall ships', 'pearls', 'sea charts');
+  if (s.river) goods.push('river trade', 'eel pies', 'milled flour');
+  if (range) goods.push('silver', 'iron', 'pale marble', 'carved stone');
   if (bi === B.FOREST || bi === B.TAIGA) goods.push('timber', 'amber', 'longbows', 'honey mead');
-  if (bi === B.DESERT) goods.push('blown glass', 'saffron', 'caravans', 'star charts');
+  if (bi === B.DESERT) goods.push('blown glass', 'saffron', 'caravan trade', 'star charts');
   if (bi === B.GRASS || bi === B.BEACH) goods.push('wheat', 'horses', 'sheep cheese', 'wool');
   if (bi === B.TUNDRA) goods.push('furs', 'whale oil', 'reindeer');
   if (!goods.length) goods.push('wool', 'ale');
   const good = pick(r, goods);
   const an = w => (/^[aeiou]/i.test(w) ? 'an ' : 'a ') + w;
-  const s1 = `${s.name} is ${an(pick(r, adjs) + ' ' + pick(r, kinds))} ${where}, ${pick(r, ['famed for its ' + good, 'known across ' + R.name + ' for its ' + good, 'where ' + good + ' change hands', 'whose wealth rests on ' + good])}.`;
+  const s1 = `${s.name} is ${an(pick(r, adjs) + ' ' + pick(r, kinds))} ${where}, ${pick(r, ['famed for its ' + good, 'known across ' + R.name + ' for its ' + good, 'whose fortunes were built on ' + good, 'whose wealth rests on ' + good])}.`;
   const person = `${pick(r, lang.titles)} ${cap(rootLike(r, lang))}`;
   const otherCities = world.settlements.filter(o => o !== s && o.type !== 'village');
   const other = otherCities.length ? pick(r, otherCities).name : R.name;
@@ -1228,14 +1274,19 @@ function loreFor(world, s) {
     `It is ruled by ${person}, ${pick(r, ['who is said to be fair but tireless', 'who has not left the keep in a decade', 'whose debts are whispered about in every tavern', 'who keeps an uneasy peace with ' + other])}.`,
     `Its people still tell of ${pick(r, legends)}.`,
     `Every ${pick(r, seasons)} its ${pick(r, ['lantern fair', 'horse market', 'boat races', 'masked feast'])} draws travelers from as far as ${other}.`,
-    `The ${pick(r, ['old watchtower', 'broken aqueduct', 'standing stones', 'sunken temple'])} at its heart is said to be older than ${R.name} itself.`,
+    `The ${pick(r, ['old watchtower', 'broken aqueduct', 'ring of standing stones', 'sunken temple'])} at its heart is said to be older than ${R.name} itself.`,
     `Travelers are warned never to ${pick(r, ['whistle after dark', 'refuse a cup of salt tea', 'cross the old bridge alone', 'speak the name of the last king'])}.`
   ];
   const s2 = s.capital ? s2opts[0] : pick(r, s2opts);
   const typeLabel = s.capital ? 'Capital' : cap(s.type);
   return { name: s.name, meta: `${typeLabel} of ${R.name} · pop. ${s.pop.toLocaleString('en-US')}`, text: s1 + ' ' + s2 };
 }
-function the(n) { return n.startsWith('The ') ? 'the ' + n.slice(4) : n; }
+function the(n) {
+  if (n.startsWith('The ')) return 'the ' + n.slice(4);
+  if (/^(Sea|Bay|Gulf|Ocean|Forest|Mountains|River|Dunes|Anvils) /.test(n)) return 'the ' + n;
+  if (/ (River|Sea|Deep|Peaks|Heights|Crags|Spires|Sands|Wood|Groves|Thicket|Sound|Water|Range|Fells|Waste|Reach|Ocean)$/.test(n)) return 'the ' + n;
+  return n;
+}
 function rootLike(r, c) {
   for (let t = 0; t < 30; t++) {
     let s = '';
@@ -1274,16 +1325,16 @@ function buildRasters(world, style) {
   const O = oi.data, L = li.data;
   let pal;
   if (style === 'parchment') pal = {
-    deep: hex('#c9c3a0'), shallow: hex('#ddd3ae'), wash: hex('#a9bdb0'),
-    low: hex('#efe2bf'), grass: hex('#e9dfb4'), forest: hex('#d9d6a6'), taiga: hex('#d3d3ad'), desert: hex('#efd8a2'), tundra: hex('#e4dfca'), mount: hex('#dccaa3'), snow: hex('#f3ecd8'), beach: hex('#f1e2b8')
+    deep: hex('#d3cdb0'), shallow: hex('#e2dbbf'), wash: hex('#b9cbc4'),
+    low: hex('#f4e9cc'), grass: hex('#efe5c2'), forest: hex('#e4e0bb'), taiga: hex('#dfddc0'), desert: hex('#f3dfae'), tundra: hex('#ebe7d6'), mount: hex('#e6d6b2'), snow: hex('#f7f1e2'), beach: hex('#f5e8c3')
   };
   else if (style === 'atlas') pal = {
     deep: hex('#5f95c4'), mid: hex('#8dbde0'), shallow: hex('#c4e1f1'),
     low: hex('#a9cf8e'), grass: hex('#bcd596'), dry: hex('#e2d5a0'), forest: hex('#86b276'), taiga: hex('#8fae88'), desert: hex('#ead9a6'), tundra: hex('#d4dacb'), high: hex('#cbb68f'), mount: hex('#a99a86'), snow: hex('#f6f6f3'), beach: hex('#eee2b5')
   };
   else pal = {
-    deep: hex('#050b1a'), shallow: hex('#0f2546'), glow: hex('#18406e'),
-    low: hex('#1b2b48'), grass: hex('#1d2d4a'), forest: hex('#152541'), taiga: hex('#16263f'), desert: hex('#2a2b45'), tundra: hex('#28344f'), mount: hex('#3a4a6a'), snow: hex('#93a6cb'), beach: hex('#243656')
+    deep: hex('#040915'), shallow: hex('#0b1a33'), glow: hex('#14325c'),
+    low: hex('#1e2f4e'), grass: hex('#1f3050'), forest: hex('#192a47'), taiga: hex('#1a2a45'), desert: hex('#272e4b'), tundra: hex('#2b3755'), mount: hex('#34425f'), snow: hex('#64759a'), beach: hex('#243555')
   };
   for (let k = 0; k < N; k++) {
     const o = k * 4, hh = h[k], tx = tex[k];
@@ -1293,14 +1344,15 @@ function buildRasters(world, style) {
     const dist = distOcean[k];
     if (style === 'parchment') {
       oc3 = mix(pal.shallow, pal.deep, smooth(0, 0.6, depth));
-      oc3 = mix(oc3, pal.wash, 0.55 * Math.exp(-dist / 5));
+      oc3 = mix(oc3, pal.wash, 0.6 * Math.exp(-dist / 6));
       const v = 1 + tx * 0.025; oc3 = [oc3[0] * v, oc3[1] * v, oc3[2] * v];
     } else if (style === 'atlas') {
-      oc3 = depth < 0.2 ? mix(pal.shallow, pal.mid, smooth(0, 0.2, depth)) : mix(pal.mid, pal.deep, smooth(0.2, 0.75, depth));
+      const dv = depth * 0.45 + smooth(0, 38, dist) * 0.55;
+      oc3 = dv < 0.2 ? mix(pal.shallow, pal.mid, smooth(0, 0.2, dv)) : mix(pal.mid, pal.deep, smooth(0.2, 0.75, dv));
       oc3 = mix(oc3, pal.shallow, 0.35 * Math.exp(-dist / 3));
     } else {
       oc3 = mix(pal.shallow, pal.deep, smooth(0, 0.55, depth));
-      oc3 = mix(oc3, pal.glow, 0.5 * Math.exp(-dist / 4));
+      oc3 = mix(oc3, pal.glow, 0.32 * Math.exp(-dist / 3));
       const v = 1 + tx * 0.05; oc3 = [oc3[0] * v, oc3[1] * v, oc3[2] * v];
     }
     O[o] = oc3[0]; O[o + 1] = oc3[1]; O[o + 2] = oc3[2]; O[o + 3] = 255;
@@ -1315,20 +1367,30 @@ function buildRasters(world, style) {
       else if (bi === B.DESERT) c = mix(c, pal.desert, 0.6); else if (bi === B.BEACH) c = mix(c, pal.beach, 0.5);
       if (t < 0.25 && lh < 0.75) c = mix(c, pal.tundra, smooth(0.25, 0.08, t) * 0.8);
       if (bi === B.SNOW) c = mix(c, pal.snow, 0.7);
-      const v = 1 + sh * 1.15 + tx * 0.02;
+      const v = 1 + sh * 0.85 + tx * 0.02;
       c = [c[0] * v, c[1] * v, c[2] * v];
     } else if (style === 'parchment') {
       c = bi === B.FOREST ? pal.forest : bi === B.TAIGA ? pal.taiga : bi === B.DESERT ? pal.desert : bi === B.TUNDRA ? pal.tundra : bi === B.MOUNTAIN ? pal.mount : bi === B.SNOW ? pal.snow : bi === B.BEACH ? pal.beach : mix(pal.low, pal.grass, smooth(0.3, 0.6, m));
-      const v = 1 + sh * 0.32 + tx * 0.02;
+      const v = 1 + sh * 0.2 + tx * 0.015;
       c = [c[0] * v, c[1] * v, c[2] * v];
     } else {
       c = bi === B.FOREST ? pal.forest : bi === B.TAIGA ? pal.taiga : bi === B.DESERT ? pal.desert : bi === B.TUNDRA ? pal.tundra : bi === B.MOUNTAIN ? pal.mount : bi === B.SNOW ? pal.snow : bi === B.BEACH ? pal.beach : pal.grass;
-      c = mix(c, pal.mount, smooth(0.25, 0.6, lh) * 0.6);
-      const v = 1 + sh * 1.5 + tx * 0.04;
+      c = mix(c, pal.mount, smooth(0.3, 0.65, lh) * 0.7);
+      const v = 1 + sh * 0.9 + tx * 0.035;
       c = [c[0] * v, c[1] * v, c[2] * v];
-      c = mix(c, hex('#2a4572'), 0.35 * Math.exp(-distLand[k] / 2.5) * (water[k] === 0 ? 1 : 0));
+      c = mix(c, hex('#2b4675'), 0.22 * Math.exp(-distLand[k] / 2) * (water[k] === 0 ? 1 : 0));
     }
     L[o] = c[0]; L[o + 1] = c[1]; L[o + 2] = c[2]; L[o + 3] = 255;
+  }
+  /* soften hard biome edges before upscaling */
+  for (let pass = 0; pass < 2; pass++) {
+    const src = new Uint8ClampedArray(L);
+    for (let j = 1; j < GH - 1; j++) for (let i = 1; i < GW - 1; i++) {
+      const o = (j * GW + i) * 4;
+      for (let c = 0; c < 3; c++) {
+        L[o + c] = (src[o + c] * 4 + src[o + c - 4] + src[o + c + 4] + src[o + c - GW * 4] + src[o + c + GW * 4]) / 8;
+      }
+    }
   }
   octx.putImageData(oi, 0, 0); lctx.putImageData(li, 0, 0);
   return { ocean: oc, land: lc };
@@ -1342,7 +1404,7 @@ function getPaper() {
   const n1 = makeSimplex(mulberry32(77)), n2 = makeSimplex(mulberry32(78)), rr = mulberry32(79);
   for (let y = 0; y < hgt; y++) for (let x = 0; x < w; x++) {
     const o = (y * w + x) * 4;
-    const blot = fbm(n1, x / 140, y / 140, 4, 0.55);
+    const blot = fbm(n1, x / 140, y / 140, 3, 0.55);
     const fib = n2(x / 3, y / 18) * 0.35 + n2(x / 1.5, y / 1.5) * 0.25;
     const g = 0.93 + blot * 0.09 + fib * 0.035 + (rr() - 0.5) * 0.04;
     const ex = Math.min(x, w - x) / w, ey = Math.min(y, hgt - y) / hgt;
@@ -1519,7 +1581,7 @@ function labelSpec(style) {
     lake: { font: s => `italic ${s}px ${f.label}`, color: '#2f4a55', halo: S.halo, size: 13 }
   };
   if (style === 'atlas') return {
-    region: { font: s => `500 ${s * 0.82}px ${f.region}`, color: 'rgba(110,70,120,0.72)', halo: 'rgba(255,255,255,0.45)', sp: 0.5, upper: true },
+    region: { font: s => `500 ${s * 0.78}px ${f.region}`, color: 'rgba(96,60,110,0.62)', halo: null, sp: 0.55, upper: true },
     capital: { font: s => `700 ${s}px ${f.label}`, color: '#1d1f24', halo: S.halo, size: 20 },
     city: { font: s => `500 ${s}px ${f.label}`, color: '#1d1f24', halo: S.halo, size: 18 },
     town: { font: s => `${s}px ${f.label}`, color: '#2b2e33', halo: S.halo, size: 15 },
@@ -1704,7 +1766,7 @@ function renderMap(ctx, world, style, cache) {
   drawScale(ctx, world, style);
   drawCartouche(ctx, world, style);
   if (style === 'parchment') {
-    ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = 0.85;
+    ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = 0.7;
     ctx.drawImage(getPaper(), 0, 0, W, H);
     ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
   }
@@ -1789,7 +1851,7 @@ function drawShip(ctx, world, S) {
 }
 function renderAtlas(ctx, world, S, R) {
   ctx.lineJoin = 'round';
-  world.bathy.forEach((b, i) => { ctx.strokeStyle = `rgba(255,255,255,${[0.45, 0.32, 0.22, 0.16][i]})`; ctx.lineWidth = 0.7; strokeLines(ctx, b.lines); });
+  world.bathy.forEach((b, i) => { ctx.strokeStyle = `rgba(255,255,255,${[0.5, 0.32, 0.2][i]})`; ctx.lineWidth = 0.7; strokeLines(ctx, b.lines); });
   ctx.strokeStyle = 'rgba(255,255,255,0.28)'; ctx.lineWidth = 0.6; ctx.beginPath();
   for (let x = 100; x < W; x += 100) { ctx.moveTo(x, 0); ctx.lineTo(x, H); }
   for (let y = 100; y < H; y += 100) { ctx.moveTo(0, y); ctx.lineTo(W, y); }
@@ -1814,7 +1876,7 @@ function renderAtlas(ctx, world, S, R) {
 }
 function renderNight(ctx, world, S, R, ccx, ccy) {
   ctx.lineJoin = 'round';
-  for (const [w, a] of [[22, 0.03], [12, 0.05], [6, 0.08]]) { ctx.strokeStyle = `rgba(110,170,255,${a})`; ctx.lineWidth = w; ctx.stroke(world.landPath); }
+  for (const [w, a] of [[18, 0.025], [9, 0.04], [4.5, 0.07]]) { ctx.strokeStyle = `rgba(110,170,255,${a})`; ctx.lineWidth = w; ctx.stroke(world.landPath); }
   world.ripples.slice(0, 3).forEach((rp, i) => { ctx.strokeStyle = `rgba(120,170,255,${[0.16, 0.1, 0.06][i]})`; ctx.lineWidth = 0.6; strokeLines(ctx, rp.lines); });
   ctx.save(); ctx.clip(world.landPath, 'evenodd');
   ctx.drawImage(R.land, 0, 0, W, H);
@@ -2058,11 +2120,11 @@ function syncControls() {
   $('rugOut').textContent = state.rug;
   $('citiesOut').textContent = state.cities;
   $('riversOut').textContent = state.rivers;
-  for (const b of $('styleSeg').querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.style === state.style));
+  for (const b of document.querySelectorAll('.seg button[data-style]')) b.setAttribute('aria-pressed', String(b.dataset.style === state.style));
 }
 
 function stageSize() { const r = stage.getBoundingClientRect(); return { w: Math.max(1, r.width), h: Math.max(1, r.height) }; }
-function fitScale() { const s = stageSize(); return Math.min((s.w - 24) / W, (s.h - 24) / H); }
+function fitScale() { const s = stageSize(), m = s.w < 600 ? 8 : 24; return Math.min((s.w - m) / W, (s.h - m) / H); }
 function clampView() {
   view.z = clamp(view.z, 1, 8);
   const s = stageSize(), k = fitScale() * view.z;
@@ -2148,12 +2210,16 @@ function updateStats() {
   $('worldLine').textContent = `${world.title.pre} ${world.title.name}`;
   document.title = `${world.title.name} · Cartographer`;
   const realms = world.regions.map(r => r.name).join(', ');
+  $('mPre').textContent = world.title.pre; $('mName').textContent = world.title.name;
+  $('mRealms').textContent = `${world.regions.length} realms: ${realms}. ${c('city')} cities, ${c('town')} towns, ${c('village')} villages.`;
   $('stats').innerHTML = `<b>${esc(world.title.pre)} ${esc(world.title.name)}</b><br>` +
     `${world.regions.length} realms: ${esc(realms)}<br>` +
     `${c('city')} cities, ${c('town')} towns, ${c('village')} villages, ${world.riverNames.length} rivers<br>` +
     `Generated in ${Math.round(world.genMs)} ms, drawn in ${Math.round(world.renderMs || 0)} ms`;
-  window.__carto = { genMs: world.genMs, renderMs: world.renderMs, settlements: world.settlements.length, regions: world.regions.length, rivers: world.rivers.length, labels: cache.labels[state.style] ? cache.labels[state.style].length : 0, name: world.title.name, prof: world.prof };
+  window.__carto = { genMs: world.genMs, renderMs: world.renderMs, settlements: world.settlements.length, regions: world.regions.length, rivers: world.rivers.length, labels: cache.labels[state.style] ? cache.labels[state.style].length : 0, name: world.title.name };
 }
+/* small hook for automated checks: screen position of a settlement */
+window.__cartoScreen = i => { const s = world && world.settlements[i]; if (!s) return null; const t = viewTransform(); return { x: s.x * t.k + t.ox, y: s.y * t.k + t.oy, name: s.name }; };
 const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 
 /* lore cards */
@@ -2245,10 +2311,12 @@ $('randomBtn').onclick = () => { state.seed = randomSeed(); syncControls(); rege
 for (const k of ['land', 'rug', 'cities', 'rivers']) {
   $(k).addEventListener('input', () => { state[k] = parseInt($(k).value, 10); syncControls(); later(regenerate); });
 }
-$('styleSeg').addEventListener('click', e => {
-  const b = e.target.closest('button'); if (!b) return;
+for (const seg of document.querySelectorAll('.seg')) seg.addEventListener('click', e => {
+  const b = e.target.closest('button[data-style]'); if (!b) return;
   state.style = b.dataset.style; syncControls(); restyle();
 });
+$('mRandom').onclick = () => $('randomBtn').click();
+$('mControls').onclick = () => openDrawer(true);
 $('dlBtn').onclick = () => {
   if (!world) return;
   const c = document.createElement('canvas'); c.width = W * 2; c.height = H * 2;
