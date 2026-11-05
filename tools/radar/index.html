@@ -99,6 +99,7 @@
   color-scheme: dark;
 }
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 a { color: var(--accent); }
@@ -117,7 +118,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .brand { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 16px; letter-spacing: -.01em; white-space: nowrap; }
 .brand svg { color: var(--accent); }
 .header-spacer { flex: 1; }
-.demo-flag { font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--warm); background: var(--warm-soft); border-radius: 6px; padding: 3px 7px; }
+.demo-flag { white-space: nowrap; font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--warm); background: var(--warm-soft); border-radius: 6px; padding: 3px 7px; }
 .icon-btn { width: 34px; height: 34px; border-radius: 9px; border: 1px solid var(--line); background: var(--surface); display: inline-grid; place-items: center; cursor: pointer; color: var(--ink-2); flex: 0 0 auto; }
 .icon-btn:hover { color: var(--ink); border-color: var(--line-strong); }
 .theme-dark-icon { display: none; }
@@ -134,7 +135,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
 .tab .count { font-size: 11.5px; font-weight: 600; color: var(--ink-3); background: var(--surface-3); border-radius: 999px; padding: 0 7px; }
 
-main { padding: 20px 0 80px; }
+main.wrap { padding-top: 20px; padding-bottom: 80px; }
+.scan-head { display: flex; align-items: center; gap: 10px; justify-content: space-between; }
+.scan-head .sum { font-size: 12.5px; color: var(--ink-3); min-width: 0; }
+.scan-card.collapsed .scan-grid { display: none; }
+.scan-card.collapsed .scan-actions { margin-top: 12px; }
+.scan-head .btn svg { transition: transform .15s; }
+.scan-card.collapsed .scan-head .btn svg { transform: rotate(-90deg); }
 .panel[hidden] { display: none !important; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
 .card-pad { padding: 18px; }
@@ -265,7 +272,7 @@ table.leads tbody tr.is-open td { background: var(--accent-soft); }
 .seq-row .when { font-size: 12px; color: var(--ink-3); }
 
 .map-wrap { position: relative; }
-.map-svg { width: 100%; height: auto; display: block; background: var(--surface-2); border-radius: 0 0 var(--radius) var(--radius); touch-action: manipulation; }
+.map-svg { width: 100%; height: auto; max-height: 66vh; display: block; background: var(--surface-2); border-radius: 0 0 var(--radius) var(--radius); touch-action: manipulation; }
 .map-svg .grid line { stroke: var(--line-strong); stroke-width: 1; stroke-dasharray: 2 4; }
 .map-svg .grid text { fill: var(--ink-3); font-size: 11px; font-family: var(--mono); }
 .map-svg circle.pt { stroke: var(--surface); stroke-width: 1.5; cursor: pointer; }
@@ -330,7 +337,7 @@ footer.foot { padding: 24px 0 40px; color: var(--ink-3); font-size: 12.5px; bord
 }
 @media (max-width: 760px) {
   .wrap { padding: 0 16px; }
-  main { padding-top: 14px; }
+  main.wrap { padding-top: 14px; }
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .stat .v { font-size: 19px; }
@@ -361,7 +368,7 @@ footer.foot { padding: 24px 0 40px; color: var(--ink-3); font-size: 12.5px; bord
   .kv { grid-template-columns: 92px 1fr; }
   .funnel-row { grid-template-columns: 84px 1fr 32px; }
 }
-@media (min-width: 761px) { .d-sep { display: none; } .m-only { display: none; } }
+@media (min-width: 761px) { .d-sep { display: none; } .m-only { display: none; } .ago { display: block; } }
 </style>
 </head>
 <body>
@@ -376,7 +383,7 @@ footer.foot { padding: 24px 0 40px; color: var(--ink-3); font-size: 12.5px; bord
         <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".35"/><circle cx="12" cy="12" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".6"/><path d="M12 12L19 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/></svg>
         <span>Storefront Radar</span>
       </div>
-      <span class="demo-flag" id="demoFlag" hidden>DEMO DATA</span>
+      <span class="demo-flag" id="demoFlag" hidden title="Fictional sample leads are loaded">DEMO</span>
       <div class="header-spacer"></div>
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
         <svg class="theme-light-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
@@ -397,8 +404,9 @@ footer.foot { padding: 24px 0 40px; color: var(--ink-3); font-size: 12.5px; bord
 <main class="wrap">
   <!-- LEADS -->
   <section class="panel stack" id="panel-leads" role="tabpanel">
-    <div class="card card-pad">
-      <div class="scan-grid">
+    <div class="card card-pad scan-card" id="scanCard">
+      <div class="scan-head"><div style="min-width:0"><h2>Scan setup</h2><div class="sum" id="scanSum"></div></div><button class="btn ghost sm" type="button" id="scanToggle" aria-expanded="true" aria-controls="scanCard"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Hide</span></button></div>
+      <div class="scan-grid" style="margin-top:12px">
         <div>
           <div class="scan-block">
             <div class="scan-label"><span>Sources</span>
@@ -445,9 +453,6 @@ footer.foot { padding: 24px 0 40px; color: var(--ink-3); font-size: 12.5px; bord
         <select class="select" id="fSource" aria-label="Filter by source"></select>
         <span class="range-wrap"><label for="fMin">Min score</label><input type="range" id="fMin" min="0" max="100" step="5" value="0"><b class="num" id="fMinVal">0</b></span>
         <label class="check"><input type="checkbox" id="fHideDnc" checked> Hide do not contact</label>
-        <div class="header-spacer"></div>
-        <button class="btn sm" type="button" id="exportSel" disabled>Export selected</button>
-        <button class="btn sm" type="button" id="exportAll">Export CSV</button>
       </div>
       <div class="table-wrap" id="tableWrap">
         <table class="leads" id="leadsTable">
@@ -465,7 +470,7 @@ footer.foot { padding: 24px 0 40px; color: var(--ink-3); font-size: 12.5px; bord
         </table>
         <div class="empty" id="emptyState" hidden></div>
       </div>
-      <div class="table-foot"><span id="footInfo"></span><button class="btn sm" type="button" id="moreBtn" hidden>Show more</button></div>
+      <div class="table-foot"><span id="footInfo"></span><span class="btn-row"><button class="btn sm" type="button" id="moreBtn" hidden>Show more</button><button class="btn sm" type="button" id="exportSel" disabled>Export selected</button><button class="btn sm" type="button" id="exportAll">Export CSV</button></span></div>
     </div>
   </section>
 
@@ -1312,6 +1317,7 @@ function loadDemo() {
   seed.forEach(([name, status, notes]) => { const l = S.leads.find((x) => x.demo && x.name === name); if (l && !S.state[l.id]) setLeadState(l, { status, notes, seq: status === "Contacted" ? { start: addDays(t, -3), done: [true, false, false, false] } : undefined }); });
   saveSoon();
   S.ui.page = 1;
+  if (window.innerWidth < 761 && storeGet("radar.v1.scanCollapsed", null) === null) $("#scanCard").classList.add("collapsed");
   $("#scanMsg").textContent = "Loaded " + demos.length + " fictional DEMO leads. Nothing here is a real business.";
   renderAll();
 }
@@ -1385,10 +1391,10 @@ function renderTable() {
     return '<tr data-id="' + esc(l.id) + '" class="' + (st.dnc ? "is-dnc " : "") + (S.ui.openId === l.id ? "is-open" : "") + '">' +
       '<td class="c-sel"><input type="checkbox" class="rowsel" aria-label="Select ' + esc(l.name) + '"' + (sel.has(l.id) ? " checked" : "") + "></td>" +
       '<td class="c-score"><span class="score ' + band(l.score) + '" title="Lead score">' + l.score + "</span></td>" +
-      '<td class="c-biz"><div class="biz-name">' + esc(l.name) + "</div>" + '<div class="biz-sub">' + badges + esc((l.sources || []).join(", ")) + (l.legal ? " · " + esc(l.legal) : "") + "</div></td>" +
+      '<td class="c-biz"><div class="biz-name">' + esc(l.name) + "</div>" + '<div class="biz-sub">' + badges + (l.demo ? "Fictional sample" : esc((l.sources || []).join(", "))) + (l.legal ? " · " + esc(l.legal) : "") + "</div></td>" +
       '<td class="c-cat cell-cat"><div class="clip" title="' + esc(l.category) + '">' + esc(presetOf(l.cls).label) + '</div><div class="biz-sub clip">' + esc(l.category || "No category on file") + "</div></td>" +
       '<td class="c-addr cell-addr"><div class="clip">' + esc(l.address || "No address") + '</div><div class="biz-sub clip">' + esc([l.city, l.state, l.zip].filter(Boolean).join(", ")) + "</div></td>" +
-      '<td class="c-date num">' + '<span class="m-only muted">Filed </span>' + esc(fmtDate(l.date, { month: "short", day: "numeric" }) || "Unknown") + '<span class="d-sep"> · </span><div class="biz-sub" style="display:inline-block">' + esc(ago) + "</div></td>" +
+      '<td class="c-date num">' + '<span class="m-only muted">Filed </span>' + esc(fmtDate(l.date, { month: "short", day: "numeric" }) || "Unknown") + '<span class="d-sep"> · </span><span class="biz-sub ago">' + esc(ago) + "</span></td>" +
       '<td class="c-status"><select class="select status-sel" aria-label="Status for ' + esc(l.name) + '">' + STATUSES.map((s) => "<option" + (s === st.status ? " selected" : "") + ">" + s + "</option>").join("") + "</select></td>" +
       '<td class="c-links"><span class="links">' +
         '<a class="lnk" target="_blank" rel="noopener" href="' + esc(links.google) + '" title="Google search">G</a>' +
@@ -1437,10 +1443,18 @@ function renderSourceChips() {
     return '<button type="button" class="chip" data-src="' + esc(s.id) + '" aria-pressed="' + sel.has(s.id) + '" title="' + esc((s.title || "") + " on " + s.domain + (st && st.msg ? ". " + st.msg : "")) + '"><span class="dot"></span>' + esc(s.label) + badge + "</button>";
   }).join("") + "</div>").join("");
 }
+function renderScanSummary() {
+  const n = S.settings.selected.filter((id) => srcById(id)).length;
+  $("#scanSum").textContent = n + " source" + (n === 1 ? "" : "s") + ", last " + S.settings.windowDays + " days, " + S.settings.presets.length + " industr" + (S.settings.presets.length === 1 ? "y" : "ies") + (S.settings.includeUnknown ? " plus unclassified" : "");
+  const collapsed = $("#scanCard").classList.contains("collapsed");
+  $("#scanToggle span").textContent = collapsed ? "Edit" : "Hide";
+  $("#scanToggle").setAttribute("aria-expanded", String(!collapsed));
+}
 function renderScanControls() {
   $("#windowChips").innerHTML = WINDOWS.map((d) => '<button type="button" class="chip" data-win="' + d + '" aria-pressed="' + (S.settings.windowDays === d) + '">' + d + " days</button>").join("");
   $("#presetChips").innerHTML = PRESETS.map((p) => '<button type="button" class="chip" data-preset="' + p.key + '" aria-pressed="' + S.settings.presets.includes(p.key) + '"><span class="dot"></span>' + esc(p.label) + (p.on ? "" : ' <span class="st">off by default</span>') + "</button>").join("");
   $("#includeUnknown").checked = !!S.settings.includeUnknown;
+  renderScanSummary();
 }
 
 /* ---------- Drawer ---------- */
@@ -1477,7 +1491,7 @@ function renderDrawer() {
   const links = linkSet(l);
   $("#dBadges").innerHTML = '<span class="score ' + band(l.score) + '">' + l.score + "</span>" + (l.demo ? '<span class="pill demo">DEMO</span>' : "") + '<span class="pill">' + esc(presetOf(l.cls).label) + "</span>" + (l.preopen ? '<span class="pill pre">Pre-opening</span>' : "") + (st.dnc ? '<span class="pill dnc">Do not contact</span>' : "");
   $("#dTitle").textContent = l.name;
-  $("#dSub").textContent = [l.legal, (l.sources || []).join(", ")].filter(Boolean).join(" · ");
+  $("#dSub").textContent = [l.legal, l.demo ? "Fictional sample lead" : (l.sources || []).join(", ")].filter(Boolean).join(" · ");
   const tplKey = S.ui.drawerTpl || "walkin";
   const kv = [["Address", [l.address, [l.city, l.state, l.zip].filter(Boolean).join(", ")].filter(Boolean).join(", ") || "Not on file"], ["Filed", l.date ? fmtDate(l.date) + " (" + (daysBetween(l.date, todayISO()) >= 0 ? daysBetween(l.date, todayISO()) + " days ago" : "future date") + ")" : "Unknown"], ["Category", l.category || "Not on file"]];
   if (l.firstSales) kv.push(["First sales", fmtDate(l.firstSales)]);
@@ -1802,10 +1816,11 @@ function init() {
     const b = e.target.closest("[data-src]"); if (!b) return;
     const id = b.dataset.src, set = new Set(S.settings.selected);
     set.has(id) ? set.delete(id) : set.add(id);
-    S.settings.selected = Array.from(set); saveSoon(); renderSourceChips();
+    S.settings.selected = Array.from(set); saveSoon(); renderSourceChips(); renderScanSummary();
   });
-  $("#srcAll").addEventListener("click", () => { S.settings.selected = allSources().map((s) => s.id); saveSoon(); renderSourceChips(); });
-  $("#srcNone").addEventListener("click", () => { S.settings.selected = []; saveSoon(); renderSourceChips(); });
+  $("#scanToggle").addEventListener("click", () => { $("#scanCard").classList.toggle("collapsed"); storeSet("radar.v1.scanCollapsed", $("#scanCard").classList.contains("collapsed")); renderScanSummary(); });
+  $("#srcAll").addEventListener("click", () => { S.settings.selected = allSources().map((s) => s.id); saveSoon(); renderSourceChips(); renderScanSummary(); });
+  $("#srcNone").addEventListener("click", () => { S.settings.selected = []; saveSoon(); renderSourceChips(); renderScanSummary(); });
   $("#windowChips").addEventListener("click", (e) => { const b = e.target.closest("[data-win]"); if (!b) return; S.settings.windowDays = Number(b.dataset.win); saveSoon(); renderScanControls(); });
   $("#presetChips").addEventListener("click", (e) => {
     const b = e.target.closest("[data-preset]"); if (!b) return;
@@ -1908,6 +1923,8 @@ function init() {
     $("#customMsg").textContent = r.errors.length ? r.errors.join(". ") : r.sources.length ? "Saved " + r.sources.length + " custom source" + (r.sources.length === 1 ? "" : "s") + ". They appear under Custom in the Leads tab." : "Cleared custom sources.";
     renderSourceChips(); renderSources();
   });
+  const pref = storeGet("radar.v1.scanCollapsed", null);
+  if (pref === true || (pref === null && S.leads.length && window.innerWidth < 761)) $("#scanCard").classList.add("collapsed");
   renderAll();
   const tab = storeGet("radar.v1.tab", "leads");
   if (tab && $("#panel-" + tab)) showTab(tab);
