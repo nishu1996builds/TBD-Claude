@@ -994,7 +994,7 @@
       var poly = [];
       for (var i = 0; i < n; i++) poly.push(pt(i, ring).map(function (x) { return x.toFixed(1); }).join(','));
       var stroke = ring === 4 ? 'var(--good)' : ring === 5 ? 'var(--line-2)' : 'var(--line)';
-      s += '<polygon points="' + poly.join(' ') + '" fill="' + (ring === 5 ? 'var(--surface-2)' : 'none') + '" stroke="' + stroke + '" stroke-width="1"' + (ring === 4 ? ' stroke-dasharray="4 3" stroke-opacity=".8"' : '') + '/>';
+      s += '<polygon points="' + poly.join(' ') + '" fill="' + (ring === 5 ? 'var(--surface-2)' : 'none') + '" stroke="' + stroke + '"' + (ring === 4 ? '' : ' stroke-width="1"') + (ring === 4 ? ' stroke-dasharray="5 3" stroke-width="1.6"' : '') + '/>';
     }
     for (i = 0; i < n; i++) { var p5 = pt(i, 5); s += '<line x1="' + cx + '" y1="' + cy + '" x2="' + p5[0].toFixed(1) + '" y2="' + p5[1].toFixed(1) + '" class="grid-l"/>'; }
     var vals = CRITERIA.map(function (c, i) { return pt(i, idea.scores[c.id]); });

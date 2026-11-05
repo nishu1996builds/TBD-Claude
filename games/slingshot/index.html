@@ -254,7 +254,7 @@ const LEVELS = [
     pad:[160,660], portal:[1430,330], planets:[[640,350,72,160],[1000,690,85,300]], stars:null },
   { name:'Boomerang', par:2, hint:'A wall of rubble. The way forward is around and back.',
     pad:[200,820], portal:[220,200], planets:[[1000,500,120,220]],
-    belts:[{x:260,y:2500,R:2000,w:10,n:34,from:-100,to:-80,speed:0}], stars:null },
+    belts:[{x:260,y:2500,R:2000,w:10,n:26,from:-100,to:-88,speed:0}], stars:null },
   { name:'Event Horizon', par:2, hint:'Black holes swallow anything that crosses the dark core.',
     pad:[160,500], portal:[1440,500], bh:[[800,500]], stars:null },
   { name:'Push Back', par:2, hint:'Repulsor stars push instead of pull. Bank a shot off one.',
@@ -1147,7 +1147,7 @@ function drawWorld(L, t, tick, opts){
   }
   for(const m of L.moons){
     const q = moonPos(m, tick);
-    ctx.strokeStyle = 'rgba(160,175,255,0.12)'; ctx.lineWidth = 1.5; ctx.setLineDash([2, 8]);
+    ctx.strokeStyle = 'rgba(170,185,255,0.26)'; ctx.lineWidth = 2; ctx.setLineDash([3, 9]);
     ctx.beginPath(); ctx.arc(m.cx, m.cy, m.R, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
     const s = planetSprite(m, true); ctx.drawImage(s.c, q[0] - s.size/2, q[1] - s.size/2, s.size, s.size);
   }
