@@ -1,0 +1,1490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Venture Lens</title>
+<meta name="description" content="Pressure-test a business idea like a seed investor: weighted scorecard, unit economics, bottom-up market sizing, pre-mortem, and a printable one-pager.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231d3b8b'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='white' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f3f4f6;
+    --surface: #ffffff;
+    --surface-2: #f8f9fb;
+    --ink: #121722;
+    --ink-2: #434c5b;
+    --ink-3: #5f6877;
+    --line: #e1e4ea;
+    --line-2: #cdd2db;
+    --accent: #1f47b8;
+    --accent-ink: #ffffff;
+    --accent-bg: #e9effc;
+    --navy: #13285e;
+    --good: #17784a;
+    --good-bg: #e6f4ec;
+    --warn: #9a5a00;
+    --warn-bg: #fcf1df;
+    --bad: #b8322a;
+    --bad-bg: #fbeae8;
+    --series-2: #9bb0dc;
+    --shadow: 0 1px 2px rgba(18,23,34,.05), 0 4px 16px rgba(18,23,34,.05);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d1015;
+      --surface: #151920;
+      --surface-2: #1b2029;
+      --ink: #e9ecf1;
+      --ink-2: #b8bfcb;
+      --ink-3: #939bab;
+      --line: #272d38;
+      --line-2: #353c49;
+      --accent: #7ea3ff;
+      --accent-ink: #0d1015;
+      --accent-bg: #1a2540;
+      --navy: #c9d6ff;
+      --good: #4fc58c;
+      --good-bg: #13291f;
+      --warn: #f0b551;
+      --warn-bg: #2d2311;
+      --bad: #ff7f76;
+      --bad-bg: #331817;
+      --series-2: #3f5684;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1015;
+    --surface: #151920;
+    --surface-2: #1b2029;
+    --ink: #e9ecf1;
+    --ink-2: #b8bfcb;
+    --ink-3: #939bab;
+    --line: #272d38;
+    --line-2: #353c49;
+    --accent: #7ea3ff;
+    --accent-ink: #0d1015;
+    --accent-bg: #1a2540;
+    --navy: #c9d6ff;
+    --good: #4fc58c;
+    --good-bg: #13291f;
+    --warn: #f0b551;
+    --warn-bg: #2d2311;
+    --bad: #ff7f76;
+    --bad-bg: #331817;
+    --series-2: #3f5684;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font: 15px/1.5 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: tabular-nums;
+    overflow-x: hidden;
+  }
+  a { color: var(--accent); }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .serif { font-family: "Source Serif 4", Georgia, serif; }
+
+  /* Top bar */
+  .topbar { background: var(--surface); border-bottom: 1px solid var(--line); }
+  .topbar-in { display: flex; align-items: center; gap: 16px; padding: 12px 16px; flex-wrap: wrap; }
+  .back { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; white-space: nowrap; }
+  .back:hover { color: var(--ink); border-color: var(--line-2); }
+  .brand { display: flex; align-items: center; gap: 10px; min-width: 0; margin-right: auto; }
+  .brand-mark { width: 30px; height: 30px; border-radius: 7px; background: var(--navy); display: grid; place-items: center; flex: none; }
+  .brand-mark svg { width: 18px; height: 18px; }
+  .brand h1 { font: 700 19px/1.1 "Source Serif 4", Georgia, serif; margin: 0; letter-spacing: -.01em; }
+  .brand p { margin: 1px 0 0; font-size: 12px; color: var(--ink-3); }
+  .controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  select, .btn, input[type=text], input[type=number], textarea {
+    border: 1px solid var(--line-2); background: var(--surface); border-radius: 7px;
+  }
+  select { padding: 7px 30px 7px 10px; font-size: 14px; max-width: 260px; appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--ink-3) 50%), linear-gradient(135deg, var(--ink-3) 50%, transparent 50%);
+    background-position: calc(100% - 15px) 52%, calc(100% - 10px) 52%; background-size: 5px 5px; background-repeat: no-repeat; }
+  .btn { padding: 7px 12px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; line-height: 1.3; }
+  .btn:hover { border-color: var(--ink-3); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .btn.ghost { background: transparent; }
+  .btn.small { padding: 5px 9px; font-size: 12px; }
+  .menu { position: relative; }
+  .menu > summary { list-style: none; }
+  .menu > summary::-webkit-details-marker { display: none; }
+  .menu-pop { position: absolute; right: 0; top: calc(100% + 6px); z-index: 30; background: var(--surface); border: 1px solid var(--line-2); border-radius: 10px; box-shadow: var(--shadow); padding: 6px; width: 270px; }
+  .menu-pop button { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 13.5px; }
+  .menu-pop button:hover, .menu-pop button:focus-visible { background: var(--surface-2); }
+  .menu-pop small { display: block; color: var(--ink-3); font-size: 12px; }
+  .menu-pop hr { border: 0; border-top: 1px solid var(--line); margin: 5px 4px; }
+  .menu-pop .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); padding: 6px 10px 2px; font-weight: 600; }
+  .menu-pop button.danger { color: var(--bad); }
+
+  /* KPI strip */
+  .kpis { display: grid; grid-template-columns: 1.6fr repeat(5, 1fr); gap: 0; margin: 18px auto 0; padding: 0; }
+  .kpis-in { display: contents; }
+  .kpi { background: var(--surface); border: 1px solid var(--line); margin-left: -1px; padding: 10px 14px; text-align: left; cursor: pointer; min-width: 0; }
+  .kpi:first-child { border-radius: 10px 0 0 10px; margin-left: 0; }
+  .kpi:last-child { border-radius: 0 10px 10px 0; }
+  .kpi:hover { background: var(--surface-2); }
+  .kpi .k { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .kpi .v { font-size: 20px; font-weight: 700; display: block; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .kpi .v small { font-size: 12px; color: var(--ink-3); font-weight: 500; }
+  .tone-good { color: var(--good); } .tone-warn { color: var(--warn); } .tone-bad { color: var(--bad); } .tone-accent { color: var(--accent); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 2px; margin: 18px auto 0; border-bottom: 1px solid var(--line-2); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { border: 0; background: none; padding: 10px 14px 11px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--ink-3); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; display: flex; gap: 8px; align-items: baseline; }
+  .tab .n { font-size: 11px; font-weight: 600; color: var(--ink-3); opacity: .8; }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+  .tab[aria-selected="true"] .n { color: var(--accent); opacity: 1; }
+
+  main { padding: 22px 16px 60px; }
+  .panel[hidden] { display: none; }
+  .phead { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+  .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  .phead h2 { font: 700 26px/1.15 "Source Serif 4", Georgia, serif; margin: 4px 0 4px; letter-spacing: -.01em; }
+  .phead p { margin: 0; color: var(--ink-2); max-width: 70ch; font-size: 14.5px; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; box-shadow: var(--shadow); min-width: 0; }
+  .card h3 { margin: 0 0 12px; font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); font-weight: 700; }
+  .grid-2 { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px; }
+  .split { display: grid; grid-template-columns: minmax(0,1fr) 400px; gap: 18px; align-items: start; }
+  .split.wide-r { grid-template-columns: 360px minmax(0,1fr); }
+  .sticky { position: sticky; top: 12px; }
+  .stack { display: grid; gap: 16px; }
+
+  /* Forms */
+  .field { display: grid; gap: 5px; min-width: 0; }
+  .field label, .field .lab { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .field .hint { font-size: 12.5px; color: var(--ink-3); line-height: 1.4; }
+  input[type=text], input[type=number], textarea { width: 100%; padding: 9px 11px; font-size: 14.5px; }
+  textarea { resize: vertical; min-height: 74px; line-height: 1.45; }
+  input:focus, textarea:focus, select:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px var(--accent-bg); }
+  .form-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px 18px; }
+  .form-grid .full { grid-column: 1 / -1; }
+  .inwrap { position: relative; display: flex; align-items: center; }
+  .inwrap .pre, .inwrap .suf { position: absolute; font-size: 13.5px; color: var(--ink-3); pointer-events: none; }
+  .inwrap .pre { left: 11px; } .inwrap .suf { right: 11px; }
+  .inwrap.has-pre input { padding-left: 24px; }
+  .inwrap.has-suf input { padding-right: 52px; }
+  .check { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); cursor: pointer; }
+  .check input { width: 16px; height: 16px; accent-color: var(--accent); }
+
+  /* Lint / flags */
+  .flags { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .flag { display: grid; grid-template-columns: 22px minmax(0,1fr); gap: 8px; padding: 10px 12px; border-radius: 9px; font-size: 13.5px; line-height: 1.45; border: 1px solid transparent; }
+  .flag b { display: block; font-weight: 650; margin-bottom: 1px; }
+  .flag .ico { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 800; color: #fff; margin-top: 1px; }
+  .flag.bad { background: var(--bad-bg); } .flag.bad .ico { background: var(--bad); }
+  .flag.warn { background: var(--warn-bg); } .flag.warn .ico { background: var(--warn); }
+  .flag.good { background: var(--good-bg); } .flag.good .ico { background: var(--good); }
+  .flag.info { background: var(--accent-bg); } .flag.info .ico { background: var(--accent); }
+  :root[data-theme="dark"] .flag .ico { color: #0d1015; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .flag .ico { color: #0d1015; } }
+
+  /* Scorecard */
+  .crit-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 14px; }
+  .crit { border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 14px 14px 10px; margin: 0; min-width: 0; box-shadow: var(--shadow); }
+  .crit legend { padding: 0; float: left; width: 100%; }
+  .crit-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .crit-name { font-weight: 700; font-size: 14.5px; }
+  .crit-q { font-size: 12.5px; color: var(--ink-3); margin: 2px 0 8px; clear: both; }
+  .crit-score { font-size: 13px; font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .opts { display: grid; gap: 3px; clear: both; }
+  .opt { display: block; cursor: pointer; }
+  .opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .opt-body { display: grid; grid-template-columns: 22px minmax(0,1fr); gap: 8px; align-items: center; padding: 5px 8px; border-radius: 7px; font-size: 12.8px; color: var(--ink-2); border: 1px solid transparent; line-height: 1.35; }
+  .opt-body .num { width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--line-2); display: grid; place-items: center; font-weight: 700; font-size: 12px; color: var(--ink-3); background: var(--surface); }
+  .opt:hover .opt-body { background: var(--surface-2); }
+  .opt input:checked + .opt-body { background: var(--accent-bg); color: var(--ink); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+  .opt input:checked + .opt-body .num { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .opt input:focus-visible + .opt-body { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .weight { display: grid; grid-template-columns: auto minmax(0,1fr) 40px; align-items: center; gap: 10px; margin-top: 10px; padding-top: 9px; border-top: 1px dashed var(--line); font-size: 12px; color: var(--ink-3); }
+  .weight output { text-align: right; font-weight: 700; color: var(--ink-2); }
+  input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; }
+  .score-big { display: flex; align-items: baseline; gap: 10px; }
+  .score-big .num { font: 700 54px/1 "Source Serif 4", Georgia, serif; letter-spacing: -.02em; }
+  .score-big .of { color: var(--ink-3); font-size: 14px; }
+  .verdict { display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px; border-radius: 999px; font-weight: 700; font-size: 13.5px; }
+  .verdict::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .v-kill { background: var(--bad-bg); color: var(--bad); }
+  .v-wedge { background: var(--warn-bg); color: var(--warn); }
+  .v-test { background: var(--accent-bg); color: var(--accent); }
+  .v-go { background: var(--good-bg); color: var(--good); }
+  .bandbar { display: grid; grid-template-columns: 40fr 20fr 18fr 22fr; gap: 2px; margin: 14px 0 4px; position: relative; }
+  .bandbar span { height: 6px; border-radius: 2px; opacity: .35; }
+  .bandbar span.on { opacity: 1; }
+  .bandbar .b1 { background: var(--bad); } .bandbar .b2 { background: var(--warn); } .bandbar .b3 { background: var(--accent); } .bandbar .b4 { background: var(--good); }
+  .bandmarker { position: absolute; top: -4px; width: 3px; height: 14px; background: var(--ink); border-radius: 2px; transform: translateX(-1px); }
+  .bandlabels { display: grid; grid-template-columns: 40fr 20fr 18fr 22fr; font-size: 10.5px; color: var(--ink-3); gap: 2px; }
+  .weak { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 12px; }
+  .weak-item { margin-bottom: 12px; }
+  .weak-item:last-child { margin-bottom: 0; }
+  .weak-item .t { display: flex; justify-content: space-between; gap: 8px; font-weight: 700; font-size: 14px; }
+  .weak-item p { margin: 4px 0 0; font-size: 13.2px; color: var(--ink-2); line-height: 1.5; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 700; background: var(--surface-2); border: 1px solid var(--line); color: var(--ink-2); white-space: nowrap; }
+  .pill.bad { background: var(--bad-bg); color: var(--bad); border-color: transparent; }
+  .pill.warn { background: var(--warn-bg); color: var(--warn); border-color: transparent; }
+  .pill.good { background: var(--good-bg); color: var(--good); border-color: transparent; }
+  .pill.accent { background: var(--accent-bg); color: var(--accent); border-color: transparent; }
+  .note { font-size: 12.5px; color: var(--ink-3); line-height: 1.45; }
+  .gate { margin-top: 10px; }
+
+  svg text { font-family: Inter, system-ui, sans-serif; }
+  .chart { width: 100%; height: auto; display: block; }
+  .ax { stroke: var(--line-2); stroke-width: 1; }
+  .grid-l { stroke: var(--line); stroke-width: 1; }
+  .tick { fill: var(--ink-3); font-size: 11px; }
+  .lbl { fill: var(--ink-2); font-size: 11.5px; font-weight: 600; }
+
+  /* Economics */
+  .tiles { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
+  .tile { border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; background: var(--surface-2); min-width: 0; }
+  .tile .k { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); font-weight: 700; }
+  .tile .v { font-size: 22px; font-weight: 700; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tile .s { font-size: 12px; color: var(--ink-3); }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--ink-2); margin-top: 6px; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 5px; }
+  .fixes { margin: 10px 0 0; padding: 12px 14px; border: 1px dashed var(--line-2); border-radius: 9px; font-size: 13.5px; }
+  .fixes b { display: block; margin-bottom: 4px; }
+  .fixes ul { margin: 0; padding-left: 18px; color: var(--ink-2); }
+
+  /* Market */
+  .mrows { display: grid; gap: 8px; }
+  .mrow { display: grid; grid-template-columns: 54px minmax(0,1fr) auto; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface-2); }
+  .mrow .tag { font-weight: 800; font-size: 13px; letter-spacing: .04em; }
+  .mrow .d { font-size: 12.5px; color: var(--ink-3); line-height: 1.35; }
+  .mrow .val { font-weight: 700; font-size: 18px; text-align: right; }
+  .mrow .val small { display: block; font-size: 11.5px; font-weight: 500; color: var(--ink-3); }
+  .explain { font-size: 13.8px; color: var(--ink-2); line-height: 1.6; }
+  .explain p { margin: 0 0 10px; }
+  .explain ul { margin: 0; padding-left: 18px; }
+  .explain li { margin-bottom: 6px; }
+
+  /* Pre-mortem */
+  .cat { margin-bottom: 18px; }
+  .cat h4 { display: flex; justify-content: space-between; align-items: center; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-2); margin: 0 0 8px; }
+  .fm { display: grid; grid-template-columns: 20px minmax(0,1fr); gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); margin-bottom: 6px; cursor: pointer; }
+  .fm:hover { border-color: var(--line-2); }
+  .fm input { width: 17px; height: 17px; margin: 2px 0 0; accent-color: var(--accent); }
+  .fm.on { border-color: color-mix(in srgb, var(--accent) 45%, transparent); background: var(--accent-bg); }
+  .fm .t { font-weight: 650; font-size: 14px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .fm .d { font-size: 12.8px; color: var(--ink-2); margin-top: 2px; line-height: 1.45; }
+  .risk { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; background: var(--surface); }
+  .risk-h { display: grid; grid-template-columns: 26px minmax(0,1fr) auto; gap: 10px; align-items: start; }
+  .risk-h .rk { width: 26px; height: 26px; border-radius: 50%; background: var(--surface-2); border: 1px solid var(--line-2); display: grid; place-items: center; font-weight: 800; font-size: 12px; }
+  .risk-h .t { font-weight: 700; font-size: 14.5px; }
+  .risk-h .why { font-size: 12px; color: var(--ink-3); margin-top: 1px; }
+  .exp { margin-top: 10px; display: grid; gap: 6px; font-size: 13.2px; line-height: 1.5; }
+  .exp div { display: grid; grid-template-columns: 76px minmax(0,1fr); gap: 8px; }
+  .exp span.k { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); font-weight: 700; padding-top: 2px; }
+  .empty { border: 1px dashed var(--line-2); border-radius: 10px; padding: 22px; text-align: center; color: var(--ink-3); font-size: 14px; }
+
+  /* Memo */
+  .memo { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: var(--shadow); padding: 40px 44px; max-width: 900px; margin: 0 auto; }
+  .memo-top { display: flex; justify-content: space-between; gap: 12px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  .memo h2 { font: 700 34px/1.1 "Source Serif 4", Georgia, serif; margin: 18px 0 6px; letter-spacing: -.015em; }
+  .memo .ol { font: 500 18px/1.45 "Source Serif 4", Georgia, serif; color: var(--ink-2); margin: 0 0 18px; }
+  .memo h3 { font-size: 11.5px; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); margin: 24px 0 8px; padding-bottom: 5px; border-bottom: 1px solid var(--line); font-weight: 700; }
+  .memo-grid { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(0,1fr); gap: 28px; }
+  .memo dl { margin: 0; display: grid; grid-template-columns: 120px minmax(0,1fr); gap: 7px 12px; font-size: 13.5px; }
+  .memo dt { color: var(--ink-3); font-weight: 600; }
+  .memo dd { margin: 0; }
+  .memo table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .memo th, .memo td { text-align: left; padding: 6px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .memo th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); font-weight: 700; }
+  .memo td.r, .memo th.r { text-align: right; }
+  .memo .bottomline { background: var(--surface-2); border-left: 3px solid var(--accent); padding: 12px 16px; margin: 4px 0 0; font-size: 14px; line-height: 1.55; }
+  .memo ol.next { margin: 0; padding-left: 20px; font-size: 13.5px; line-height: 1.55; }
+  .memo ol.next li { margin-bottom: 6px; }
+  .memo .foot { margin-top: 26px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 11px; color: var(--ink-3); display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; min-width: 60px; }
+  .bar i { display: block; height: 100%; background: var(--accent); }
+
+  .toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 8px; font-size: 13.5px; font-weight: 600; opacity: 0; pointer-events: none; transition: .2s; z-index: 50; max-width: calc(100% - 32px); }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  footer { text-align: center; font-size: 12px; color: var(--ink-3); padding: 0 16px 30px; }
+
+  @media (max-width: 1080px) {
+    .split, .split.wide-r { grid-template-columns: minmax(0,1fr); }
+    .sticky { position: static; }
+    .kpis { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+    .kpi, .kpi:first-child, .kpi:last-child { border-radius: 10px; margin-left: 0; }
+  }
+  @media (max-width: 760px) {
+    .crit-grid, .grid-2, .form-grid { grid-template-columns: minmax(0,1fr); }
+    .tiles { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .memo { padding: 24px 18px; }
+    .memo-grid { grid-template-columns: minmax(0,1fr); gap: 4px; }
+    .memo dl { grid-template-columns: 96px minmax(0,1fr); }
+    .memo h2 { font-size: 27px; }
+    .phead h2 { font-size: 23px; }
+    .brand p { display: none; }
+    .controls { width: 100%; }
+    .controls select { flex: 1; max-width: none; min-width: 0; }
+  }
+  @media (max-width: 480px) {
+    .kpis { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .kpi:first-child { grid-column: 1 / -1; }
+    .kpi .v { font-size: 18px; }
+    .card { padding: 14px; }
+    .score-big .num { font-size: 46px; }
+    .memo table { font-size: 12px; }
+    .exp div { grid-template-columns: minmax(0,1fr); gap: 0; }
+  }
+
+  @media print {
+    @page { margin: 14mm; }
+    :root, :root[data-theme="dark"] {
+      --bg: #fff; --surface: #fff; --surface-2: #f5f6f8; --ink: #111; --ink-2: #333; --ink-3: #555; --line: #ddd; --line-2: #bbb;
+      --accent: #1f47b8; --accent-bg: #eef2fc; --good: #17784a; --good-bg: #e6f4ec; --warn: #9a5a00; --warn-bg: #fcf1df; --bad: #b8322a; --bad-bg: #fbeae8; --series-2: #9bb0dc; color-scheme: light;
+    }
+    body { background: #fff; font-size: 12px; }
+    .topbar, .kpis, .tabs, .no-print, footer, .toast, .panel:not(#p-memo) { display: none !important; }
+    #p-memo { display: block !important; }
+    main { padding: 0; }
+    .memo { border: 0; box-shadow: none; padding: 0; max-width: none; }
+    .memo h3 { break-after: avoid; }
+    .memo table, .memo .bottomline { break-inside: avoid; }
+    .memo-grid { grid-template-columns: 1.25fr 1fr !important; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="back" href="../../index.html" aria-label="Back to TBD Lab gallery">&larr; TBD Lab</a>
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6.5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="10" cy="10" r="2" fill="#fff"/></svg></div>
+      <div><h1>Venture Lens</h1><p>Pressure-test an idea the way a seed investor would.</p></div>
+    </div>
+    <div class="controls">
+      <label class="sr-only" for="ideaSel">Current idea</label>
+      <select id="ideaSel"></select>
+      <button class="btn primary" id="newBtn" type="button">+ New idea</button>
+      <details class="menu" id="moreMenu">
+        <summary class="btn" role="button" aria-label="More actions">More &#9662;</summary>
+        <div class="menu-pop" role="menu">
+          <div class="lbl">Load an example</div>
+          <button type="button" role="menuitem" data-ex="0">ChairFill<small>Niche B2B: dental cancellation waitlist</small></button>
+          <button type="button" role="menuitem" data-ex="1">Little Chefs Club<small>Consumer subscription: kids cooking kits</small></button>
+          <hr>
+          <button type="button" role="menuitem" id="dupBtn">Duplicate this idea</button>
+          <button type="button" role="menuitem" id="exportBtn">Export all ideas (JSON)</button>
+          <button type="button" role="menuitem" id="importBtn">Import ideas (JSON)</button>
+          <hr>
+          <button type="button" role="menuitem" id="delBtn" class="danger">Delete this idea</button>
+        </div>
+      </details>
+      <button class="btn ghost" id="themeBtn" type="button" aria-label="Toggle dark mode">&#9680; Theme</button>
+      <input type="file" id="importFile" accept="application/json,.json" class="sr-only" tabindex="-1" aria-hidden="true">
+    </div>
+  </div>
+</header>
+
+<div class="wrap"><div class="kpis" id="kpis" aria-label="Key metrics summary"></div></div>
+
+<div class="wrap">
+  <nav class="tabs" role="tablist" aria-label="Modules">
+    <button class="tab" role="tab" id="t-intake" aria-controls="p-intake" data-tab="intake"><span class="n">01</span>Intake</button>
+    <button class="tab" role="tab" id="t-score" aria-controls="p-score" data-tab="score"><span class="n">02</span>Scorecard</button>
+    <button class="tab" role="tab" id="t-econ" aria-controls="p-econ" data-tab="econ"><span class="n">03</span>Unit economics</button>
+    <button class="tab" role="tab" id="t-market" aria-controls="p-market" data-tab="market"><span class="n">04</span>Market sizing</button>
+    <button class="tab" role="tab" id="t-risk" aria-controls="p-risk" data-tab="risk"><span class="n">05</span>Pre-mortem</button>
+    <button class="tab" role="tab" id="t-memo" aria-controls="p-memo" data-tab="memo"><span class="n">06</span>One-pager</button>
+  </nav>
+</div>
+
+<main class="wrap" id="main">
+  <!-- 01 Intake -->
+  <section class="panel" id="p-intake" role="tabpanel" aria-labelledby="t-intake">
+    <div class="phead"><div>
+      <div class="eyebrow">Module 01</div>
+      <h2>Idea intake</h2>
+      <p>Write it the way you would pitch it to a skeptical partner. Specific beats impressive: a named customer, a measurable problem, and a real channel.</p>
+    </div></div>
+    <div class="split">
+      <div class="card">
+        <div class="form-grid">
+          <div class="field"><label for="f-name">Working name</label><input type="text" id="f-name" data-k="name" maxlength="80" placeholder="e.g. ChairFill"></div>
+          <div class="field"><label for="f-oneLiner">One-liner</label><input type="text" id="f-oneLiner" data-k="oneLiner" maxlength="220" placeholder="We help [customer] [do job] by [how], unlike [alternative]."></div>
+          <div class="field full"><label for="f-customer">Target customer</label><input type="text" id="f-customer" data-k="customer" maxlength="300" placeholder="Role, company type, size, context. Someone you could list 50 of by name."><span class="hint">Who buys? If the user and the buyer differ, name the buyer.</span></div>
+          <div class="field full"><label for="f-problem">Problem</label><textarea id="f-problem" data-k="problem" maxlength="1200" placeholder="What breaks, how often, and what it costs them."></textarea></div>
+          <div class="field full"><label for="f-alternative">Current alternative</label><textarea id="f-alternative" data-k="alternative" maxlength="1200" placeholder="What they do today instead. Spreadsheets, an agency, a competitor, or nothing."></textarea><span class="hint">This is your real competitor. Customers compare you to it, not to a blank page.</span></div>
+          <div class="field full"><label for="f-channel">How you reach customers</label><textarea id="f-channel" data-k="channel" maxlength="1200" placeholder="Specific communities, keywords, partners, lists, or marketplaces."></textarea></div>
+        </div>
+      </div>
+      <div class="stack sticky">
+        <div class="card">
+          <h3>Investor read</h3>
+          <ul class="flags" id="lint" aria-live="polite"></ul>
+        </div>
+        <div class="card">
+          <h3>How to use this</h3>
+          <div class="explain">
+            <ol style="margin:0;padding-left:18px">
+              <li>Score the idea honestly. A 3 is not a safe default; it is a claim.</li>
+              <li>Plug in unit economics, even rough guesses. Bad math is a feature: it shows what to fix.</li>
+              <li>Size the market from customers up, not from analyst reports down.</li>
+              <li>Run the pre-mortem, then print the one-pager and run the top experiment this week.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 Scorecard -->
+  <section class="panel" id="p-score" role="tabpanel" aria-labelledby="t-score" hidden>
+    <div class="phead"><div>
+      <div class="eyebrow">Module 02</div>
+      <h2>Scorecard</h2>
+      <p>Eight criteria seed investors use, each scored against a concrete rubric. Adjust weights to match your situation: a bootstrapper should weight time to first dollar higher; a venture pitch should weight defensibility.</p>
+    </div>
+    <button class="btn small" id="resetW" type="button">Reset weights</button></div>
+    <div class="split">
+      <div class="crit-grid" id="critGrid"></div>
+      <div class="card sticky" id="scoreOut"></div>
+    </div>
+  </section>
+
+  <!-- 03 Unit economics -->
+  <section class="panel" id="p-econ" role="tabpanel" aria-labelledby="t-econ" hidden>
+    <div class="phead"><div>
+      <div class="eyebrow">Module 03</div>
+      <h2>Unit economics</h2>
+      <p>Does one customer make money, and how fast? Rough numbers are fine. The goal is to find which lever matters most before you spend on growth.</p>
+    </div></div>
+    <div class="split wide-r">
+      <div class="card">
+        <h3>Inputs</h3>
+        <div class="stack" style="gap:14px">
+          <div class="field"><label for="e-price">Price per customer, monthly</label><div class="inwrap has-pre has-suf"><span class="pre">$</span><input type="number" id="e-price" data-k="econ.price" min="0" step="1" inputmode="decimal"><span class="suf">/ mo</span></div><span class="hint">Average revenue per paying account. For annual plans, divide by 12.</span></div>
+          <div class="field"><label for="e-margin">Gross margin</label><div class="inwrap has-suf"><input type="number" id="e-margin" data-k="econ.margin" min="0" max="100" step="1" inputmode="decimal"><span class="suf">%</span></div><span class="hint">Revenue minus cost to deliver: hosting, payment fees, support, goods, shipping.</span></div>
+          <div class="field"><label for="e-cac">Customer acquisition cost (CAC)</label><div class="inwrap has-pre"><span class="pre">$</span><input type="number" id="e-cac" data-k="econ.cac" min="0" step="1" inputmode="decimal"></div><span class="hint">All sales and marketing spend divided by new customers. Count your own time.</span></div>
+          <div class="field"><label for="e-churn">Monthly churn</label><div class="inwrap has-suf"><input type="number" id="e-churn" data-k="econ.churn" min="0" max="100" step="0.1" inputmode="decimal"><span class="suf">% / mo</span></div><span class="hint">Share of customers who cancel each month.</span></div>
+          <div class="field"><label for="e-cycle">Sales cycle</label><div class="inwrap has-suf"><input type="number" id="e-cycle" data-k="econ.cycle" min="0" max="730" step="1" inputmode="numeric"><span class="suf">days</span></div><span class="hint">First touch to first payment. Delays revenue in the cohort chart.</span></div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="tiles" id="econTiles"></div>
+        <div class="card">
+          <h3>24-month cohort: 100 customers acquired in month 0</h3>
+          <div id="cohortChart"></div>
+          <div class="legend"><span><i style="background:var(--series-2)"></i>Cumulative revenue</span><span><i style="background:var(--good)"></i>Cumulative profit after CAC</span><span><i style="background:var(--bad)"></i>Cash still underwater</span></div>
+          <p class="note" id="cohortNote" style="margin:8px 0 0"></p>
+        </div>
+        <div class="card">
+          <h3>Diagnosis</h3>
+          <ul class="flags" id="econFlags"></ul>
+          <div id="econFixes"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 Market -->
+  <section class="panel" id="p-market" role="tabpanel" aria-labelledby="t-market" hidden>
+    <div class="phead"><div>
+      <div class="eyebrow">Module 04</div>
+      <h2>Market sizing, bottom-up</h2>
+      <p>Count the customers you could actually name, multiply by what they would pay, then by the share you could realistically win.</p>
+    </div></div>
+    <div class="split wide-r">
+      <div class="card">
+        <h3>Inputs</h3>
+        <div class="stack" style="gap:14px">
+          <div class="field"><label for="m-customers">Potential customers in the segment</label><input type="number" id="m-customers" data-k="market.customers" min="0" step="1" inputmode="numeric"><span class="hint">Accounts that have the problem, not people who might be interested. Source it: a registry, an association, a LinkedIn count.</span></div>
+          <div class="field"><label for="m-acv">Annual revenue per customer</label><div class="inwrap has-pre has-suf"><span class="pre">$</span><input type="number" id="m-acv" data-k="market.acv" min="0" step="1" inputmode="decimal"><span class="suf">/ yr</span></div>
+            <label class="check"><input type="checkbox" id="m-sync" data-k="market.syncAcv"> Use unit economics price x 12</label></div>
+          <div class="field"><label for="m-serv">Serviceable share</label><div class="inwrap has-suf"><input type="number" id="m-serv" data-k="market.serv" min="0" max="100" step="0.1" inputmode="decimal"><span class="suf">%</span></div><span class="hint">Share you can serve with today's product, geography, language, and channel.</span></div>
+          <div class="field"><label for="m-obt">Obtainable share of SAM in 3 to 5 years</label><div class="inwrap has-suf"><input type="number" id="m-obt" data-k="market.obt" min="0" max="100" step="0.1" inputmode="decimal"><span class="suf">%</span></div><span class="hint">Most startups win 1 to 5%. Above 10% needs a very good reason.</span></div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="card">
+          <div class="grid-2" style="align-items:center">
+            <div id="marketChart"></div>
+            <div class="mrows" id="marketRows"></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card"><h3>Sanity checks</h3><ul class="flags" id="marketFlags"></ul></div>
+          <div class="card"><h3>Why bottom-up beats top-down</h3>
+            <div class="explain">
+              <p>Top-down sizing starts with an analyst number ("the wellness market is $4.4 trillion") and takes "just 1%". It sounds rigorous and tells you nothing: it hides who buys, why, and how you reach them.</p>
+              <ul>
+                <li><b>It is falsifiable.</b> Every input is a count or a price you can check with ten phone calls.</li>
+                <li><b>It forces a go-to-market.</b> You cannot count customers you cannot find, so it doubles as a channel test.</li>
+                <li><b>Investors trust it.</b> A small honest number beats a big borrowed one. "1% of a huge market" is a known red flag.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 Pre-mortem -->
+  <section class="panel" id="p-risk" role="tabpanel" aria-labelledby="t-risk" hidden>
+    <div class="phead"><div>
+      <div class="eyebrow">Module 05</div>
+      <h2>Pre-mortem</h2>
+      <p>It is two years from now and this idea failed. Tick every reason that could plausibly be why. Each risk is prioritized by impact and by your own scorecard, then paired with a cheap experiment you can run before writing much code.</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn small" id="tickSuggested" type="button">Tick suggested</button><button class="btn small" id="clearRisks" type="button">Clear all</button></div></div>
+    <div class="split" style="grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)">
+      <div id="riskLib"></div>
+      <div class="sticky"><div class="card"><h3 id="riskOutH">Prioritized risks</h3><div id="riskOut"></div></div></div>
+    </div>
+  </section>
+
+  <!-- 06 One-pager -->
+  <section class="panel" id="p-memo" role="tabpanel" aria-labelledby="t-memo" hidden>
+    <div class="phead no-print"><div>
+      <div class="eyebrow">Module 06</div>
+      <h2>One-pager</h2>
+      <p>An investment-memo summary of everything above. Print it to PDF for a cofounder or advisor, or paste the Markdown into your notes.</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="copyMd" type="button">Copy as Markdown</button><button class="btn primary" id="printBtn" type="button">Print / Save PDF</button></div></div>
+    <article class="memo" id="memo"></article>
+  </section>
+</main>
+<footer class="no-print">Venture Lens is part of <a href="../../index.html">TBD Lab</a>. Your ideas are stored only in this browser.</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- Content: criteria, rubrics, advice ---------- */
+  var CRITERIA = [
+    { id: 'pain', name: 'Pain intensity', short: 'Pain', radar: ['Pain'], w: 18,
+      q: 'How badly does the problem hurt right now?',
+      rubric: ['Mild annoyance, rarely mentioned', 'Acknowledged when prompted, no workaround', 'Real cost, tolerated with a workaround', 'Costly, actively searching for a fix', 'Hair on fire: losing money or sleep today'],
+      low: 'You are selling a vitamin. Go narrower until the pain is acute: find the sub-segment where this costs real money this month. Ask 10 prospects "when did this last happen and what did it cost you?" and keep only the segment that answers with specifics.',
+      mid: 'The pain is real but tolerated. Quantify it in their currency (hours, dollars, lost customers) and lead every pitch with that number. Tolerated pain sells only when the cost is made visible.',
+      act: 'Run 10 problem interviews; keep only the segment that describes a recent, costly incident.' },
+    { id: 'freq', name: 'Frequency', short: 'Frequency', radar: ['Frequency'], w: 10,
+      q: 'How often does the customer hit this problem?',
+      rubric: ['Once a year or less', 'A few times a year', 'Monthly', 'Weekly', 'Daily, or inside a core workflow'],
+      low: 'Rare problems mean customers forget you between uses, which shows up as churn. Either attach to a recurring workflow (monitoring, alerts, reporting) or price per event at a premium instead of selling a subscription.',
+      mid: 'Monthly use works but is fragile. Add a weekly touchpoint, such as a digest, alert, or benchmark, so the product stays inside the habit loop.',
+      act: 'Ask 5 prospects to log each occurrence for two weeks to confirm real frequency.' },
+    { id: 'wtp', name: 'Willingness to pay', short: 'Willingness to pay', radar: ['Willingness', 'to pay'], w: 16,
+      q: 'Will someone with a budget pay to make it go away?',
+      rubric: ['Expects it to be free', 'Would pay pocket change', 'Pays for adjacent tools, budget unclear', 'Has budget, has paid for alternatives', 'Already paying more for a worse fix'],
+      low: 'No budget, no business. Find who already pays for a workaround (an agency, a consultant, staff hours) and sell into that budget line. Test with a payment link or a signed letter of intent, never a survey.',
+      mid: 'Willingness is plausible but unproven. Ask for money early: a paid pilot, a refundable deposit, or an annual prepay discount. Words are free; card numbers are signal.',
+      act: 'Send a priced offer with a payment link or LOI to 20 warm prospects.' },
+    { id: 'dist', name: 'Distribution and reachability', short: 'Distribution', radar: ['Distribution'], w: 16,
+      q: 'Can you reach buyers repeatably and affordably?',
+      rubric: ['No idea where buyers gather', 'Known channels, crowded and expensive', 'One plausible channel, untested', 'Tested channel with early traction', 'Owned audience or built-in virality'],
+      low: 'No channel is the most common silent killer. Before building more, run three small channel tests (about $150 or 5 hours each) and measure cost per qualified lead. If none works, the idea is not ready.',
+      mid: 'You have a channel hypothesis. Run it at small scale this week and compute cost per qualified lead: it needs to land under a third of the CAC your economics allow.',
+      act: 'Run three $150 channel tests and compare cost per qualified lead.' },
+    { id: 'comp', name: 'Competition and differentiation', short: 'Differentiation', radar: ['Differentiation'], w: 10,
+      q: 'Why you and not the alternative?',
+      rubric: ['Crowded, no clear difference', 'Strong incumbents, minor edge', 'Competitors exist, clear wedge segment', 'Fragmented market, 10x better on one axis', 'Underserved, you define the category'],
+      low: 'You need a wedge, not a better mousetrap. Pick one segment the leaders ignore and be 10x better for them on a single axis: speed, price, or specialization. Generalists lose to specialists early.',
+      mid: 'A wedge exists but is fuzzy. Write the "only we ___ for ___" sentence and check whether prospects repeat it back unprompted after a 2-minute pitch.',
+      act: 'Test an "only we" positioning line against two competitor homepages with 5 prospects.' },
+    { id: 'fit', name: 'Founder-market fit', short: 'Founder fit', radar: ['Founder', 'fit'], w: 12,
+      q: 'Do you have unfair insight or access?',
+      rubric: ['Outsider, no network or skills', 'Interested, learning the domain', 'Adjacent experience or skills', 'Worked in it, knows buyers personally', 'Lived the problem, unfair insight and access'],
+      low: 'Outsiders can win, but only with insiders. Recruit two respected practitioners as advisors, or spend two weeks working inside the customer\'s workflow before writing code. Your learning rate is the bottleneck.',
+      mid: 'Turn adjacent experience into access: list 20 people who are, or sell to, the buyer and book 10 conversations this month. Borrowed credibility compounds.',
+      act: 'Recruit two practitioner advisors and ask each for three buyer intros.' },
+    { id: 'time', name: 'Time to first dollar', short: 'Time to first $', radar: ['Time to', 'first $'], w: 8,
+      q: 'How soon could a customer pay you?',
+      rubric: ['Over 12 months', '6 to 12 months', '3 to 6 months', '1 to 3 months', 'Under 30 days, could pre-sell now'],
+      low: 'Long time to revenue burns runway and morale. Find the smallest paid version: a service, a report, or a concierge MVP you deliver by hand and charge for within 30 days.',
+      mid: 'Shorten the path: pre-sell a founding-customer tier with a meaningful discount for the first 10 buyers in exchange for weekly feedback.',
+      act: 'Pre-sell a founding-customer tier to the first 10 buyers.' },
+    { id: 'moat', name: 'Defensibility', short: 'Defensibility', radar: ['Defensibility'], w: 10,
+      q: 'What gets harder to copy as you grow?',
+      rubric: ['Copyable in a weekend', 'Copyable in a quarter', 'Switching costs or integrations', 'Proprietary data or workflow lock-in', 'Network effects or regulatory moat'],
+      low: 'Easy to copy is survivable early if you move fast, but plan the moat now: name the asset that compounds with each customer (data, integrations, community, brand) and design for it from day one.',
+      mid: 'You have some lock-in. Deepen it by integrating into the customer\'s system of record and making the product more valuable the longer they use it.',
+      act: 'Write down which asset compounds with each new customer and design the MVP around it.' }
+  ];
+
+  var BANDS = [
+    { id: 'kill', min: 0, label: 'Kill it', cls: 'v-kill', tone: 'bad',
+      text: 'The fundamentals are weak in more than one place. Park it, or pivot to a different customer before investing more time. Killing ideas quickly is a skill, not a failure.' },
+    { id: 'wedge', min: 40, label: 'Needs a sharper wedge', cls: 'v-wedge', tone: 'warn',
+      text: 'There is something here, but the angle is too broad or unproven. Narrow the customer and repair the weakest criteria before you build anything.' },
+    { id: 'test', min: 60, label: 'Run a test this week', cls: 'v-test', tone: 'accent',
+      text: 'Promising enough to validate with real money or real behavior. Run the cheapest experiment against your weakest criterion within seven days.' },
+    { id: 'go', min: 78, label: 'Go', cls: 'v-go', tone: 'good',
+      text: 'Strong across the board. Commit, set 90-day milestones, and spend most of your time on distribution, because that is what usually breaks next.' }
+  ];
+
+  var CATS = [
+    ['demand', 'Demand'], ['distribution', 'Distribution'], ['economics', 'Economics'], ['execution', 'Execution'], ['competition', 'Competition']
+  ];
+
+  /* Failure mode library. crit links to a scorecard criterion (drives likelihood); impact is 1 to 3. */
+  var RISKS = [
+    { id: 'vitamin', cat: 'demand', crit: 'pain', impact: 3, t: 'Nice to have, not must have',
+      d: 'Prospects nod along in interviews but never change behavior. The problem is real, just not worth the effort of switching.',
+      x: 'Ten problem interviews. Ask only about the past: "Tell me about the last time this happened. What did you do? What did it cost?" Never pitch.',
+      p: '6 of 10 describe a specific recent incident and a workaround they built themselves.', c: '$0, 1 week' },
+    { id: 'rare', cat: 'demand', crit: 'freq', impact: 2, t: 'Real problem, too rare',
+      d: 'Customers need you twice a year, forget you exist in between, and cancel the subscription at the next card statement.',
+      x: 'Two-week diary study: five prospects log every occurrence in a shared sheet or by text message. Nudge them on day 3 and day 10.',
+      p: '3 of 5 hit the problem at least weekly.', c: '$0 to $100 in gift cards, 2 weeks' },
+    { id: 'nopay', cat: 'demand', crit: 'wtp', impact: 3, t: 'Users love it, buyers will not pay',
+      d: 'Engagement looks great until the paywall. The user is not the budget holder, or the budget simply does not exist.',
+      x: 'Pre-sell: send a one-page offer with a real price and a payment link (B2C) or a letter of intent with a price (B2B) to 20 warm prospects.',
+      p: '3 or more pay, put down a deposit, or sign.', c: '$0, 1 week' },
+    { id: 'ceiling', cat: 'demand', crit: 'wtp', impact: 2, t: 'Price ceiling too low for the model',
+      d: 'People will pay, but only an amount that cannot cover acquisition and delivery. You are profitable per customer only on paper.',
+      x: 'Run the Van Westendorp price questions in 15 calls: at what price is it too cheap to trust, a bargain, getting expensive, and too expensive?',
+      p: 'The median "getting expensive" price is above your planned price.', c: '$0, 1 week' },
+    { id: 'segment', cat: 'demand', crit: 'pain', impact: 2, t: 'Aimed at the wrong segment',
+      d: 'The pitch tries to serve everyone, so it resonates with no one. The truly desperate segment exists but is buried in averages.',
+      x: 'Split test two landing pages with the same offer and different headlines for two segments. Spend about $100 of ads on each.',
+      p: 'One segment converts at least 2x the other. Commit to it.', c: '$200, 5 days' },
+    { id: 'nochannel', cat: 'distribution', crit: 'dist', impact: 3, t: 'No repeatable acquisition channel',
+      d: 'The first 20 customers came from your network. Customer 21 costs ten times as much and nothing scales.',
+      x: 'Channel smoke test: pick three channels and give each $150 or 5 hours. Track cost per qualified lead, not clicks.',
+      p: 'One channel delivers qualified leads under a third of your target CAC.', c: '$450, 2 weeks' },
+    { id: 'cacrise', cat: 'distribution', crit: 'dist', impact: 2, t: 'CAC climbs as you leave early adopters',
+      d: 'Enthusiasts were cheap to win. The mainstream needs proof, demos, and trust, and your CAC triples.',
+      x: 'Acquire 10 sign-ups from strangers with zero connection to you. Compare their cost and conversion to your first 10.',
+      p: 'Stranger CAC is under 2x your early-adopter CAC.', c: '$300, 2 weeks' },
+    { id: 'gatekeeper', cat: 'distribution', crit: 'dist', impact: 2, t: 'Gatekeepers block the path',
+      d: 'Procurement, IT security, an app store review, or a platform partner sits between you and the buyer, and they move slowly.',
+      x: 'Interview 3 people who recently bought a comparable tool. Map every approver and every review step, with dates.',
+      p: 'Fewer than 3 approvers and no security or legal review longer than 30 days.', c: '$0, 1 week' },
+    { id: 'cycle', cat: 'distribution', crit: 'time', impact: 3, t: 'Sales cycle outlasts your runway',
+      d: 'Every deal is "very interested, revisit next quarter". The pipeline looks full and the bank account looks empty.',
+      x: 'Ask 3 prospects to walk you through exactly how they bought the last tool in this category, from first search to signed invoice.',
+      p: 'Typical purchase takes under 60 days end to end.', c: '$0, 1 week' },
+    { id: 'platform', cat: 'distribution', crit: 'moat', impact: 2, t: 'One platform owns your distribution',
+      d: 'Most customers come from a single source (Google, Meta, an app store, a marketplace). One algorithm change halves your revenue.',
+      x: 'During your channel test, track lead share by source. If one exceeds 70%, run a second channel test before scaling spend.',
+      p: 'A second channel produces leads at under 1.5x the CAC of the first.', c: '$200, 2 weeks' },
+    { id: 'churn', cat: 'economics', crit: 'freq', impact: 3, t: 'Churn eats growth',
+      d: 'You add 50 customers a month and lose 40. Growth stalls in month nine and nobody can explain why.',
+      x: 'Concierge cohort: serve 10 paying customers by hand for 60 days. Track weekly active use and log every reason someone stops.',
+      p: '8 of 10 are still paying and active at day 60.', c: 'Your time, 60 days' },
+    { id: 'margin', cat: 'economics', crit: 'wtp', impact: 2, t: 'Margins too thin to fund growth',
+      d: 'It is quietly a services business. Delivery, support, and payment fees eat the revenue, leaving nothing for acquisition.',
+      x: 'Time every delivery and support task for your first 5 customers and add every cost: tools, fees, refunds, shipping.',
+      p: 'Fully loaded gross margin above 60% at your planned price.', c: '$0, 2 weeks' },
+    { id: 'onboard', cat: 'economics', crit: 'time', impact: 2, t: 'Onboarding cost kills small deals',
+      d: 'Each customer needs hours of setup, migration, and hand-holding. Small accounts lose money before they see value.',
+      x: 'Onboard 3 customers with a stopwatch. Record your hours and the day they first get real value.',
+      p: 'Live and getting value within a week, using under 3 hours of your time each.', c: '$0, 2 weeks' },
+    { id: 'seasonal', cat: 'economics', crit: 'freq', impact: 1, t: 'Revenue is lumpy or seasonal',
+      d: 'All buying happens in one quarter. You run out of cash in the trough while waiting for the next peak.',
+      x: 'Pull five years of search trend data for the core keywords and ask 5 customers when their budget gets approved.',
+      p: 'No single quarter accounts for more than 40% of expected buying.', c: '$0, 2 hours' },
+    { id: 'capital', cat: 'economics', crit: 'time', impact: 2, t: 'Needs too much capital before revenue',
+      d: 'Inventory, licensing, or a big build stands between you and the first sale. You fundraise on hope instead of traction.',
+      x: 'Write a 12-month cash plan, then design the smallest version you could charge for within 30 days. Price it and offer it.',
+      p: 'First revenue is achievable with under 3 months of runway.', c: '$0, 3 days' },
+    { id: 'outsider', cat: 'execution', crit: 'fit', impact: 2, t: 'Founder lacks insider access',
+      d: 'You learn the industry\'s unwritten rules one painful mistake at a time while an insider competitor sails past.',
+      x: 'Recruit 2 respected practitioners as advisors (0.25% equity each is typical). Ask each for 3 intros to real buyers.',
+      p: 'Both say yes and you get at least 4 buyer meetings out of it.', c: 'Small equity, 2 weeks' },
+    { id: 'overbuild', cat: 'execution', crit: 'time', impact: 3, t: 'Building too much before selling',
+      d: 'Six months of polish, launch day arrives, and the response is silence. Nobody was waiting for it.',
+      x: 'Fake door: publish a landing page describing the product with a "Buy now" or "Reserve" button before you build it.',
+      p: 'At least 5% of targeted visitors click buy and 1% leave payment details or a deposit.', c: '$150, 1 week' },
+    { id: 'techrisk', cat: 'execution', crit: 'moat', impact: 2, t: 'Much harder to build than expected',
+      d: 'The demo works on clean data. Real customer data, edge cases, and integrations turn a 2-month build into a year.',
+      x: 'Timebox a 5-day spike on only the hardest technical piece, run on a real customer\'s messy data.',
+      p: 'It works end to end on real data, even if ugly.', c: '$0, 5 days' },
+    { id: 'parttime', cat: 'execution', crit: 'fit', impact: 2, t: 'Part-time effort stalls momentum',
+      d: 'Nights and weekends become "next month". Customers stop replying and the window closes.',
+      x: 'Commit to a public weekly ship log for four weeks: one thing a customer could see, every week, posted where people can hold you to it.',
+      p: 'Four out of four weeks shipped.', c: '$0, 4 weeks' },
+    { id: 'legal', cat: 'execution', crit: 'fit', impact: 2, t: 'Regulatory or legal surprise',
+      d: 'A license, certification, data rule, or liability issue appears after launch and freezes sales.',
+      x: 'Book one hour with a specialist lawyer and read the terms of service and compliance pages of the top 3 competitors.',
+      p: 'No license, certification, or data residency requirement you cannot meet within 90 days.', c: '$300 to $500, 1 week' },
+    { id: 'incumbent', cat: 'competition', crit: 'comp', impact: 3, t: 'Incumbent ships your feature',
+      d: 'The market leader notices traction and bundles a good-enough version for free into a product customers already own.',
+      x: 'Parity audit: list exactly what the top incumbent would have to ship, change, or give up to match you.',
+      p: 'Matching you requires changing their pricing or business model, not just a sprint of engineering.', c: '$0, 1 day' },
+    { id: 'goodenough', cat: 'competition', crit: 'pain', impact: 3, t: 'The free workaround is good enough',
+      d: 'Spreadsheets, email, and a part-time assistant are clumsy but familiar. Inertia beats your product.',
+      x: 'Switching interviews with 8 users of the current workaround: "What would have to be true for you to switch next month?"',
+      p: 'At least 4 name a concrete trigger and a budget they would move.', c: '$0, 1 week' },
+    { id: 'crowded', cat: 'competition', crit: 'comp', impact: 2, t: 'Crowded category, no clear wedge',
+      d: 'Prospects ask "how is this different from X?" and your answer takes three sentences. You compete on price by default.',
+      x: 'Write one line: "Only we ___ for ___." Show it to 5 prospects next to two competitors\' homepages.',
+      p: '4 of 5 can explain the difference unprompted.', c: '$0, 3 days' },
+    { id: 'copy', cat: 'competition', crit: 'moat', impact: 2, t: 'Easy to copy once proven',
+      d: 'The moment you prove demand, ten clones launch at half the price, and some of them are better funded.',
+      x: 'Moat audit: name what compounds with every customer (data, network, integrations, brand) and whether it is measurably stronger at month 12.',
+      p: 'At least one asset gets stronger with scale and a copycat cannot buy it.', c: '$0, 2 hours' },
+    { id: 'pricewar', cat: 'competition', crit: 'comp', impact: 2, t: 'Race to the bottom on price',
+      d: 'Buyers see the category as a commodity. Every renewal becomes a discount negotiation.',
+      x: 'Price anchoring test: quote 2x your planned price to 5 qualified prospects and watch the reaction.',
+      p: 'At least 2 accept or negotiate instead of walking away.', c: '$0, 1 week' }
+  ];
+
+  /* ---------- Example ideas ---------- */
+  var EXAMPLES = [
+    { name: 'ChairFill',
+      oneLiner: 'We fill last-minute dental cancellations automatically by texting a smart waitlist, unlike front desks calling down a paper list.',
+      customer: 'Office managers at independent US dental practices with 2 to 8 chairs using Dentrix or Open Dental.',
+      problem: 'A typical practice sees 8 to 12 same-day cancellations a week. Each empty hour of chair time costs $200 to $400 in lost production, roughly $8,000 a month, and the front desk spends 30 to 60 minutes a day phoning patients to fill gaps.',
+      alternative: 'Paper or spreadsheet waitlists, manual phone calls, and the generic reminder features in practice management software. Some practices simply accept the gaps.',
+      channel: 'Integration listings in the Open Dental and Dentrix partner marketplaces, sponsored posts in state dental association newsletters, and direct outreach to office managers in two large Facebook groups for dental office staff.',
+      scores: { pain: 4, freq: 5, wtp: 4, dist: 3, comp: 3, fit: 2, time: 4, moat: 2 },
+      econ: { price: 249, margin: 85, cac: 1800, churn: 1.8, cycle: 30 },
+      market: { customers: 135000, acv: 2988, syncAcv: true, serv: 45, obt: 3 },
+      risks: ['gatekeeper', 'incumbent', 'outsider', 'copy', 'onboard', 'nochannel'] },
+    { name: 'Little Chefs Club',
+      oneLiner: 'A monthly cooking kit with video lessons that teaches kids aged 6 to 11 to make real dinners, unlike recipe books and screen time.',
+      customer: 'Parents of children aged 6 to 11 in US households earning over $100k who already spend on enrichment activities.',
+      problem: 'Parents want screen-free, skill-building activities at home and struggle to involve kids in cooking without mess and stress. They spend $150 or more a month on enrichment but have few options that fit weeknights.',
+      alternative: 'Free YouTube recipes, kids\' cookbooks, after-school classes at $30 a session, and existing kids\' craft subscription boxes.',
+      channel: 'Instagram and TikTok ads targeting parents, parenting micro-influencers paid per post, and a referral credit for each friend who subscribes.',
+      scores: { pain: 2, freq: 3, wtp: 3, dist: 3, comp: 2, fit: 3, time: 4, moat: 1 },
+      econ: { price: 34, margin: 38, cac: 85, churn: 11, cycle: 0 },
+      market: { customers: 9500000, acv: 408, syncAcv: true, serv: 30, obt: 0.5 },
+      risks: ['vitamin', 'churn', 'margin', 'goodenough', 'copy', 'cacrise', 'platform'] }
+  ];
+
+  /* ---------- Helpers ---------- */
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  function h(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function num(v, d) { var n = typeof v === 'number' ? v : parseFloat(v); return isFinite(n) ? n : d; }
+  function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+  function uid() { return 'i' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function critById(id) { for (var i = 0; i < CRITERIA.length; i++) if (CRITERIA[i].id === id) return CRITERIA[i]; return null; }
+  function riskById(id) { for (var i = 0; i < RISKS.length; i++) if (RISKS[i].id === id) return RISKS[i]; return null; }
+
+  function money(v, opts) {
+    if (!isFinite(v)) return 'n/a';
+    var neg = v < 0, a = Math.abs(v), s;
+    if (a >= 1e12) s = (a / 1e12).toFixed(a >= 1e13 ? 0 : 1) + 'T';
+    else if (a >= 1e9) s = (a / 1e9).toFixed(a >= 1e10 ? 0 : 1) + 'B';
+    else if (a >= 1e6) s = (a / 1e6).toFixed(a >= 1e7 ? 0 : 1) + 'M';
+    else if (a >= 1e4 && !(opts && opts.full)) s = (a / 1e3).toFixed(a >= 1e5 ? 0 : 1) + 'k';
+    else s = Math.round(a).toLocaleString('en-US');
+    s = s.replace(/\.0(?=[kMBT])/, '');
+    return (neg ? '-$' : '$') + s;
+  }
+  function count(v) {
+    if (!isFinite(v)) return 'n/a';
+    var a = Math.abs(v);
+    if (a >= 1e9) return (v / 1e9).toFixed(1).replace(/\.0$/, '') + 'B';
+    if (a >= 1e6) return (v / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (a >= 1e4) return (v / 1e3).toFixed(1).replace(/\.0$/, '') + 'k';
+    return Math.round(v).toLocaleString('en-US');
+  }
+  function months(v) { if (v == null || !isFinite(v)) return 'Never'; return (v < 10 ? v.toFixed(1) : Math.round(v)) + ' mo'; }
+  function pct(v, d) { if (!isFinite(v)) return 'n/a'; return v.toFixed(d == null ? 0 : d).replace(/\.0+$/, '') + '%'; }
+
+  function blankIdea() {
+    var s = {}, w = {};
+    CRITERIA.forEach(function (c) { s[c.id] = 3; w[c.id] = c.w; });
+    return { id: uid(), name: 'Untitled idea', oneLiner: '', customer: '', problem: '', alternative: '', channel: '',
+      scores: s, weights: w,
+      econ: { price: 49, margin: 80, cac: 300, churn: 4, cycle: 14 },
+      market: { customers: 50000, acv: 588, syncAcv: true, serv: 30, obt: 3 },
+      risks: [], updated: Date.now() };
+  }
+  function normalize(r) {
+    r = r && typeof r === 'object' ? r : {};
+    var i = blankIdea();
+    if (typeof r.id === 'string' && r.id) i.id = r.id.slice(0, 64);
+    ['name', 'oneLiner', 'customer', 'problem', 'alternative', 'channel'].forEach(function (k) { if (typeof r[k] === 'string') i[k] = r[k].slice(0, 2000); });
+    if (!i.name.trim()) i.name = 'Untitled idea';
+    CRITERIA.forEach(function (c) {
+      i.scores[c.id] = Math.round(clamp(num(r.scores && r.scores[c.id], 3), 1, 5));
+      i.weights[c.id] = clamp(num(r.weights && r.weights[c.id], c.w), 0, 30);
+    });
+    var e = r.econ || {};
+    i.econ = { price: clamp(num(e.price, 49), 0, 1e7), margin: clamp(num(e.margin, 80), 0, 100), cac: clamp(num(e.cac, 300), 0, 1e8),
+      churn: clamp(num(e.churn, 4), 0, 100), cycle: clamp(num(e.cycle, 14), 0, 730) };
+    var m = r.market || {};
+    i.market = { customers: clamp(num(m.customers, 50000), 0, 1e10), acv: clamp(num(m.acv, 588), 0, 1e9), syncAcv: m.syncAcv !== false,
+      serv: clamp(num(m.serv, 30), 0, 100), obt: clamp(num(m.obt, 3), 0, 100) };
+    i.risks = Array.isArray(r.risks) ? r.risks.filter(function (x, n, a) { return riskById(x) && a.indexOf(x) === n; }) : [];
+    i.updated = num(r.updated, Date.now());
+    return i;
+  }
+  function fromExample(n) {
+    var ex = JSON.parse(JSON.stringify(EXAMPLES[n]));
+    ex.id = uid(); ex.updated = Date.now();
+    return normalize(ex);
+  }
+
+  /* ---------- Storage ---------- */
+  var KEY = 'tbd-venture-v1', TABKEY = 'tbd-venture-tab';
+  var store = { ideas: [], currentId: null };
+  function load() {
+    var raw = null;
+    try { raw = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { raw = null; }
+    if (raw && Array.isArray(raw.ideas) && raw.ideas.length) {
+      store.ideas = raw.ideas.map(normalize);
+      store.currentId = raw.currentId;
+    } else {
+      store.ideas = [fromExample(0), fromExample(1)];
+      store.currentId = store.ideas[0].id;
+    }
+    if (!cur()) store.currentId = store.ideas[0].id;
+  }
+  var saveT = null;
+  function save() {
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { /* storage unavailable, keep working in memory */ }
+    }, 200);
+  }
+  function cur() { for (var i = 0; i < store.ideas.length; i++) if (store.ideas[i].id === store.currentId) return store.ideas[i]; return null; }
+
+  /* ---------- Calculations ---------- */
+  function calcScore(idea) {
+    var tw = 0, sum = 0, plain = 0;
+    CRITERIA.forEach(function (c) { var w = idea.weights[c.id]; tw += w; sum += w * idea.scores[c.id]; plain += idea.scores[c.id]; });
+    var avg = tw > 0 ? sum / tw : plain / CRITERIA.length;
+    var pctScore = Math.round((avg - 1) / 4 * 100);
+    var band = BANDS[0];
+    BANDS.forEach(function (b) { if (pctScore >= b.min) band = b; });
+    var gate = null, s = idea.scores;
+    if ((s.pain <= 2 || s.wtp <= 2 || s.dist <= 1) && (band.id === 'test' || band.id === 'go')) {
+      var which = [];
+      if (s.pain <= 2) which.push('pain intensity');
+      if (s.wtp <= 2) which.push('willingness to pay');
+      if (s.dist <= 1) which.push('distribution');
+      gate = 'Gate applied: ' + which.join(' and ') + ' scored too low. Strength elsewhere cannot rescue a problem nobody pays to solve or a buyer you cannot reach, so the verdict is capped.';
+      band = BANDS[1];
+    }
+    var ranked = CRITERIA.slice().sort(function (a, b) {
+      return (s[a.id] - s[b.id]) || (idea.weights[b.id] - idea.weights[a.id]);
+    });
+    return { avg: avg, pct: pctScore, band: band, gate: gate, weakest: ranked.slice(0, 2), totalW: tw };
+  }
+
+  function calcEcon(e) {
+    var price = e.price, m = e.margin / 100, ch = e.churn / 100, cac = e.cac;
+    var gpm = price * m;
+    var capped = ch <= 1 / 120;
+    var life = ch > 0 ? Math.min(1 / ch, 120) : 120;
+    var ltv = gpm * life;
+    var ratio = cac > 0 ? ltv / cac : null;
+    var payback = gpm > 0 ? cac / gpm : null;
+    var delay = Math.round(e.cycle / 30);
+    var N = 100, cumRev = 0, cumNet = -cac * N, pts = [{ m: 0, rev: 0, net: cumNet, active: 0 }], breakeven = null, active = 0;
+    for (var mo = 1; mo <= 24; mo++) {
+      active = mo > delay ? N * Math.pow(1 - ch, mo - 1 - delay) : 0;
+      var rev = active * price;
+      cumRev += rev; cumNet += rev * m;
+      pts.push({ m: mo, rev: cumRev, net: cumNet, active: active });
+      if (breakeven === null && cumNet >= 0 && cac * N > 0) breakeven = mo;
+    }
+    if (cac === 0) breakeven = 0;
+    var flags = [];
+    if (cac === 0) flags.push({ l: 'warn', t: 'A CAC of zero is not realistic', d: 'Even organic growth costs founder time. Estimate your hourly value times the hours it takes to win one customer, and use that.' });
+    else if (ratio < 1) flags.push({ l: 'bad', t: 'Every customer loses money (LTV:CAC ' + ratio.toFixed(1) + ')', d: 'You spend ' + money(cac) + ' to win a customer who returns only ' + money(ltv) + ' of gross profit over their life. Growing faster makes this worse, not better.' });
+    else if (ratio < 3) flags.push({ l: 'warn', t: 'LTV:CAC of ' + ratio.toFixed(1) + ' is below the 3:1 rule of thumb', d: 'After overhead (rent, salaries, tools), there is little left to fund the business. Raise price, cut churn, or find a cheaper channel before scaling spend.' });
+    else if (ratio > 8) flags.push({ l: 'info', t: 'LTV:CAC of ' + ratio.toFixed(1) + ' is unusually high', d: 'Either the inputs are optimistic (check churn on a real cohort) or you are underinvesting in growth and could afford to acquire customers much faster.' });
+    else flags.push({ l: 'good', t: 'Healthy LTV:CAC of ' + ratio.toFixed(1), d: 'Each dollar spent on acquisition returns about ' + money(ratio, { full: true }).replace('$', '$') + ' of lifetime gross profit. This is fundable math.' });
+
+    if (payback === null) flags.push({ l: 'bad', t: 'CAC never pays back', d: 'Gross profit per customer is zero, so no amount of retention recovers acquisition spend. Fix price or delivery cost first.' });
+    else if (cac > 0 && payback > life) flags.push({ l: 'bad', t: 'Payback (' + months(payback) + ') is longer than the average lifetime (' + months(life) + ')', d: 'The average customer leaves before repaying what it cost to acquire them. Only your best customers are profitable.' });
+    else if (payback > 18) flags.push({ l: 'bad', t: 'CAC payback of ' + months(payback) + ' is too long', d: 'Your cash is locked up for well over a year per customer. Fine for venture-backed enterprise sales, dangerous for anyone else.' });
+    else if (payback > 12) flags.push({ l: 'warn', t: 'CAC payback of ' + months(payback) + ' strains cash', d: 'Bootstrapped businesses want payback under 12 months; under 6 is excellent. Consider annual prepay plans to pull cash forward.' });
+    else if (cac > 0 && payback <= 6) flags.push({ l: 'good', t: 'Fast payback: ' + months(payback), d: 'You recover acquisition cost in under six months, so growth can largely fund itself.' });
+
+    if (e.churn > 10) flags.push({ l: 'bad', t: e.churn + '% monthly churn replaces your whole base in under a year', d: 'Average customer lifetime is ' + months(life) + '. You are filling a leaky bucket: fix retention before spending a dollar more on acquisition.' });
+    else if (e.churn > 5) flags.push({ l: 'warn', t: e.churn + '% monthly churn is high', d: 'Typical for consumer subscriptions, but it caps growth. Good SMB software sits at 2 to 3%; mid-market at around 1%.' });
+    else if (capped) flags.push({ l: 'info', t: 'Churn is near zero, lifetime capped at 10 years', d: 'Assume some churn. Even the stickiest software loses about 0.5 to 1% of customers a month.' });
+
+    if (e.margin < 30) flags.push({ l: 'bad', t: e.margin + '% gross margin is a services or goods margin', d: 'Very little is left to pay for acquisition and overhead. Productize delivery, raise price, or reduce cost of goods.' });
+    else if (e.margin < 60) flags.push({ l: 'warn', t: e.margin + '% gross margin is below software-style economics', d: 'Software businesses run 70 to 85%. Check hosting, payment fees, support time, and any human-in-the-loop work.' });
+
+    if (e.cycle > 60 && price < 500) flags.push({ l: 'warn', t: 'A ' + Math.round(e.cycle) + '-day sales cycle does not fit a ' + money(price) + '/mo price', d: 'Long cycles need large contracts to pay for the selling time. Shorten it with self-serve signup, a free trial, or a smaller entry plan.' });
+    else if (e.cycle > 120) flags.push({ l: 'warn', t: 'Long sales cycle delays cash by ' + delay + ' months', d: 'The cohort chart shifts revenue right accordingly. Make sure your runway covers the gap.' });
+
+    var fixes = null;
+    if (cac > 0 && ratio !== null && ratio < 3 && gpm > 0) {
+      var target = 3 * cac;
+      var needPrice = ch > 0 ? target * ch / m : null;
+      var needChurn = gpm * 1 / target * 100;
+      var maxCac = ltv / 3;
+      fixes = { price: needPrice, churn: needChurn, cac: maxCac };
+    }
+    return { gpm: gpm, life: life, ltv: ltv, ratio: ratio, payback: payback, pts: pts, breakeven: breakeven, delay: delay, flags: flags, fixes: fixes, endActive: active, capped: capped };
+  }
+
+  function calcMarket(idea) {
+    var mk = idea.market;
+    var acv = mk.syncAcv ? idea.econ.price * 12 : mk.acv;
+    var tamC = mk.customers, samC = tamC * mk.serv / 100, somC = samC * mk.obt / 100;
+    var r = { acv: acv, tamC: tamC, samC: samC, somC: somC, tam: tamC * acv, sam: samC * acv, som: somC * acv, flags: [] };
+    if (acv <= 0) { r.flags.push({ l: 'warn', t: 'No revenue per customer', d: 'Set a price in Unit economics or enter an annual value to size the market.' }); return r; }
+    var need = Math.ceil(1e6 / acv);
+    if (r.som >= 1e6) r.flags.push({ l: 'good', t: 'SOM clears $1M ARR', d: 'You need about ' + count(need) + ' customers for $1M a year, ' + pct(samC > 0 ? need / samC * 100 : 0, 1) + ' of your serviceable market. That is a real business.' });
+    else r.flags.push({ l: 'bad', t: 'Obtainable market is under $1M ARR', d: 'You would need ' + count(need) + ' customers for $1M a year but only ' + count(somC) + ' look obtainable. Widen the segment, raise price, or add a second product.' });
+    if (r.sam >= 1e9) r.flags.push({ l: 'good', t: 'Venture-scale SAM (' + money(r.sam) + ')', d: 'Seed investors usually want a believable path to $100M ARR, which needs a serviceable market of roughly $1B or more.' });
+    else if (r.sam >= 1e8) r.flags.push({ l: 'info', t: 'SAM of ' + money(r.sam) + ' suits a bootstrapped or lightly funded company', d: 'Large enough for a very good business, but a harder venture pitch unless you can show expansion into adjacent segments.' });
+    else r.flags.push({ l: 'warn', t: 'Small SAM (' + money(r.sam) + ')', d: 'A niche can still be a great lifestyle business. Make sure CAC stays low, because there is no volume to amortize expensive channels.' });
+    if (idea.market.obt > 10) r.flags.push({ l: 'warn', t: idea.market.obt + '% obtainable share is aggressive', d: 'Few startups win more than 10% of their serviceable market within five years. Expect investors to cut this number in half.' });
+    if (acv < 100 && tamC < 1e6) r.flags.push({ l: 'warn', t: 'Low price and a small customer base', d: 'Under $100 a year per customer needs millions of customers. Either raise price or find a much larger segment.' });
+    return r;
+  }
+
+  function likelihood(score) { return score <= 2 ? 3 : score === 3 ? 2 : 1; }
+  function calcRisks(idea) {
+    var out = idea.risks.map(function (id) {
+      var r = riskById(id), sc = idea.scores[r.crit], lk = likelihood(sc), p = r.impact * lk;
+      var level = p >= 9 ? ['Critical', 'bad'] : p >= 6 ? ['High', 'warn'] : p >= 3 ? ['Medium', 'accent'] : ['Watch', ''];
+      return { r: r, score: sc, lk: lk, p: p, level: level };
+    });
+    out.sort(function (a, b) { return (b.p - a.p) || (b.r.impact - a.r.impact) || (a.score - b.score); });
+    return out;
+  }
+
+  /* ---------- SVG charts ---------- */
+  function radarSVG(idea, opts) {
+    opts = opts || {};
+    var W = 440, H = 350, cx = 220, cy = 175, R = 112, n = CRITERIA.length, s = '';
+    function pt(i, v) { var a = -Math.PI / 2 + i * 2 * Math.PI / n; return [cx + Math.cos(a) * R * v / 5, cy + Math.sin(a) * R * v / 5]; }
+    s += '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Radar chart of scorecard criteria">';
+    for (var ring = 1; ring <= 5; ring++) {
+      var poly = [];
+      for (var i = 0; i < n; i++) poly.push(pt(i, ring).map(function (x) { return x.toFixed(1); }).join(','));
+      s += '<polygon points="' + poly.join(' ') + '" fill="' + (ring === 5 ? 'var(--surface-2)' : 'none') + '" stroke="var(--line' + (ring === 5 ? '-2' : '') + ')" stroke-width="1"' + (ring === 4 ? ' stroke-dasharray="4 3" stroke="var(--good)"' : '') + '/>';
+    }
+    for (i = 0; i < n; i++) { var p5 = pt(i, 5); s += '<line x1="' + cx + '" y1="' + cy + '" x2="' + p5[0].toFixed(1) + '" y2="' + p5[1].toFixed(1) + '" class="grid-l"/>'; }
+    var vals = CRITERIA.map(function (c, i) { return pt(i, idea.scores[c.id]); });
+    s += '<polygon points="' + vals.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ') + '" fill="var(--accent)" fill-opacity=".18" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>';
+    vals.forEach(function (p, i) {
+      var sc = idea.scores[CRITERIA[i].id];
+      s += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="4" fill="' + (sc <= 2 ? 'var(--bad)' : 'var(--accent)') + '" stroke="var(--surface)" stroke-width="1.5"/>';
+    });
+    CRITERIA.forEach(function (c, i) {
+      var a = -Math.PI / 2 + i * 2 * Math.PI / n, lx = cx + Math.cos(a) * (R + 16), ly = cy + Math.sin(a) * (R + 16);
+      var cos = Math.cos(a), anchor = Math.abs(cos) < 0.2 ? 'middle' : cos > 0 ? 'start' : 'end';
+      var lines = c.radar, dy = Math.sin(a) < -0.5 ? -(lines.length - 1) * 13 - 2 : Math.sin(a) > 0.5 ? 10 : -(lines.length - 1) * 6.5 + 4;
+      s += '<text text-anchor="' + anchor + '" class="lbl" x="' + lx.toFixed(1) + '" y="' + (ly + dy).toFixed(1) + '">';
+      lines.forEach(function (ln, k) { s += '<tspan x="' + lx.toFixed(1) + '" dy="' + (k ? 13 : 0) + '">' + h(ln) + (k === lines.length - 1 ? ' <tspan style="fill:var(--ink-3);font-weight:500">' + idea.scores[c.id] + '</tspan>' : '') + '</tspan>'; });
+      s += '</text>';
+    });
+    s += '</svg>';
+    return s;
+  }
+
+  function niceTicks(min, max, n) {
+    if (!(max > min)) { max = min + 1; }
+    var step0 = (max - min) / n, mag = Math.pow(10, Math.floor(Math.log10(step0))), err = step0 / mag;
+    var step = err >= 7.5 ? 10 * mag : err >= 3.5 ? 5 * mag : err >= 1.5 ? 2 * mag : mag;
+    var lo = Math.floor(min / step) * step, hi = Math.ceil(max / step) * step, t = [];
+    for (var v = lo; v <= hi + step / 2; v += step) t.push(Math.abs(v) < step / 1e6 ? 0 : v);
+    return { lo: lo, hi: hi, ticks: t };
+  }
+
+  function cohortSVG(ec) {
+    var W = 680, H = 290, L = 58, Rm = 14, T = 14, B = 30, pw = W - L - Rm, ph = H - T - B, pts = ec.pts;
+    var mn = 0, mx = 0;
+    pts.forEach(function (p) { mn = Math.min(mn, p.net, p.rev); mx = Math.max(mx, p.net, p.rev); });
+    var nt = niceTicks(mn, mx, 5);
+    function X(m) { return L + m / 24 * pw; }
+    function Y(v) { return T + (nt.hi - v) / (nt.hi - nt.lo) * ph; }
+    var s = '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Cumulative revenue and profit after acquisition cost over 24 months">';
+    s += '<defs><clipPath id="cpAbove"><rect x="' + L + '" y="' + T + '" width="' + pw + '" height="' + Math.max(0, Y(0) - T).toFixed(1) + '"/></clipPath>' +
+      '<clipPath id="cpBelow"><rect x="' + L + '" y="' + Y(0).toFixed(1) + '" width="' + pw + '" height="' + Math.max(0, T + ph - Y(0)).toFixed(1) + '"/></clipPath></defs>';
+    nt.ticks.forEach(function (v) {
+      var y = Y(v).toFixed(1);
+      s += '<line x1="' + L + '" x2="' + (L + pw) + '" y1="' + y + '" y2="' + y + '" class="grid-l"/>';
+      s += '<text x="' + (L - 8) + '" y="' + (+y + 4) + '" text-anchor="end" class="tick">' + money(v) + '</text>';
+    });
+    [0, 3, 6, 9, 12, 15, 18, 21, 24].forEach(function (m) {
+      s += '<text x="' + X(m).toFixed(1) + '" y="' + (H - 10) + '" text-anchor="middle" class="tick">' + (m === 0 ? 'M0' : m) + '</text>';
+    });
+    var revLine = pts.map(function (p) { return X(p.m).toFixed(1) + ',' + Y(p.rev).toFixed(1); }).join(' L');
+    s += '<path d="M' + X(0) + ',' + Y(0).toFixed(1) + ' L' + revLine + ' L' + X(24) + ',' + Y(0).toFixed(1) + 'Z" fill="var(--series-2)" fill-opacity=".35"/>';
+    s += '<path d="M' + revLine + '" fill="none" stroke="var(--series-2)" stroke-width="2"/>';
+    var netLine = pts.map(function (p) { return X(p.m).toFixed(1) + ',' + Y(p.net).toFixed(1); }).join(' L');
+    var netArea = 'M' + X(0) + ',' + Y(0).toFixed(1) + ' L' + netLine + ' L' + X(24) + ',' + Y(0).toFixed(1) + 'Z';
+    s += '<path d="' + netArea + '" fill="var(--good)" fill-opacity=".16" clip-path="url(#cpAbove)"/>';
+    s += '<path d="' + netArea + '" fill="var(--bad)" fill-opacity=".14" clip-path="url(#cpBelow)"/>';
+    s += '<path d="M' + netLine + '" fill="none" stroke="var(--good)" stroke-width="2.5" clip-path="url(#cpAbove)" stroke-linejoin="round"/>';
+    s += '<path d="M' + netLine + '" fill="none" stroke="var(--bad)" stroke-width="2.5" clip-path="url(#cpBelow)" stroke-linejoin="round"/>';
+    s += '<line x1="' + L + '" x2="' + (L + pw) + '" y1="' + Y(0).toFixed(1) + '" y2="' + Y(0).toFixed(1) + '" stroke="var(--ink-3)" stroke-width="1"/>';
+    if (ec.breakeven && ec.breakeven > 0) {
+      var bx = X(ec.breakeven), by = Y(pts[ec.breakeven].net);
+      s += '<line x1="' + bx.toFixed(1) + '" x2="' + bx.toFixed(1) + '" y1="' + T + '" y2="' + (T + ph) + '" stroke="var(--ink-3)" stroke-dasharray="3 3"/>';
+      s += '<circle cx="' + bx.toFixed(1) + '" cy="' + by.toFixed(1) + '" r="4.5" fill="var(--good)" stroke="var(--surface)" stroke-width="2"/>';
+      var anchor = ec.breakeven > 18 ? 'end' : 'start', off = ec.breakeven > 18 ? -6 : 6;
+      s += '<text x="' + (bx + off).toFixed(1) + '" y="' + (T + 12) + '" text-anchor="' + anchor + '" class="lbl">Breakeven month ' + ec.breakeven + '</text>';
+    } else if (ec.breakeven === null) {
+      s += '<text x="' + (L + pw - 6) + '" y="' + (T + 12) + '" text-anchor="end" class="lbl" style="fill:var(--bad)">No breakeven within 24 months</text>';
+    }
+    var last = pts[24];
+    s += '<text x="' + (L + pw - 4) + '" y="' + (Y(last.net) + (last.net < last.rev ? 16 : -8)).toFixed(1) + '" text-anchor="end" class="tick" style="font-weight:700;fill:' + (last.net >= 0 ? 'var(--good)' : 'var(--bad)') + '">' + money(last.net) + '</text>';
+    s += '</svg>';
+    return s;
+  }
+
+  function marketSVG(mr) {
+    var W = 300, H = 260, cx = 130, bottom = 248, Rmax = 118, s = '';
+    var tam = mr.tam > 0 ? mr.tam : 1;
+    function rad(v, minR) { return Math.max(minR, Rmax * Math.sqrt(Math.max(0, v) / tam)); }
+    var rT = mr.tam > 0 ? Rmax : 30, rS = Math.min(rT - 6, rad(mr.sam, 16)), rO = Math.min(rS - 4, rad(mr.som, 6));
+    if (mr.tam <= 0) { rS = 20; rO = 8; }
+    s += '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Nested circles: TAM ' + money(mr.tam) + ', SAM ' + money(mr.sam) + ', SOM ' + money(mr.som) + '">';
+    s += '<circle cx="' + cx + '" cy="' + (bottom - rT) + '" r="' + rT + '" fill="var(--accent)" fill-opacity=".09" stroke="var(--accent)" stroke-opacity=".45"/>';
+    s += '<circle cx="' + cx + '" cy="' + (bottom - rS).toFixed(1) + '" r="' + rS.toFixed(1) + '" fill="var(--accent)" fill-opacity=".2" stroke="var(--accent)" stroke-opacity=".7"/>';
+    s += '<circle cx="' + cx + '" cy="' + (bottom - rO).toFixed(1) + '" r="' + rO.toFixed(1) + '" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>';
+    function label(txt, val, y, tx) {
+      return '<line x1="' + cx + '" x2="' + (tx - 6) + '" y1="' + y.toFixed(1) + '" y2="' + y.toFixed(1) + '" stroke="var(--ink-3)" stroke-width="1" stroke-dasharray="2 2"/>' +
+        '<circle cx="' + cx + '" cy="' + y.toFixed(1) + '" r="2" fill="var(--ink-2)"/>' +
+        '<text x="' + tx + '" y="' + (y - 2).toFixed(1) + '" class="lbl">' + txt + '</text>' +
+        '<text x="' + tx + '" y="' + (y + 12).toFixed(1) + '" class="tick">' + money(val) + '</text>';
+    }
+    var yT = bottom - 2 * rT + 14, yS = bottom - 2 * rS + 10, yO = bottom - rO;
+    if (yS - yT < 30) yS = yT + 30;
+    if (yO - yS < 30) yO = yS + 30;
+    s += label('TAM', mr.tam, yT, 258 - 0) + label('SAM', mr.sam, yS, 258) + label('SOM', mr.som, Math.min(yO, bottom - 6), 258);
+    s += '</svg>';
+    return s.replace(/x="258"/g, 'x="256" text-anchor="start"');
+  }
+
+  /* ---------- Rendering ---------- */
+  function setVal(id, v) { var el = document.getElementById(id); if (!el) return; if (el.type === 'checkbox') el.checked = !!v; else if (document.activeElement !== el) el.value = v; }
+
+  function renderSwitcher() {
+    var sel = $('#ideaSel');
+    sel.innerHTML = store.ideas.map(function (i) { return '<option value="' + h(i.id) + '"' + (i.id === store.currentId ? ' selected' : '') + '>' + h(i.name || 'Untitled idea') + '</option>'; }).join('');
+  }
+
+  function renderInputs() {
+    var i = cur();
+    ['name', 'oneLiner', 'customer', 'problem', 'alternative', 'channel'].forEach(function (k) { setVal('f-' + k, i[k]); });
+    setVal('e-price', i.econ.price); setVal('e-margin', i.econ.margin); setVal('e-cac', i.econ.cac); setVal('e-churn', i.econ.churn); setVal('e-cycle', i.econ.cycle);
+    setVal('m-customers', i.market.customers); setVal('m-serv', i.market.serv); setVal('m-obt', i.market.obt); setVal('m-sync', i.market.syncAcv);
+    renderCrit();
+    renderRiskLib();
+  }
+
+  function renderCrit() {
+    var i = cur();
+    $('#critGrid').innerHTML = CRITERIA.map(function (c) {
+      var opts = c.rubric.map(function (txt, k) {
+        var v = k + 1;
+        return '<label class="opt"><input type="radio" name="s-' + c.id + '" value="' + v + '" data-k="scores.' + c.id + '"' + (i.scores[c.id] === v ? ' checked' : '') + '>' +
+          '<span class="opt-body"><span class="num">' + v + '</span><span>' + h(txt) + '</span></span></label>';
+      }).join('');
+      return '<fieldset class="crit"><legend><span class="crit-head"><span class="crit-name">' + h(c.name) + '</span><span class="crit-score" id="cs-' + c.id + '">' + i.scores[c.id] + ' / 5</span></span></legend>' +
+        '<p class="crit-q">' + h(c.q) + '</p><div class="opts">' + opts + '</div>' +
+        '<div class="weight"><label for="w-' + c.id + '">Weight</label><input type="range" id="w-' + c.id + '" min="0" max="30" step="1" value="' + i.weights[c.id] + '" data-k="weights.' + c.id + '"><output id="wo-' + c.id + '" for="w-' + c.id + '"></output></div></fieldset>';
+    }).join('');
+  }
+
+  function renderScoreOut(sc) {
+    var i = cur();
+    CRITERIA.forEach(function (c) {
+      var o = document.getElementById('wo-' + c.id); if (o) o.textContent = sc.totalW > 0 ? Math.round(i.weights[c.id] / sc.totalW * 100) + '%' : '0%';
+      var cs = document.getElementById('cs-' + c.id); if (cs) cs.textContent = i.scores[c.id] + ' / 5';
+    });
+    var bandIdx = BANDS.indexOf(sc.band);
+    var weak = sc.weakest.map(function (c) {
+      var v = i.scores[c.id];
+      var adv = v <= 2 ? c.low : v === 3 ? c.mid : 'Already strong. Your weakest links are relative here, so keep this criterion strong and spend effort on distribution.';
+      return '<div class="weak-item"><div class="t"><span>' + h(c.name) + '</span><span class="pill ' + (v <= 2 ? 'bad' : v === 3 ? 'warn' : 'good') + '">' + v + ' / 5</span></div><p>' + h(adv) + '</p></div>';
+    }).join('');
+    $('#scoreOut').innerHTML =
+      '<h3>Overall</h3>' +
+      '<div class="score-big"><span class="num">' + sc.pct + '</span><span class="of">/ 100 &middot; weighted avg ' + sc.avg.toFixed(2) + ' of 5</span></div>' +
+      '<div style="margin-top:8px"><span class="verdict ' + sc.band.cls + '">' + h(sc.band.label) + '</span></div>' +
+      '<div class="bandbar" aria-hidden="true"><span class="b1' + (bandIdx === 0 ? ' on' : '') + '"></span><span class="b2' + (bandIdx === 1 ? ' on' : '') + '"></span><span class="b3' + (bandIdx === 2 ? ' on' : '') + '"></span><span class="b4' + (bandIdx === 3 ? ' on' : '') + '"></span><i class="bandmarker" style="left:' + clamp(sc.pct, 0, 100) + '%"></i></div>' +
+      '<div class="bandlabels" aria-hidden="true"><span>Kill</span><span>Wedge</span><span>Test</span><span>Go</span></div>' +
+      '<p class="note" style="margin:10px 0 0;color:var(--ink-2)">' + h(sc.band.text) + '</p>' +
+      (sc.gate ? '<div class="flag warn gate"><span class="ico">!</span><span>' + h(sc.gate) + '</span></div>' : '') +
+      '<div style="margin-top:10px">' + radarSVG(i) + '</div>' +
+      '<p class="note" style="margin:-4px 0 0;text-align:center">Dashed green ring marks 4 of 5, the bar for a fundable criterion.</p>' +
+      '<div class="weak"><h3 style="margin-bottom:10px">Weakest links and what to do</h3>' + weak + '</div>';
+  }
+
+  function renderLint() {
+    var i = cur(), out = [];
+    if (!i.name.trim() || i.name === 'Untitled idea') out.push({ l: 'info', t: 'Name it', d: 'A working name makes the idea concrete enough to criticize. You can change it later.' });
+    var ol = i.oneLiner.trim();
+    if (!ol) out.push({ l: 'warn', t: 'Missing one-liner', d: 'Try: "We help [customer] [do job] by [how], unlike [alternative]." If you cannot say it in one sentence, you cannot sell it.' });
+    else if (ol.length > 170) out.push({ l: 'warn', t: 'One-liner is ' + ol.length + ' characters', d: 'Aim for under 140. Cut adjectives first, then the "how". Keep customer, outcome, and alternative.' });
+    var cu = i.customer.trim();
+    if (!cu) out.push({ l: 'warn', t: 'No target customer', d: 'Name a segment you could list 50 of by name: role, company type, size, and context.' });
+    else if (/\b(everyone|anyone|everybody|anybody|all people|all businesses|people|consumers|users|businesses|companies)\b/i.test(cu) && cu.length < 60) out.push({ l: 'warn', t: 'Customer is too broad', d: '"Everyone" is not a customer. Add the role, the size, and the moment they feel the pain, until you could find 50 of them on LinkedIn or a directory.' });
+    var pr = i.problem.trim();
+    if (!pr) out.push({ l: 'warn', t: 'No problem statement', d: 'Describe what breaks, how often, and what it costs them.' });
+    else if (!/\d/.test(pr)) out.push({ l: 'info', t: 'Quantify the problem', d: 'Add a number: hours lost, dollars wasted, or how often it happens. Unquantified pain is easy to ignore, for buyers and for you.' });
+    var al = i.alternative.trim();
+    if (!al) out.push({ l: 'warn', t: 'No current alternative', d: 'There is always one, even "a spreadsheet" or "do nothing". It is your real competitor and your pricing anchor.' });
+    else if (/\b(none|nothing exists|no one|nobody|no competition|no competitors)\b/i.test(al)) out.push({ l: 'bad', t: '"No competition" is a red flag', d: 'It usually means no market or not enough looking. Write down what people do today instead, however clumsy.' });
+    var ch = i.channel.trim();
+    if (!ch) out.push({ l: 'warn', t: 'No acquisition channel', d: 'How will the first 100 customers hear about you? Name communities, keywords, partners, or lists.' });
+    else if (/\b(social media|marketing|go viral|viral|word of mouth|seo|ads|advertising)\b/i.test(ch) && ch.length < 60) out.push({ l: 'info', t: 'Make the channel specific', d: '"Social media" is not a plan. Which community, which keyword, which newsletter, which partner? Specific channels are testable.' });
+    if (!out.length) out.push({ l: 'good', t: 'Sharp intake', d: 'Specific customer, quantified problem, real alternative, named channel. This is ready to score.' });
+    $('#lint').innerHTML = out.map(flagHTML).join('');
+  }
+
+  function flagHTML(f) {
+    var ico = { bad: '!', warn: '!', good: '&#10003;', info: 'i' }[f.l] || 'i';
+    return '<li class="flag ' + f.l + '"><span class="ico" aria-hidden="true">' + ico + '</span><span><b>' + h(f.t) + '</b>' + h(f.d) + '</span></li>';
+  }
+
+  function renderEcon(ec) {
+    var e = cur().econ;
+    var rTone = ec.ratio === null ? 'warn' : ec.ratio < 1 ? 'bad' : ec.ratio < 3 ? 'warn' : 'good';
+    var pTone = ec.payback === null ? 'bad' : (e.cac > 0 && ec.payback > ec.life) || ec.payback > 18 ? 'bad' : ec.payback > 12 ? 'warn' : 'good';
+    var lTone = e.churn > 10 ? 'bad' : e.churn > 5 ? 'warn' : '';
+    $('#econTiles').innerHTML =
+      tile('Lifetime value', money(ec.ltv), money(ec.gpm) + ' gross profit / mo', '') +
+      tile('LTV : CAC', ec.ratio === null ? 'No CAC' : ec.ratio.toFixed(1) + 'x', 'Target 3x or better', rTone) +
+      tile('CAC payback', months(ec.payback), 'Target under 12 mo', pTone) +
+      tile('Avg lifetime', months(ec.life) + (ec.capped ? '+' : ''), e.churn + '% churn / mo', lTone);
+    $('#cohortChart').innerHTML = cohortSVG(ec);
+    var last = ec.pts[24];
+    $('#cohortNote').textContent = 'Acquiring 100 customers costs ' + money(e.cac * 100) + '. By month 24, ' + Math.round(ec.endActive) + ' remain, they have paid ' + money(last.rev) + ' in total, and the cohort is ' + (last.net >= 0 ? money(last.net) + ' in profit' : money(-last.net) + ' underwater') + ' after acquisition cost.' + (ec.delay > 0 ? ' Revenue starts after a ' + ec.delay + '-month sales cycle.' : '');
+    $('#econFlags').innerHTML = ec.flags.map(flagHTML).join('');
+    var f = ec.fixes;
+    if (f) {
+      var items = [];
+      if (f.price !== null) items.push('Raise price to <b style="display:inline">' + money(f.price) + '/mo</b> (from ' + money(e.price) + ')');
+      if (f.churn > 0) items.push('Cut churn to <b style="display:inline">' + pct(f.churn, f.churn < 1 ? 2 : 1) + '/mo</b> (from ' + pct(e.churn, 1) + ')');
+      items.push('Cut CAC to <b style="display:inline">' + money(f.cac) + '</b> (from ' + money(e.cac) + ')');
+      $('#econFixes').innerHTML = '<div class="fixes"><b>To reach 3:1, change any one lever:</b><ul>' + items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>';
+    } else $('#econFixes').innerHTML = '';
+  }
+  function tile(k, v, s, tone) { return '<div class="tile"><div class="k">' + k + '</div><div class="v' + (tone ? ' tone-' + tone : '') + '">' + h(v) + '</div><div class="s">' + h(s) + '</div></div>'; }
+
+  function renderMarket(mr) {
+    var i = cur();
+    var acvEl = $('#m-acv');
+    acvEl.disabled = i.market.syncAcv;
+    if (i.market.syncAcv || document.activeElement !== acvEl) acvEl.value = Math.round(mr.acv * 100) / 100;
+    $('#marketChart').innerHTML = marketSVG(mr);
+    $('#marketRows').innerHTML =
+      mrow('TAM', 'Total addressable: every potential customer x ' + money(mr.acv) + '/yr', mr.tam, mr.tamC, 'var(--accent)', '.35') +
+      mrow('SAM', 'Serviceable: the ' + pct(i.market.serv, 1) + ' you can reach today', mr.sam, mr.samC, 'var(--accent)', '.6') +
+      mrow('SOM', 'Obtainable: ' + pct(i.market.obt, 1) + ' of SAM in 3 to 5 years', mr.som, mr.somC, 'var(--accent)', '1');
+    $('#marketFlags').innerHTML = mr.flags.map(flagHTML).join('');
+  }
+  function mrow(tag, d, v, c, col, op) { return '<div class="mrow"><span class="tag" style="color:' + col + ';opacity:' + (op === '1' ? 1 : 0.95) + '">' + tag + '</span><span class="d">' + h(d) + '</span><span class="val">' + money(v) + '<small>' + count(c) + ' customers</small></span></div>'; }
+
+  function renderRiskLib() {
+    var i = cur();
+    $('#riskLib').innerHTML = CATS.map(function (cat) {
+      var items = RISKS.filter(function (r) { return r.cat === cat[0]; });
+      var on = items.filter(function (r) { return i.risks.indexOf(r.id) >= 0; }).length;
+      return '<div class="cat"><h4><span>' + cat[1] + '</span><span class="pill" id="cc-' + cat[0] + '">' + on + ' / ' + items.length + '</span></h4>' +
+        items.map(function (r) {
+          var checked = i.risks.indexOf(r.id) >= 0, sug = i.scores[r.crit] <= 2;
+          return '<label class="fm' + (checked ? ' on' : '') + '" id="fm-' + r.id + '"><input type="checkbox" data-risk="' + r.id + '"' + (checked ? ' checked' : '') + '>' +
+            '<span><span class="t">' + h(r.t) + (sug ? ' <span class="pill bad" title="Linked to a low scorecard criterion">Suggested</span>' : '') + '</span><span class="d" style="display:block">' + h(r.d) + '</span></span></label>';
+        }).join('') + '</div>';
+    }).join('');
+  }
+
+  function renderRiskOut(rk) {
+    var i = cur();
+    CATS.forEach(function (cat) {
+      var items = RISKS.filter(function (r) { return r.cat === cat[0]; });
+      var on = items.filter(function (r) { return i.risks.indexOf(r.id) >= 0; }).length;
+      var el = document.getElementById('cc-' + cat[0]); if (el) el.textContent = on + ' / ' + items.length;
+    });
+    RISKS.forEach(function (r) { var el = document.getElementById('fm-' + r.id); if (el) el.classList.toggle('on', i.risks.indexOf(r.id) >= 0); });
+    $('#riskOutH').textContent = rk.length ? 'Prioritized risks (' + rk.length + ')' : 'Prioritized risks';
+    if (!rk.length) { $('#riskOut').innerHTML = '<div class="empty">Tick the failure modes that could plausibly kill this idea. Be honest: the point is to find them now, while they are cheap to test.</div>'; return; }
+    $('#riskOut').innerHTML = rk.map(function (x, n) {
+      var c = critById(x.r.crit);
+      return '<div class="risk"><div class="risk-h"><span class="rk">' + (n + 1) + '</span><div><div class="t">' + h(x.r.t) + '</div><div class="why">Impact ' + ['low', 'medium', 'high'][x.r.impact - 1] + ', likelihood ' + ['low', 'medium', 'high'][x.lk - 1] + ' from your ' + h(c.name.toLowerCase()) + ' score of ' + x.score + '/5</div></div>' +
+        '<span class="pill ' + x.level[1] + '">' + x.level[0] + '</span></div>' +
+        '<div class="exp"><div><span class="k">Test</span><span>' + h(x.r.x) + '</span></div><div><span class="k">Pass if</span><span>' + h(x.r.p) + '</span></div><div><span class="k">Cost</span><span>' + h(x.r.c) + '</span></div></div></div>';
+    }).join('');
+  }
+
+  function renderKpis(sc, ec, mr, rk) {
+    var crit = rk.filter(function (x) { return x.level[0] === 'Critical'; }).length;
+    var rTone = ec.ratio === null ? 'warn' : ec.ratio < 1 ? 'bad' : ec.ratio < 3 ? 'warn' : 'good';
+    var pTone = ec.payback === null ? 'bad' : ec.payback > 18 || (cur().econ.cac > 0 && ec.payback > ec.life) ? 'bad' : ec.payback > 12 ? 'warn' : 'good';
+    $('#kpis').innerHTML =
+      kpi('score', 'Verdict', '<span class="tone-' + sc.band.tone + '">' + h(sc.band.label) + '</span>') +
+      kpi('score', 'Score', sc.pct + '<small> / 100</small>') +
+      kpi('econ', 'LTV : CAC', '<span class="tone-' + rTone + '">' + (ec.ratio === null ? 'No CAC' : ec.ratio.toFixed(1) + 'x') + '</span>') +
+      kpi('econ', 'Payback', '<span class="tone-' + pTone + '">' + months(ec.payback) + '</span>') +
+      kpi('market', 'SOM', money(mr.som) + '<small> /yr</small>') +
+      kpi('risk', 'Critical risks', '<span class="' + (crit ? 'tone-bad' : '') + '">' + crit + '</span><small> of ' + rk.length + ' ticked</small>');
+  }
+  function kpi(tab, k, v) { return '<button type="button" class="kpi" data-goto="' + tab + '"><span class="k">' + k + '</span><span class="v">' + v + '</span></button>'; }
+
+  function nextSteps(sc, rk) {
+    var steps = [], i = cur();
+    var w0 = sc.weakest[0];
+    if (w0 && i.scores[w0.id] <= 3) steps.push('Fix ' + w0.name.toLowerCase() + ': ' + w0.act);
+    rk.slice(0, 2).forEach(function (x) { steps.push(x.r.t + ': ' + x.r.x + ' Pass if ' + x.r.p.charAt(0).toLowerCase() + x.r.p.slice(1)); });
+    var w1 = sc.weakest[1];
+    if (steps.length < 3 && w1 && i.scores[w1.id] <= 3) steps.push('Fix ' + w1.name.toLowerCase() + ': ' + w1.act);
+    if (steps.length < 3) steps.push('Book 5 customer conversations and ask each to pre-pay or sign a letter of intent.');
+    return steps.slice(0, 3);
+  }
+
+  function renderMemo(sc, ec, mr, rk) {
+    var i = cur(), e = i.econ, date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    var critRows = CRITERIA.map(function (c) {
+      var w = sc.totalW > 0 ? Math.round(i.weights[c.id] / sc.totalW * 100) : 0, v = i.scores[c.id];
+      return '<tr><td>' + h(c.name) + '</td><td class="r">' + w + '%</td><td style="width:34%"><div class="bar"><i style="width:' + (v * 20) + '%;background:' + (v <= 2 ? 'var(--bad)' : v >= 4 ? 'var(--good)' : 'var(--accent)') + '"></i></div></td><td class="r"><b>' + v + '</b></td></tr>';
+    }).join('');
+    var econFlags = ec.flags.filter(function (f) { return f.l === 'bad' || f.l === 'warn'; });
+    var risksHTML = rk.length ? '<table><thead><tr><th style="width:28%">Risk</th><th style="width:12%">Priority</th><th>Cheapest test, and the pass signal</th></tr></thead><tbody>' + rk.slice(0, 5).map(function (x) {
+      return '<tr><td><b>' + h(x.r.t) + '</b></td><td><span class="pill ' + x.level[1] + '">' + x.level[0] + '</span></td><td>' + h(x.r.x) + ' <span style="color:var(--ink-3)">Pass if: ' + h(x.r.p) + '</span></td></tr>';
+    }).join('') + '</tbody></table>' : '<p class="note">No pre-mortem risks selected yet.</p>';
+    $('#memo').innerHTML =
+      '<div class="memo-top"><span>Investment memo</span><span>' + h(date) + '</span></div>' +
+      '<h2>' + h(i.name || 'Untitled idea') + '</h2>' +
+      '<p class="ol">' + (i.oneLiner ? h(i.oneLiner) : '<span style="color:var(--ink-3)">Add a one-liner in Intake.</span>') + '</p>' +
+      '<div class="bottomline"><span class="verdict ' + sc.band.cls + '" style="margin-right:8px">' + h(sc.band.label) + '</span><b>' + sc.pct + '/100.</b> ' + h(sc.band.text) + (sc.gate ? ' ' + h(sc.gate) : '') + '</div>' +
+      '<div class="memo-grid">' +
+        '<div><h3>Thesis</h3><dl>' +
+          '<dt>Customer</dt><dd>' + h(i.customer || 'Not specified') + '</dd>' +
+          '<dt>Problem</dt><dd>' + h(i.problem || 'Not specified') + '</dd>' +
+          '<dt>Alternative</dt><dd>' + h(i.alternative || 'Not specified') + '</dd>' +
+          '<dt>Channel</dt><dd>' + h(i.channel || 'Not specified') + '</dd></dl></div>' +
+        '<div><h3>Scorecard</h3><table><thead><tr><th>Criterion</th><th class="r">Wt</th><th></th><th class="r">Score</th></tr></thead><tbody>' + critRows + '</tbody></table>' +
+          '<p class="note" style="margin:8px 0 0">Weakest: ' + sc.weakest.map(function (c) { return h(c.name) + ' (' + i.scores[c.id] + ')'; }).join(', ') + '.</p></div>' +
+      '</div>' +
+      '<div class="memo-grid">' +
+        '<div><h3>Unit economics</h3><table><tbody>' +
+          '<tr><td>Price / gross margin</td><td class="r">' + money(e.price) + '/mo at ' + pct(e.margin) + '</td></tr>' +
+          '<tr><td>CAC / monthly churn</td><td class="r">' + money(e.cac) + ' / ' + pct(e.churn, 1) + '</td></tr>' +
+          '<tr><td>Lifetime value</td><td class="r"><b>' + money(ec.ltv) + '</b></td></tr>' +
+          '<tr><td>LTV : CAC</td><td class="r"><b>' + (ec.ratio === null ? 'No CAC' : ec.ratio.toFixed(1) + 'x') + '</b></td></tr>' +
+          '<tr><td>CAC payback</td><td class="r"><b>' + months(ec.payback) + '</b></td></tr>' +
+          '<tr><td>24-mo cohort of 100</td><td class="r">' + money(ec.pts[24].net) + ' after CAC</td></tr>' +
+        '</tbody></table>' +
+        (econFlags.length ? '<p class="note" style="margin:8px 0 0">Flags: ' + econFlags.map(function (f) { return h(f.t); }).join('; ') + '.</p>' : '<p class="note" style="margin:8px 0 0">No unhealthy numbers flagged.</p>') + '</div>' +
+        '<div><h3>Market, bottom-up</h3><table><tbody>' +
+          '<tr><td>TAM</td><td class="r"><b>' + money(mr.tam) + '</b></td><td class="r" style="color:var(--ink-3)">' + count(mr.tamC) + '</td></tr>' +
+          '<tr><td>SAM (' + pct(i.market.serv, 1) + ')</td><td class="r"><b>' + money(mr.sam) + '</b></td><td class="r" style="color:var(--ink-3)">' + count(mr.samC) + '</td></tr>' +
+          '<tr><td>SOM (' + pct(i.market.obt, 1) + ')</td><td class="r"><b>' + money(mr.som) + '</b></td><td class="r" style="color:var(--ink-3)">' + count(mr.somC) + '</td></tr>' +
+          '<tr><td>Revenue per customer</td><td class="r" colspan="2">' + money(mr.acv) + '/yr</td></tr>' +
+        '</tbody></table></div>' +
+      '</div>' +
+      '<h3>Top risks and experiments</h3>' + risksHTML +
+      '<h3>Next 7 days</h3><ol class="next">' + nextSteps(sc, rk).map(function (s) { return '<li>' + h(s) + '</li>'; }).join('') + '</ol>' +
+      '<div class="foot"><span>Prepared with Venture Lens, TBD Lab</span><span>Scores are founder self-assessments. Validate with customers.</span></div>';
+  }
+
+  function markdown() {
+    var i = cur(), sc = calcScore(i), ec = calcEcon(i.econ), mr = calcMarket(i), rk = calcRisks(i), e = i.econ;
+    var cell = function (s) { return String(s).replace(/\|/g, '\\|').replace(/\n+/g, ' '); };
+    var L = [];
+    L.push('# ' + (i.name || 'Untitled idea'));
+    if (i.oneLiner) L.push('', '> ' + i.oneLiner);
+    L.push('', '**Verdict: ' + sc.band.label + '** (' + sc.pct + '/100). ' + sc.band.text + (sc.gate ? ' ' + sc.gate : ''));
+    L.push('', '## Thesis', '', '- **Customer:** ' + (i.customer || 'Not specified'), '- **Problem:** ' + (i.problem || 'Not specified'), '- **Current alternative:** ' + (i.alternative || 'Not specified'), '- **Channel:** ' + (i.channel || 'Not specified'));
+    L.push('', '## Scorecard', '', '| Criterion | Weight | Score |', '| --- | ---: | ---: |');
+    CRITERIA.forEach(function (c) { L.push('| ' + cell(c.name) + ' | ' + (sc.totalW > 0 ? Math.round(i.weights[c.id] / sc.totalW * 100) : 0) + '% | ' + i.scores[c.id] + '/5 |'); });
+    L.push('', '**Weakest links**', '');
+    sc.weakest.forEach(function (c) { var v = i.scores[c.id]; L.push('- **' + c.name + ' (' + v + '/5):** ' + (v <= 2 ? c.low : v === 3 ? c.mid : 'Already strong.')); });
+    L.push('', '## Unit economics', '', '| Metric | Value |', '| --- | ---: |',
+      '| Price | ' + money(e.price) + '/mo |', '| Gross margin | ' + pct(e.margin) + ' |', '| CAC | ' + money(e.cac) + ' |', '| Monthly churn | ' + pct(e.churn, 1) + ' |', '| Sales cycle | ' + Math.round(e.cycle) + ' days |',
+      '| LTV | ' + money(ec.ltv) + ' |', '| LTV:CAC | ' + (ec.ratio === null ? 'No CAC' : ec.ratio.toFixed(1) + 'x') + ' |', '| CAC payback | ' + months(ec.payback) + ' |', '| 24-month cohort of 100, after CAC | ' + money(ec.pts[24].net) + ' |');
+    var fl = ec.flags.filter(function (f) { return f.l === 'bad' || f.l === 'warn'; });
+    if (fl.length) { L.push('', '**Flags**', ''); fl.forEach(function (f) { L.push('- ' + f.t + '. ' + f.d); }); }
+    L.push('', '## Market (bottom-up)', '', '| Layer | Customers | Annual revenue |', '| --- | ---: | ---: |',
+      '| TAM | ' + count(mr.tamC) + ' | ' + money(mr.tam) + ' |', '| SAM (' + pct(i.market.serv, 1) + ') | ' + count(mr.samC) + ' | ' + money(mr.sam) + ' |', '| SOM (' + pct(i.market.obt, 1) + ' of SAM) | ' + count(mr.somC) + ' | ' + money(mr.som) + ' |',
+      '', 'Revenue per customer: ' + money(mr.acv) + '/yr.');
+    L.push('', '## Top risks and experiments', '');
+    if (!rk.length) L.push('No pre-mortem risks selected.');
+    rk.forEach(function (x, n) { L.push((n + 1) + '. **' + x.r.t + '** (' + x.level[0] + '). Test: ' + x.r.x + ' Pass if: ' + x.r.p + ' Cost: ' + x.r.c + '.'); });
+    L.push('', '## Next 7 days', '');
+    nextSteps(sc, rk).forEach(function (s, n) { L.push((n + 1) + '. ' + s); });
+    L.push('', '_Prepared with Venture Lens (TBD Lab)._');
+    return L.join('\n');
+  }
+
+  function refresh() {
+    var i = cur();
+    var sc = calcScore(i), ec = calcEcon(i.econ), mr = calcMarket(i), rk = calcRisks(i);
+    renderLint(); renderScoreOut(sc); renderEcon(ec); renderMarket(mr); renderRiskOut(rk); renderKpis(sc, ec, mr, rk); renderMemo(sc, ec, mr, rk);
+  }
+  function renderAll() { renderSwitcher(); renderInputs(); refresh(); }
+
+  /* ---------- Events ---------- */
+  function toast(msg) { var t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(function () { t.classList.remove('show'); }, 2200); }
+
+  function onField(ev) {
+    var el = ev.target, k = el.getAttribute('data-k'), i = cur();
+    if (el.hasAttribute('data-risk')) {
+      var id = el.getAttribute('data-risk'), at = i.risks.indexOf(id);
+      if (el.checked && at < 0) i.risks.push(id); else if (!el.checked && at >= 0) i.risks.splice(at, 1);
+    } else if (k) {
+      var parts = k.split('.'), target = i;
+      for (var n = 0; n < parts.length - 1; n++) target = target[parts[n]];
+      var last = parts[parts.length - 1], v;
+      if (el.type === 'checkbox') v = el.checked;
+      else if (el.type === 'number' || el.type === 'range' || el.type === 'radio') {
+        var min = el.min !== '' ? +el.min : -Infinity, max = el.max !== '' ? +el.max : Infinity;
+        if (el.type === 'radio') { min = 1; max = 5; }
+        v = clamp(num(el.value, target[last]), min, max);
+        if (el.type === 'number' && el.value === '') v = 0;
+      } else v = el.value;
+      target[last] = v;
+      if (k === 'name') { var opt = $('#ideaSel').querySelector('option[value="' + i.id + '"]'); if (opt) opt.textContent = v.trim() || 'Untitled idea'; }
+      if (k.indexOf('scores.') === 0) renderRiskLibSuggest();
+    } else return;
+    i.updated = Date.now();
+    save(); refresh();
+  }
+  function renderRiskLibSuggest() {
+    /* rebuild library so "Suggested" badges track scorecard changes */
+    renderRiskLib();
+  }
+  $('#main').addEventListener('input', onField);
+  $('#main').addEventListener('change', function (ev) { if (ev.target.type === 'radio' || ev.target.type === 'checkbox') return; if (ev.target.type === 'number') { var i = cur(); renderInputsNumbers(i); } });
+  function renderInputsNumbers(i) {
+    /* re-sync number fields on blur so clamped values are visible */
+    ['price', 'margin', 'cac', 'churn', 'cycle'].forEach(function (k) { var el = $('#e-' + k); if (document.activeElement !== el) el.value = i.econ[k]; });
+    var map = { customers: 'm-customers', serv: 'm-serv', obt: 'm-obt' };
+    Object.keys(map).forEach(function (k) { var el = $('#' + map[k]); if (document.activeElement !== el) el.value = i.market[k]; });
+  }
+  $('#main').addEventListener('focusout', function (ev) { if (ev.target.type === 'number') { var el = ev.target; setTimeout(function () { var i = cur(); var k = el.getAttribute('data-k'); if (!k) return; var p = k.split('.'); el.value = i[p[0]][p[1]]; }, 0); } });
+
+  /* Tabs */
+  var TABS = ['intake', 'score', 'econ', 'market', 'risk', 'memo'];
+  function showTab(t, focus) {
+    if (TABS.indexOf(t) < 0) t = 'intake';
+    TABS.forEach(function (x) {
+      var b = document.getElementById('t-' + x), p = document.getElementById('p-' + x), on = x === t;
+      b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1; p.hidden = !on;
+    });
+    if (focus) document.getElementById('t-' + t).focus();
+    try { localStorage.setItem(TABKEY, t); } catch (e) { /* ignore */ }
+  }
+  $$('.tab').forEach(function (b) {
+    b.addEventListener('click', function () { showTab(b.getAttribute('data-tab')); });
+    b.addEventListener('keydown', function (ev) {
+      var idx = TABS.indexOf(b.getAttribute('data-tab'));
+      if (ev.key === 'ArrowRight') { ev.preventDefault(); showTab(TABS[(idx + 1) % TABS.length], true); }
+      if (ev.key === 'ArrowLeft') { ev.preventDefault(); showTab(TABS[(idx + TABS.length - 1) % TABS.length], true); }
+      if (ev.key === 'Home') { ev.preventDefault(); showTab(TABS[0], true); }
+      if (ev.key === 'End') { ev.preventDefault(); showTab(TABS[TABS.length - 1], true); }
+    });
+  });
+  $('#kpis').addEventListener('click', function (ev) { var b = ev.target.closest('[data-goto]'); if (b) { showTab(b.getAttribute('data-goto')); window.scrollTo({ top: 0, behavior: 'smooth' }); } });
+
+  /* Idea management */
+  function switchTo(id) { store.currentId = id; save(); renderAll(); }
+  $('#ideaSel').addEventListener('change', function (ev) { switchTo(ev.target.value); });
+  $('#newBtn').addEventListener('click', function () { var n = blankIdea(); store.ideas.push(n); switchTo(n.id); showTab('intake'); var f = $('#f-name'); f.focus(); f.select(); toast('New idea created'); });
+  var menu = $('#moreMenu');
+  function closeMenu() { menu.open = false; }
+  document.addEventListener('click', function (ev) { if (menu.open && !menu.contains(ev.target)) closeMenu(); });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && menu.open) { closeMenu(); menu.querySelector('summary').focus(); } });
+  $$('[data-ex]').forEach(function (b) {
+    b.addEventListener('click', function () { var n = fromExample(+b.getAttribute('data-ex')); store.ideas.push(n); closeMenu(); switchTo(n.id); toast('Loaded example: ' + n.name); });
+  });
+  $('#dupBtn').addEventListener('click', function () { var c = normalize(JSON.parse(JSON.stringify(cur()))); c.id = uid(); c.name = (c.name + ' (copy)').slice(0, 80); store.ideas.push(c); closeMenu(); switchTo(c.id); toast('Duplicated'); });
+  $('#delBtn').addEventListener('click', function () {
+    closeMenu();
+    var i = cur();
+    if (!window.confirm('Delete "' + i.name + '"? This cannot be undone.')) return;
+    store.ideas = store.ideas.filter(function (x) { return x.id !== i.id; });
+    if (!store.ideas.length) store.ideas.push(blankIdea());
+    switchTo(store.ideas[0].id); toast('Idea deleted');
+  });
+  $('#exportBtn').addEventListener('click', function () {
+    closeMenu();
+    try {
+      var blob = new Blob([JSON.stringify({ app: 'venture-lens', version: 1, exported: new Date().toISOString(), ideas: store.ideas }, null, 2)], { type: 'application/json' });
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'venture-lens-ideas.json';
+      document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+      toast('Exported ' + store.ideas.length + ' ideas');
+    } catch (e) { toast('Export failed in this browser'); }
+  });
+  $('#importBtn').addEventListener('click', function () { closeMenu(); $('#importFile').click(); });
+  $('#importFile').addEventListener('change', function (ev) {
+    var f = ev.target.files && ev.target.files[0]; if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function () {
+      try {
+        var data = JSON.parse(rd.result);
+        var list = Array.isArray(data) ? data : Array.isArray(data.ideas) ? data.ideas : [data];
+        var ids = store.ideas.map(function (x) { return x.id; }), added = 0, lastId = null;
+        list.forEach(function (raw) {
+          if (!raw || typeof raw !== 'object') return;
+          var n = normalize(raw); if (ids.indexOf(n.id) >= 0) n.id = uid();
+          store.ideas.push(n); ids.push(n.id); added++; lastId = n.id;
+        });
+        if (!added) throw new Error('none');
+        switchTo(lastId); toast('Imported ' + added + (added === 1 ? ' idea' : ' ideas'));
+      } catch (e) { toast('Could not read that file. Expecting a Venture Lens JSON export.'); }
+      ev.target.value = '';
+    };
+    rd.readAsText(f);
+  });
+
+  /* Scorecard and pre-mortem actions */
+  $('#resetW').addEventListener('click', function () { var i = cur(); CRITERIA.forEach(function (c) { i.weights[c.id] = c.w; $('#w-' + c.id).value = c.w; }); save(); refresh(); toast('Weights reset'); });
+  $('#tickSuggested').addEventListener('click', function () {
+    var i = cur(), n = 0;
+    RISKS.forEach(function (r) { if (i.scores[r.crit] <= 2 && i.risks.indexOf(r.id) < 0) { i.risks.push(r.id); n++; } });
+    save(); renderRiskLib(); refresh(); toast(n ? 'Ticked ' + n + ' suggested risks' : 'No new suggestions: none of your criteria score 2 or below');
+  });
+  $('#clearRisks').addEventListener('click', function () { cur().risks = []; save(); renderRiskLib(); refresh(); });
+
+  /* One-pager */
+  $('#printBtn').addEventListener('click', function () { window.print(); });
+  $('#copyMd').addEventListener('click', function () {
+    var md = markdown();
+    function fallback() {
+      var ta = document.createElement('textarea'); ta.value = md; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove(); toast(ok ? 'Markdown copied' : 'Copy blocked by the browser');
+    }
+    try {
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(md).then(function () { toast('Markdown copied'); }, fallback);
+      else fallback();
+    } catch (e) { fallback(); }
+  });
+
+  /* Theme */
+  var root = document.documentElement;
+  try { var th = localStorage.getItem('tbd-theme'); if (th === 'dark' || th === 'light') root.setAttribute('data-theme', th); } catch (e) { /* ignore */ }
+  $('#themeBtn').addEventListener('click', function () {
+    var dark = root.getAttribute('data-theme') ? root.getAttribute('data-theme') === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+    try { localStorage.setItem('tbd-theme', root.getAttribute('data-theme')); } catch (e) { /* ignore */ }
+  });
+
+  /* Test hook for automated checks */
+  window.__ventureLens = { markdown: markdown, store: function () { return store; } };
+
+  /* Boot */
+  load();
+  renderAll();
+  var startTab = 'intake';
+  try { startTab = localStorage.getItem(TABKEY) || 'intake'; } catch (e) { /* ignore */ }
+  showTab(startTab);
+})();
+</script>
+</body>
+</html>
