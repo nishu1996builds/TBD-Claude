@@ -103,7 +103,7 @@
   .back { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; white-space: nowrap; }
   .back:hover { color: var(--ink); border-color: var(--line-2); }
   .brand { display: flex; align-items: center; gap: 10px; min-width: 0; margin-right: auto; }
-  .brand-mark { width: 30px; height: 30px; border-radius: 7px; background: var(--navy); display: grid; place-items: center; flex: none; }
+  .brand-mark { width: 30px; height: 30px; border-radius: 7px; background: #1f47b8; display: grid; place-items: center; flex: none; }
   .brand-mark svg { width: 18px; height: 18px; }
   .brand h1 { font: 700 19px/1.1 "Source Serif 4", Georgia, serif; margin: 0; letter-spacing: -.01em; }
   .brand p { margin: 1px 0 0; font-size: 12px; color: var(--ink-3); }
@@ -144,7 +144,7 @@
   .tone-good { color: var(--good); } .tone-warn { color: var(--warn); } .tone-bad { color: var(--bad); } .tone-accent { color: var(--accent); }
 
   /* Tabs */
-  .tabs { display: flex; gap: 2px; margin: 18px auto 0; border-bottom: 1px solid var(--line-2); overflow-x: auto; scrollbar-width: none; }
+  .tabs { position: relative; display: flex; gap: 2px; margin: 18px auto 0; border-bottom: 1px solid var(--line-2); overflow-x: auto; scrollbar-width: none; }
   .tabs::-webkit-scrollbar { display: none; }
   .tab { border: 0; background: none; padding: 10px 14px 11px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--ink-3); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; display: flex; gap: 8px; align-items: baseline; }
   .tab .n { font-size: 11px; font-weight: 600; color: var(--ink-3); opacity: .8; }
@@ -257,7 +257,7 @@
   .tile .k { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); font-weight: 700; }
   .tile .v { font-size: 22px; font-weight: 700; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .tile .s { font-size: 12px; color: var(--ink-3); }
-  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--ink-2); margin-top: 6px; }
+  .legend { display: flex; gap: 4px 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--ink-2); margin-top: 6px; }
   .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 5px; }
   .fixes { margin: 10px 0 0; padding: 12px 14px; border: 1px dashed var(--line-2); border-radius: 9px; font-size: 13.5px; }
   .fixes b { display: block; margin-bottom: 4px; }
@@ -335,16 +335,27 @@
     .phead h2 { font-size: 23px; }
     .brand p { display: none; }
     .controls { width: 100%; }
-    .controls select { flex: 1; max-width: none; min-width: 0; }
+    .controls select { flex: 1 1 100%; max-width: none; min-width: 0; }
+    .controls .btn { flex: 1 1 0; justify-content: center; }
+    .controls .menu { flex: 1 1 0; display: flex; }
+    .controls .menu > summary { width: 100%; justify-content: center; }
+    .memo .risktbl thead { display: none; }
+    .memo .risktbl tr { display: grid; grid-template-columns: minmax(0,1fr) auto; border-bottom: 1px solid var(--line); padding: 6px 0; }
+    .memo .risktbl td { border: 0; padding: 2px 4px; }
+    .memo .risktbl td:nth-child(3) { grid-column: 1 / -1; }
   }
   @media (max-width: 480px) {
-    .kpis { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .kpis { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 6px; }
+    .kpi { padding: 8px 10px; }
+    .kpi .k { font-size: 10px; letter-spacing: .05em; }
+    .kpi .v small { display: none; }
     .kpi:first-child { grid-column: 1 / -1; }
-    .kpi .v { font-size: 18px; }
+    .kpi .v { font-size: 17px; }
     .card { padding: 14px; }
     .score-big .num { font-size: 46px; }
     .memo table { font-size: 12px; }
     .exp div { grid-template-columns: minmax(0,1fr); gap: 0; }
+    .radar .lbl { font-size: 14px; }
   }
 
   @media print {
@@ -390,7 +401,7 @@
           <button type="button" role="menuitem" id="delBtn" class="danger">Delete this idea</button>
         </div>
       </details>
-      <button class="btn ghost" id="themeBtn" type="button" aria-label="Toggle dark mode">&#9680; Theme</button>
+      <button class="btn ghost" id="themeBtn" type="button" aria-label="Toggle dark mode"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg> Theme</button>
       <input type="file" id="importFile" accept="application/json,.json" class="sr-only" tabindex="-1" aria-hidden="true">
     </div>
   </div>
@@ -903,13 +914,14 @@
     else if (ratio < 1) flags.push({ l: 'bad', t: 'Every customer loses money (LTV:CAC ' + ratio.toFixed(1) + ')', d: 'You spend ' + money(cac) + ' to win a customer who returns only ' + money(ltv) + ' of gross profit over their life. Growing faster makes this worse, not better.' });
     else if (ratio < 3) flags.push({ l: 'warn', t: 'LTV:CAC of ' + ratio.toFixed(1) + ' is below the 3:1 rule of thumb', d: 'After overhead (rent, salaries, tools), there is little left to fund the business. Raise price, cut churn, or find a cheaper channel before scaling spend.' });
     else if (ratio > 8) flags.push({ l: 'info', t: 'LTV:CAC of ' + ratio.toFixed(1) + ' is unusually high', d: 'Either the inputs are optimistic (check churn on a real cohort) or you are underinvesting in growth and could afford to acquire customers much faster.' });
-    else flags.push({ l: 'good', t: 'Healthy LTV:CAC of ' + ratio.toFixed(1), d: 'Each dollar spent on acquisition returns about ' + money(ratio, { full: true }).replace('$', '$') + ' of lifetime gross profit. This is fundable math.' });
+    else flags.push({ l: 'good', t: 'Healthy LTV:CAC of ' + ratio.toFixed(1), d: 'Each dollar spent on acquisition returns about $' + ratio.toFixed(2) + ' of lifetime gross profit. This is fundable math.' });
 
     if (payback === null) flags.push({ l: 'bad', t: 'CAC never pays back', d: 'Gross profit per customer is zero, so no amount of retention recovers acquisition spend. Fix price or delivery cost first.' });
     else if (cac > 0 && payback > life) flags.push({ l: 'bad', t: 'Payback (' + months(payback) + ') is longer than the average lifetime (' + months(life) + ')', d: 'The average customer leaves before repaying what it cost to acquire them. Only your best customers are profitable.' });
     else if (payback > 18) flags.push({ l: 'bad', t: 'CAC payback of ' + months(payback) + ' is too long', d: 'Your cash is locked up for well over a year per customer. Fine for venture-backed enterprise sales, dangerous for anyone else.' });
     else if (payback > 12) flags.push({ l: 'warn', t: 'CAC payback of ' + months(payback) + ' strains cash', d: 'Bootstrapped businesses want payback under 12 months; under 6 is excellent. Consider annual prepay plans to pull cash forward.' });
     else if (cac > 0 && payback <= 6) flags.push({ l: 'good', t: 'Fast payback: ' + months(payback), d: 'You recover acquisition cost in under six months, so growth can largely fund itself.' });
+    else if (cac > 0) flags.push({ l: 'info', t: 'Acceptable payback: ' + months(payback), d: 'Within the 12-month comfort zone. An annual plan with a modest discount would pull that cash forward and fund faster growth.' });
 
     if (e.churn > 10) flags.push({ l: 'bad', t: e.churn + '% monthly churn replaces your whole base in under a year', d: 'Average customer lifetime is ' + months(life) + '. You are filling a leaky bucket: fix retention before spending a dollar more on acquisition.' });
     else if (e.churn > 5) flags.push({ l: 'warn', t: e.churn + '% monthly churn is high', d: 'Typical for consumer subscriptions, but it caps growth. Good SMB software sits at 2 to 3%; mid-market at around 1%.' });
@@ -950,11 +962,23 @@
   }
 
   function likelihood(score) { return score <= 2 ? 3 : score === 3 ? 2 : 1; }
+  /* Some failure modes are better predicted by the unit economics than by the scorecard. */
+  function econLikelihood(id, e, ec) {
+    if (id === 'churn') return e.churn > 8 ? [3, e.churn + '% monthly churn'] : e.churn > 4 ? [2, e.churn + '% monthly churn'] : null;
+    if (id === 'margin') return e.margin < 40 ? [3, e.margin + '% gross margin'] : e.margin < 60 ? [2, e.margin + '% gross margin'] : null;
+    if (id === 'ceiling' || id === 'cacrise') return ec.ratio !== null && ec.ratio < 1.5 ? [3, 'LTV:CAC of ' + ec.ratio.toFixed(1)] : ec.ratio !== null && ec.ratio < 3 ? [2, 'LTV:CAC of ' + ec.ratio.toFixed(1)] : null;
+    if (id === 'cycle') return e.cycle > 90 ? [3, Math.round(e.cycle) + '-day sales cycle'] : e.cycle > 45 ? [2, Math.round(e.cycle) + '-day sales cycle'] : null;
+    return null;
+  }
   function calcRisks(idea) {
+    var ec = calcEcon(idea.econ);
     var out = idea.risks.map(function (id) {
-      var r = riskById(id), sc = idea.scores[r.crit], lk = likelihood(sc), p = r.impact * lk;
+      var r = riskById(id), sc = idea.scores[r.crit], lk = likelihood(sc), src = null;
+      var el = econLikelihood(id, idea.econ, ec);
+      if (el && el[0] > lk) { lk = el[0]; src = el[1]; }
+      var p = r.impact * lk;
       var level = p >= 9 ? ['Critical', 'bad'] : p >= 6 ? ['High', 'warn'] : p >= 3 ? ['Medium', 'accent'] : ['Watch', ''];
-      return { r: r, score: sc, lk: lk, p: p, level: level };
+      return { r: r, score: sc, lk: lk, p: p, level: level, src: src };
     });
     out.sort(function (a, b) { return (b.p - a.p) || (b.r.impact - a.r.impact) || (a.score - b.score); });
     return out;
@@ -965,11 +989,12 @@
     opts = opts || {};
     var W = 440, H = 350, cx = 220, cy = 175, R = 112, n = CRITERIA.length, s = '';
     function pt(i, v) { var a = -Math.PI / 2 + i * 2 * Math.PI / n; return [cx + Math.cos(a) * R * v / 5, cy + Math.sin(a) * R * v / 5]; }
-    s += '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Radar chart of scorecard criteria">';
+    s += '<svg class="chart radar" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Radar chart of scorecard criteria">';
     for (var ring = 1; ring <= 5; ring++) {
       var poly = [];
       for (var i = 0; i < n; i++) poly.push(pt(i, ring).map(function (x) { return x.toFixed(1); }).join(','));
-      s += '<polygon points="' + poly.join(' ') + '" fill="' + (ring === 5 ? 'var(--surface-2)' : 'none') + '" stroke="var(--line' + (ring === 5 ? '-2' : '') + ')" stroke-width="1"' + (ring === 4 ? ' stroke-dasharray="4 3" stroke="var(--good)"' : '') + '/>';
+      var stroke = ring === 4 ? 'var(--good)' : ring === 5 ? 'var(--line-2)' : 'var(--line)';
+      s += '<polygon points="' + poly.join(' ') + '" fill="' + (ring === 5 ? 'var(--surface-2)' : 'none') + '" stroke="' + stroke + '" stroke-width="1"' + (ring === 4 ? ' stroke-dasharray="4 3" stroke-opacity=".8"' : '') + '/>';
     }
     for (i = 0; i < n; i++) { var p5 = pt(i, 5); s += '<line x1="' + cx + '" y1="' + cy + '" x2="' + p5[0].toFixed(1) + '" y2="' + p5[1].toFixed(1) + '" class="grid-l"/>'; }
     var vals = CRITERIA.map(function (c, i) { return pt(i, idea.scores[c.id]); });
@@ -999,8 +1024,8 @@
     return { lo: lo, hi: hi, ticks: t };
   }
 
-  function cohortSVG(ec) {
-    var W = 680, H = 290, L = 58, Rm = 14, T = 14, B = 30, pw = W - L - Rm, ph = H - T - B, pts = ec.pts;
+  function cohortSVG(ec, width) {
+    var W = Math.round(clamp(width || 680, 300, 820)), narrow = W < 520, H = narrow ? 240 : 290, L = narrow ? 50 : 58, Rm = 14, T = 14, B = 30, pw = W - L - Rm, ph = H - T - B, pts = ec.pts;
     var mn = 0, mx = 0;
     pts.forEach(function (p) { mn = Math.min(mn, p.net, p.rev); mx = Math.max(mx, p.net, p.rev); });
     var nt = niceTicks(mn, mx, 5);
@@ -1014,7 +1039,7 @@
       s += '<line x1="' + L + '" x2="' + (L + pw) + '" y1="' + y + '" y2="' + y + '" class="grid-l"/>';
       s += '<text x="' + (L - 8) + '" y="' + (+y + 4) + '" text-anchor="end" class="tick">' + money(v) + '</text>';
     });
-    [0, 3, 6, 9, 12, 15, 18, 21, 24].forEach(function (m) {
+    (narrow ? [0, 6, 12, 18, 24] : [0, 3, 6, 9, 12, 15, 18, 21, 24]).forEach(function (m) {
       s += '<text x="' + X(m).toFixed(1) + '" y="' + (H - 10) + '" text-anchor="middle" class="tick">' + (m === 0 ? 'M0' : m) + '</text>';
     });
     var revLine = pts.map(function (p) { return X(p.m).toFixed(1) + ',' + Y(p.rev).toFixed(1); }).join(' L');
@@ -1043,7 +1068,7 @@
   }
 
   function marketSVG(mr) {
-    var W = 300, H = 260, cx = 130, bottom = 248, Rmax = 118, s = '';
+    var W = 330, H = 260, cx = 128, bottom = 248, Rmax = 118, s = '';
     var tam = mr.tam > 0 ? mr.tam : 1;
     function rad(v, minR) { return Math.max(minR, Rmax * Math.sqrt(Math.max(0, v) / tam)); }
     var rT = mr.tam > 0 ? Rmax : 30, rS = Math.min(rT - 6, rad(mr.sam, 16)), rO = Math.min(rS - 4, rad(mr.som, 6));
@@ -1061,9 +1086,9 @@
     var yT = bottom - 2 * rT + 14, yS = bottom - 2 * rS + 10, yO = bottom - rO;
     if (yS - yT < 30) yS = yT + 30;
     if (yO - yS < 30) yO = yS + 30;
-    s += label('TAM', mr.tam, yT, 258 - 0) + label('SAM', mr.sam, yS, 258) + label('SOM', mr.som, Math.min(yO, bottom - 6), 258);
+    s += label('TAM', mr.tam, yT, 262) + label('SAM', mr.sam, yS, 262) + label('SOM', mr.som, Math.min(yO, bottom - 6), 262);
     s += '</svg>';
-    return s.replace(/x="258"/g, 'x="256" text-anchor="start"');
+    return s;
   }
 
   /* ---------- Rendering ---------- */
@@ -1159,7 +1184,7 @@
       tile('LTV : CAC', ec.ratio === null ? 'No CAC' : ec.ratio.toFixed(1) + 'x', 'Target 3x or better', rTone) +
       tile('CAC payback', months(ec.payback), 'Target under 12 mo', pTone) +
       tile('Avg lifetime', months(ec.life) + (ec.capped ? '+' : ''), e.churn + '% churn / mo', lTone);
-    $('#cohortChart').innerHTML = cohortSVG(ec);
+    $('#cohortChart').innerHTML = cohortSVG(ec, $('#cohortChart').clientWidth);
     var last = ec.pts[24];
     $('#cohortNote').textContent = 'Acquiring 100 customers costs ' + money(e.cac * 100) + '. By month 24, ' + Math.round(ec.endActive) + ' remain, they have paid ' + money(last.rev) + ' in total, and the cohort is ' + (last.net >= 0 ? money(last.net) + ' in profit' : money(-last.net) + ' underwater') + ' after acquisition cost.' + (ec.delay > 0 ? ' Revenue starts after a ' + ec.delay + '-month sales cycle.' : '');
     $('#econFlags').innerHTML = ec.flags.map(flagHTML).join('');
@@ -1214,7 +1239,7 @@
     if (!rk.length) { $('#riskOut').innerHTML = '<div class="empty">Tick the failure modes that could plausibly kill this idea. Be honest: the point is to find them now, while they are cheap to test.</div>'; return; }
     $('#riskOut').innerHTML = rk.map(function (x, n) {
       var c = critById(x.r.crit);
-      return '<div class="risk"><div class="risk-h"><span class="rk">' + (n + 1) + '</span><div><div class="t">' + h(x.r.t) + '</div><div class="why">Impact ' + ['low', 'medium', 'high'][x.r.impact - 1] + ', likelihood ' + ['low', 'medium', 'high'][x.lk - 1] + ' from your ' + h(c.name.toLowerCase()) + ' score of ' + x.score + '/5</div></div>' +
+      return '<div class="risk"><div class="risk-h"><span class="rk">' + (n + 1) + '</span><div><div class="t">' + h(x.r.t) + '</div><div class="why">Impact ' + ['low', 'medium', 'high'][x.r.impact - 1] + ', likelihood ' + ['low', 'medium', 'high'][x.lk - 1] + ' from ' + (x.src ? 'your ' + h(x.src) : 'your ' + h(c.name.toLowerCase()) + ' score of ' + x.score + '/5') + '</div></div>' +
         '<span class="pill ' + x.level[1] + '">' + x.level[0] + '</span></div>' +
         '<div class="exp"><div><span class="k">Test</span><span>' + h(x.r.x) + '</span></div><div><span class="k">Pass if</span><span>' + h(x.r.p) + '</span></div><div><span class="k">Cost</span><span>' + h(x.r.c) + '</span></div></div></div>';
     }).join('');
@@ -1252,7 +1277,7 @@
       return '<tr><td>' + h(c.name) + '</td><td class="r">' + w + '%</td><td style="width:34%"><div class="bar"><i style="width:' + (v * 20) + '%;background:' + (v <= 2 ? 'var(--bad)' : v >= 4 ? 'var(--good)' : 'var(--accent)') + '"></i></div></td><td class="r"><b>' + v + '</b></td></tr>';
     }).join('');
     var econFlags = ec.flags.filter(function (f) { return f.l === 'bad' || f.l === 'warn'; });
-    var risksHTML = rk.length ? '<table><thead><tr><th style="width:28%">Risk</th><th style="width:12%">Priority</th><th>Cheapest test, and the pass signal</th></tr></thead><tbody>' + rk.slice(0, 5).map(function (x) {
+    var risksHTML = rk.length ? '<table class="risktbl"><thead><tr><th style="width:28%">Risk</th><th style="width:12%">Priority</th><th>Cheapest test, and the pass signal</th></tr></thead><tbody>' + rk.slice(0, 5).map(function (x) {
       return '<tr><td><b>' + h(x.r.t) + '</b></td><td><span class="pill ' + x.level[1] + '">' + x.level[0] + '</span></td><td>' + h(x.r.x) + ' <span style="color:var(--ink-3)">Pass if: ' + h(x.r.p) + '</span></td></tr>';
     }).join('') + '</tbody></table>' : '<p class="note">No pre-mortem risks selected yet.</p>';
     $('#memo').innerHTML =
@@ -1358,13 +1383,6 @@
     renderRiskLib();
   }
   $('#main').addEventListener('input', onField);
-  $('#main').addEventListener('change', function (ev) { if (ev.target.type === 'radio' || ev.target.type === 'checkbox') return; if (ev.target.type === 'number') { var i = cur(); renderInputsNumbers(i); } });
-  function renderInputsNumbers(i) {
-    /* re-sync number fields on blur so clamped values are visible */
-    ['price', 'margin', 'cac', 'churn', 'cycle'].forEach(function (k) { var el = $('#e-' + k); if (document.activeElement !== el) el.value = i.econ[k]; });
-    var map = { customers: 'm-customers', serv: 'm-serv', obt: 'm-obt' };
-    Object.keys(map).forEach(function (k) { var el = $('#' + map[k]); if (document.activeElement !== el) el.value = i.market[k]; });
-  }
   $('#main').addEventListener('focusout', function (ev) { if (ev.target.type === 'number') { var el = ev.target; setTimeout(function () { var i = cur(); var k = el.getAttribute('data-k'); if (!k) return; var p = k.split('.'); el.value = i[p[0]][p[1]]; }, 0); } });
 
   /* Tabs */
@@ -1376,6 +1394,9 @@
       b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1; p.hidden = !on;
     });
     if (focus) document.getElementById('t-' + t).focus();
+    var tb = document.getElementById('t-' + t), bar = tb.parentNode;
+    if (tb.offsetLeft < bar.scrollLeft || tb.offsetLeft + tb.offsetWidth > bar.scrollLeft + bar.clientWidth) bar.scrollLeft = tb.offsetLeft - 16;
+    if (t === 'econ' && cur()) refresh();
     try { localStorage.setItem(TABKEY, t); } catch (e) { /* ignore */ }
   }
   $$('.tab').forEach(function (b) {
@@ -1474,6 +1495,9 @@
     root.setAttribute('data-theme', dark ? 'light' : 'dark');
     try { localStorage.setItem('tbd-theme', root.getAttribute('data-theme')); } catch (e) { /* ignore */ }
   });
+
+  var rsT = null;
+  window.addEventListener('resize', function () { clearTimeout(rsT); rsT = setTimeout(refresh, 150); });
 
   /* Test hook for automated checks */
   window.__ventureLens = { markdown: markdown, store: function () { return store; } };
