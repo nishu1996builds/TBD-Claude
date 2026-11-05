@@ -36,7 +36,7 @@ button{font:inherit;color:inherit}
 /* Screens */
 .screen{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:72px 16px 32px;opacity:0;pointer-events:none;transition:opacity .35s ease}
 .screen.show{opacity:1;pointer-events:auto}
-.screen::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(4,5,13,.15) 0%,rgba(4,5,13,.55) 60%,rgba(4,5,13,.85) 100%);pointer-events:none;z-index:-1}
+.screen::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 55% at center,rgba(4,5,13,.62) 0%,rgba(4,5,13,.42) 55%,rgba(4,5,13,.7) 100%);pointer-events:none;z-index:-1}
 
 .menu-card{display:flex;flex-direction:column;align-items:center;text-align:center;max-width:460px;width:100%}
 .eyebrow{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:10px}
@@ -140,6 +140,7 @@ h1.title{font-family:var(--display);font-weight:800;font-size:clamp(48px,13vw,96
   .meta{margin-top:12px}
   .howto{display:none}
 }
+@media (hover:none) and (pointer:coarse){ .kbd-only{display:none} }
 @media (prefers-reduced-motion:reduce){
   .screen,#win,.win-card,#toast{transition:none}
 }
@@ -164,7 +165,7 @@ h1.title{font-family:var(--display);font-weight:800;font-size:clamp(48px,13vw,96
       <span class="chip"><span class="star">&#9733;</span><b id="menuStars">0</b> / <span id="menuStarsMax">45</span></span>
       <span class="chip">Score <b id="menuScore">0</b></span>
     </div>
-    <p class="howto">Drag back anywhere, release to fire. Keyboard: <kbd>&larr;</kbd><kbd>&rarr;</kbd> aim, <kbd>&uarr;</kbd><kbd>&darr;</kbd> power, <kbd>Space</kbd> launch, <kbd>R</kbd> restart, <kbd>M</kbd> mute.</p>
+    <p class="howto">Drag back anywhere, release to fire.<span class="kbd-only"> Keyboard: <kbd>&larr;</kbd><kbd>&rarr;</kbd> aim, <kbd>&uarr;</kbd><kbd>&darr;</kbd> power, <kbd>Space</kbd> launch, <kbd>R</kbd> restart, <kbd>M</kbd> mute.</span></p>
   </div>
 </section>
 
@@ -711,7 +712,7 @@ function newSeed(){ return 1 + Math.floor(Math.random()*999998); }
 function restartLevel(){
   if(scene !== 'play') return;
   if(P.mode === 'campaign') startCampaign(P.index);
-  else { const s = P.endless.sector; const sh = P.shots; P.endless.shots -= 0; loadLevel(P.def); showBanner('Seed ' + P.endless.seed, 'Sector ' + s); }
+  else { loadLevel(P.def); showBanner('Seed ' + P.endless.seed, 'Sector ' + P.endless.sector); }
 }
 
 function updateHud(){
@@ -1097,7 +1098,7 @@ function drawPreview(L, aim){
     if(!q) continue;
     const f = q[2]/PREVIEW_TICKS;
     ctx.fillStyle = powColor(aim.pow, (0.95 - f*0.75).toFixed(3));
-    ctx.beginPath(); ctx.arc(q[0], q[1], 3.6 - f*2, 0, TAU); ctx.fill();
+    ctx.beginPath(); ctx.arc(q[0], q[1], 4.4 - f*2.4, 0, TAU); ctx.fill();
   }
   if(res && pts.length){
     const q = pts[pts.length-1];
