@@ -1,0 +1,1442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ratecard</title>
+<meta name="description" content="A pricing studio for freelancers and consultants: find your floor rate, price on value, build a three-tier proposal, and send polite change orders.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F6F4EE;
+  --surface: #FFFFFF;
+  --surface-2: #EFECE3;
+  --ink: #1A1915;
+  --ink-2: #4E4B43;
+  --ink-3: #69655B;
+  --line: #E0DCD0;
+  --line-strong: #CBC6B8;
+  --accent: #1D6A51;
+  --accent-strong: #154F3C;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E0EEE7;
+  --warn: #9A4310;
+  --warn-soft: #F7E7DA;
+  --c-take: #1D6A51;
+  --c-tax: #C27C2C;
+  --c-exp: #5F7593;
+  --c-margin: #A9C7B8;
+  --c-off: #D8D3C5;
+  --c-nonbill: #C9B79A;
+  --shadow: 0 1px 2px rgba(26,25,21,.04), 0 8px 24px rgba(26,25,21,.06);
+  --radius: 14px;
+  --serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121310;
+    --surface: #1A1B17;
+    --surface-2: #23241F;
+    --ink: #EEEBE3;
+    --ink-2: #C3BFB4;
+    --ink-3: #9C988D;
+    --line: #2E2F29;
+    --line-strong: #44463E;
+    --accent: #5CC29A;
+    --accent-strong: #7DD3B0;
+    --accent-ink: #0B1A14;
+    --accent-soft: #1C3228;
+    --warn: #F0A56E;
+    --warn-soft: #3A2618;
+    --c-take: #5CC29A;
+    --c-tax: #E0A458;
+    --c-exp: #8EA4C2;
+    --c-margin: #3D6656;
+    --c-off: #3A3B35;
+    --c-nonbill: #7A6A50;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121310;
+  --surface: #1A1B17;
+  --surface-2: #23241F;
+  --ink: #EEEBE3;
+  --ink-2: #C3BFB4;
+  --ink-3: #9C988D;
+  --line: #2E2F29;
+  --line-strong: #44463E;
+  --accent: #5CC29A;
+  --accent-strong: #7DD3B0;
+  --accent-ink: #0B1A14;
+  --accent-soft: #1C3228;
+  --warn: #F0A56E;
+  --warn-soft: #3A2618;
+  --c-take: #5CC29A;
+  --c-tax: #E0A458;
+  --c-exp: #8EA4C2;
+  --c-margin: #3D6656;
+  --c-off: #3A3B35;
+  --c-nonbill: #7A6A50;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+a { color: var(--accent); }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* Header */
+.site-header { border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 88%, transparent); position: sticky; top: 0; z-index: 20; backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px); }
+.bar { display: flex; align-items: center; gap: 16px; min-height: 60px; }
+.back { font-size: 13px; color: var(--ink-3); text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+.back:hover { color: var(--ink); }
+.brand { display: flex; align-items: baseline; gap: 10px; margin-right: auto; min-width: 0; }
+.brand-name { font-family: var(--serif); font-weight: 600; font-size: 22px; letter-spacing: -.01em; }
+.brand-mark { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); display: inline-block; transform: translateY(-2px); }
+.floor-chip { font-size: 13px; color: var(--ink-2); background: var(--surface); border: 1px solid var(--line); padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
+.floor-chip strong { color: var(--ink); font-weight: 600; }
+.ctrl { display: flex; align-items: center; gap: 8px; }
+.select-sm { appearance: none; -webkit-appearance: none; background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23888' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 10px center; border: 1px solid var(--line); border-radius: 999px; padding: 6px 28px 6px 12px; font-size: 13px; cursor: pointer; }
+.icon-btn { width: 36px; height: 36px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); display: inline-grid; place-items: center; cursor: pointer; color: var(--ink-2); }
+.icon-btn:hover { color: var(--ink); border-color: var(--line-strong); }
+.icon-btn svg { width: 18px; height: 18px; }
+.theme-dark-icon { display: none; }
+:root[data-theme="dark"] .theme-dark-icon { display: block; }
+:root[data-theme="dark"] .theme-light-icon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-dark-icon { display: block; }
+  :root:not([data-theme="light"]) .theme-light-icon { display: none; }
+}
+
+/* Hero */
+.hero { padding-top: 56px; padding-bottom: 28px; }
+.eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin: 0 0 14px; }
+.hero h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(38px, 6vw, 68px); line-height: 1.02; letter-spacing: -.025em; margin: 0 0 18px; max-width: 14ch; }
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero p.lede { font-size: 18px; color: var(--ink-2); max-width: 60ch; margin: 0; }
+
+/* Tabs */
+.tabs { position: sticky; top: 60px; z-index: 15; background: var(--bg); border-bottom: 1px solid var(--line); }
+.tablist { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; padding: 0; margin: 0 -24px; padding: 0 24px; }
+.tablist::-webkit-scrollbar { display: none; }
+.tab { flex: 0 0 auto; scroll-snap-align: start; background: none; border: 0; border-bottom: 2px solid transparent; padding: 16px 14px 14px; cursor: pointer; color: var(--ink-3); font-size: 15px; font-weight: 500; display: inline-flex; gap: 8px; align-items: baseline; white-space: nowrap; }
+.tab .n { font-family: var(--serif); font-size: 13px; color: var(--ink-3); }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tab[aria-selected="true"] .n { color: var(--accent); }
+
+/* Panels */
+.panel { padding-top: 40px; padding-bottom: 72px; }
+.panel-head { display: grid; grid-template-columns: 1fr; gap: 6px; margin-bottom: 28px; max-width: 760px; }
+.panel-head h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(28px, 3.6vw, 40px); letter-spacing: -.02em; line-height: 1.1; margin: 0; }
+.panel-head p { color: var(--ink-2); margin: 6px 0 0; font-size: 17px; }
+.layout { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 28px; align-items: start; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+.inputs { padding: 22px; position: sticky; top: 130px; }
+.inputs h3, .card-title { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--ink-3); font-weight: 600; margin: 0 0 14px; }
+.field { margin-bottom: 16px; }
+.field:last-child { margin-bottom: 0; }
+.field label, .field .label { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+.hint { font-size: 12.5px; color: var(--ink-3); margin: 6px 0 0; line-height: 1.45; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.input-wrap { position: relative; display: flex; align-items: center; }
+.input, .textarea, .select {
+  width: 100%; background: var(--bg); border: 1px solid var(--line-strong); border-radius: 10px;
+  padding: 10px 12px; font-size: 15px; color: var(--ink); transition: border-color .15s, box-shadow .15s;
+  font-variant-numeric: tabular-nums;
+}
+.select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23888' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer; }
+.textarea { resize: vertical; min-height: 84px; line-height: 1.5; font-variant-numeric: normal; }
+.input:hover, .textarea:hover, .select:hover { border-color: var(--ink-3); }
+.input:focus, .textarea:focus, .select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.input:disabled { opacity: .7; cursor: not-allowed; }
+.input-wrap .pre, .input-wrap .post { position: absolute; font-size: 14px; color: var(--ink-3); pointer-events: none; }
+.input-wrap .pre { left: 12px; }
+.input-wrap .post { right: 12px; }
+.input-wrap.has-pre .input { padding-left: calc(18px + var(--pre-w, 10px)); }
+.input-wrap.has-post .input { padding-right: 52px; }
+input[type=number]::-webkit-inner-spin-button { opacity: .4; }
+.range-row { display: flex; align-items: center; gap: 12px; }
+input[type=range] { flex: 1; accent-color: var(--accent); height: 28px; min-width: 0; }
+output.range-out { min-width: 48px; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+.field label.check, .check { display: flex; justify-content: flex-start; font-weight: 400; align-items: center; gap: 8px; font-size: 13.5px; color: var(--ink-2); margin-top: 8px; cursor: pointer; }
+.check input { accent-color: var(--accent); width: 16px; height: 16px; }
+.divider { height: 1px; background: var(--line); margin: 20px 0; border: 0; }
+
+.results { display: grid; gap: 20px; min-width: 0; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0; overflow: hidden; }
+.stat { padding: 22px 22px 20px; border-right: 1px solid var(--line); min-width: 0; }
+.stat:last-child { border-right: 0; }
+.stat .k { font-size: 13px; color: var(--ink-3); font-weight: 500; margin: 0 0 6px; }
+.stat .v { font-family: var(--serif); font-size: clamp(28px, 3.4vw, 40px); font-weight: 500; letter-spacing: -.02em; line-height: 1.05; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.stat .v small { font-family: var(--sans); font-size: 14px; color: var(--ink-3); font-weight: 400; letter-spacing: 0; margin-left: 2px; }
+.stat .s { font-size: 13px; color: var(--ink-3); margin: 6px 0 0; }
+.stat.lead .v { color: var(--accent); }
+.block { padding: 22px; min-width: 0; }
+.block-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.block-head h3 { font-family: var(--serif); font-weight: 500; font-size: 21px; margin: 0; letter-spacing: -.01em; }
+.block-head .meta { font-size: 13px; color: var(--ink-3); }
+.chart { width: 100%; min-height: 40px; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { font-family: var(--sans); }
+.ax { fill: var(--ink-3); font-size: 11px; }
+.ax-line { stroke: var(--line); }
+.legend { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 18px; }
+.legend li { display: grid; grid-template-columns: 10px 1fr; column-gap: 8px; font-size: 13px; color: var(--ink-2); align-items: baseline; }
+.legend .sw { width: 10px; height: 10px; border-radius: 3px; transform: translateY(1px); }
+.legend .amt { grid-column: 2; color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.callout { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 14px 16px; border-radius: 0 10px 10px 0; font-size: 15px; color: var(--ink); margin-top: 16px; }
+.callout.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.callout strong { font-weight: 600; }
+.note { font-size: 13px; color: var(--ink-3); margin: 12px 0 0; }
+
+table.ladder { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+.ladder th { text-align: left; font-weight: 500; color: var(--ink-3); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+.ladder td { padding: 10px; border-bottom: 1px solid var(--line); }
+.ladder tr:last-child td { border-bottom: 0; }
+.ladder td:not(:first-child), .ladder th:not(:first-child) { text-align: right; }
+.ladder tr.in-range td { background: var(--accent-soft); }
+.ladder tr.in-range td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+.pill { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); font-weight: 500; white-space: nowrap; }
+.pill.good { background: var(--accent-soft); color: var(--accent-strong); }
+.pill.bad { background: var(--warn-soft); color: var(--warn); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 10px 18px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .15s, border-color .15s, transform .05s; text-decoration: none; }
+.btn:hover { border-color: var(--ink-3); }
+.btn:active { transform: translateY(1px); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
+.btn svg { width: 16px; height: 16px; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* Proposal */
+.prop-layout { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 28px; align-items: start; }
+.prop-editor { padding: 22px; }
+fieldset.tier-edit { border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin: 0 0 14px; }
+fieldset.tier-edit legend { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--ink-3); font-weight: 600; padding: 0 6px; }
+.tier-edit .field { margin-bottom: 12px; }
+.radio-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.radio-row label { flex: 1 1 0; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--line-strong); border-radius: 10px; padding: 8px; font-size: 13.5px; cursor: pointer; text-align: center; }
+.radio-row input { accent-color: var(--accent); }
+.radio-row label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.prop-side { display: grid; gap: 20px; min-width: 0; }
+.guidance { padding: 20px 22px; }
+.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.checks li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; font-size: 14px; color: var(--ink-2); }
+.checks .ic { width: 20px; height: 20px; border-radius: 999px; display: grid; place-items: center; font-size: 12px; font-weight: 700; }
+.checks .ok .ic { background: var(--accent-soft); color: var(--accent-strong); }
+.checks .no .ic { background: var(--warn-soft); color: var(--warn); }
+.checks strong { color: var(--ink); font-weight: 600; }
+
+.doc {
+  --paper: #FFFDF8; --paper-ink: #1A1915; --paper-ink-2: #4E4B43; --paper-ink-3: #6B675D; --paper-line: #E6E1D4; --paper-accent: #1D6A51; --paper-soft: #EAF3EE;
+  background: var(--paper); color: var(--paper-ink); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--line);
+  padding: 48px 44px; min-width: 0;
+}
+.doc-top { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; border-bottom: 1px solid var(--paper-line); padding-bottom: 24px; margin-bottom: 28px; }
+.doc-eyebrow { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--paper-accent); font-weight: 600; margin: 0 0 10px; }
+.doc h2.doc-title { font-family: var(--serif); font-weight: 500; font-size: clamp(28px, 3.4vw, 40px); line-height: 1.08; letter-spacing: -.02em; margin: 0 0 10px; overflow-wrap: anywhere; }
+.doc-for { color: var(--paper-ink-2); margin: 0; font-size: 15px; }
+.doc-meta { font-size: 13px; color: var(--paper-ink-3); text-align: right; line-height: 1.7; }
+.doc-meta strong { color: var(--paper-ink); font-weight: 600; }
+.doc-intro { font-family: var(--serif); font-size: 18px; line-height: 1.6; color: var(--paper-ink-2); margin: 0 0 32px; max-width: 62ch; white-space: pre-line; }
+.doc-tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+.tier { border: 1px solid var(--paper-line); border-radius: 12px; padding: 22px 18px; display: flex; flex-direction: column; position: relative; break-inside: avoid; background: #fff; min-width: 0; }
+.tier.rec { border: 2px solid var(--paper-accent); background: var(--paper-soft); }
+.tier .badge { position: absolute; top: -11px; left: 18px; background: var(--paper-accent); color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+.tier h4 { font-family: var(--serif); font-weight: 600; font-size: 21px; margin: 0 0 4px; overflow-wrap: anywhere; }
+.tier .tag { font-size: 13px; color: var(--paper-ink-3); margin: 0 0 14px; min-height: 1.4em; }
+.tier .price { font-family: var(--serif); font-size: 30px; font-weight: 500; letter-spacing: -.02em; font-variant-numeric: tabular-nums; margin: 0; overflow-wrap: anywhere; }
+.tier .time { font-size: 13px; color: var(--paper-ink-3); margin: 2px 0 16px; }
+.tier ul { list-style: none; margin: 0; padding: 14px 0 0; border-top: 1px solid var(--paper-line); display: grid; gap: 8px; font-size: 13.5px; color: var(--paper-ink-2); }
+.tier li { display: grid; grid-template-columns: 14px 1fr; gap: 6px; line-height: 1.45; }
+.tier li::before { content: ""; width: 6px; height: 6px; border-radius: 99px; background: var(--paper-accent); margin-top: 7px; }
+.doc-next { margin-top: 32px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; border-top: 1px solid var(--paper-line); padding-top: 24px; break-inside: avoid; }
+.doc-next h5 { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--paper-ink-3); margin: 0 0 8px; font-weight: 600; }
+.doc-next p { margin: 0; font-size: 14px; color: var(--paper-ink-2); }
+.sign { display: grid; gap: 22px; }
+.sign div { border-bottom: 1px solid var(--paper-ink-3); padding-bottom: 4px; font-size: 12px; color: var(--paper-ink-3); padding-top: 22px; }
+
+/* Change order */
+.message { white-space: pre-wrap; font-size: 15px; line-height: 1.65; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin: 0; font-family: var(--sans); color: var(--ink); overflow-wrap: anywhere; }
+.breakdown { list-style: none; margin: 0; padding: 0; font-variant-numeric: tabular-nums; }
+.breakdown li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--line); font-size: 15px; color: var(--ink-2); }
+.breakdown li span:last-child { color: var(--ink); font-weight: 500; }
+.breakdown li.total { border-bottom: 0; border-top: 2px solid var(--ink); margin-top: 6px; padding-top: 14px; font-size: 17px; }
+.breakdown li.total span { color: var(--ink); font-weight: 700; }
+
+/* Playbook */
+.playbook { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.tactic { padding: 26px 26px 24px; display: flex; flex-direction: column; }
+.tactic .no { font-family: var(--serif); font-size: 15px; color: var(--accent); font-weight: 600; margin: 0 0 8px; }
+.tactic h3 { font-family: var(--serif); font-weight: 500; font-size: 22px; line-height: 1.2; letter-spacing: -.01em; margin: 0 0 10px; }
+.tactic p { margin: 0 0 10px; color: var(--ink-2); font-size: 15px; }
+.tactic p:last-child { margin-bottom: 0; }
+.script { margin: 6px 0 0; padding: 14px 16px; border-radius: 10px; background: var(--surface-2); font-size: 14.5px; color: var(--ink); line-height: 1.6; }
+.script b { display: block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; font-weight: 600; }
+
+.site-footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--ink-3); font-size: 13px; }
+.site-footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
+.link-btn { background: none; border: 0; color: var(--ink-3); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 4px; font-size: 13px; }
+.link-btn:hover { color: var(--ink); }
+
+.toast { position: fixed; left: 50%; bottom: 24px; width: max-content; max-width: calc(100vw - 32px); text-align: center; transform: translate(-50%, 20px); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 50; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 960px) {
+  .layout, .prop-layout { grid-template-columns: minmax(0, 1fr); }
+  .inputs { position: static; }
+  .playbook { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .doc-tiers { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .doc { padding: 30px 22px; }
+  .doc-next { grid-template-columns: minmax(0, 1fr); }
+  .doc-meta { text-align: left; }
+}
+@media (max-width: 640px) {
+  .wrap { padding: 0 16px; }
+  .tablist { margin: 0 -16px; padding: 0 16px; }
+  .hero { padding-top: 36px; padding-bottom: 20px; }
+  .hero p.lede { font-size: 16.5px; }
+  .floor-chip, .back-text { display: none; }
+  .bar { gap: 10px; }
+  .stats { grid-template-columns: minmax(0, 1fr); }
+  .stat { border-right: 0; border-bottom: 1px solid var(--line); padding: 18px; }
+  .stat:last-child { border-bottom: 0; }
+  .inputs, .block, .prop-editor, .guidance { padding: 18px; }
+  .tactic { padding: 22px 20px; }
+  .panel { padding-top: 28px; padding-bottom: 56px; }
+  .tab { padding: 14px 10px 12px; font-size: 14px; }
+  .ladder th, .ladder td { padding: 8px 6px; }
+}
+
+@media print {
+  @page { margin: 14mm; }
+  html, body { background: #fff !important; }
+  .site-header, .hero, .tabs, .site-footer, .toast, .panel:not(#panel-proposal), .prop-editor, .guidance, .prop-toolbar, .panel-head { display: none !important; }
+  #panel-proposal { display: block !important; padding: 0; }
+  .wrap { max-width: none; padding: 0; }
+  .prop-layout, .prop-side { display: block; }
+  .doc { box-shadow: none; border: 0; padding: 0; border-radius: 0; background: #fff; }
+  .doc-tiers { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .doc-next { grid-template-columns: 1.3fr 1fr !important; }
+  .doc-meta { text-align: right !important; }
+  .tier { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap bar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span class="brand-name">Ratecard</span></div>
+    <span class="floor-chip" aria-live="polite">Floor <strong id="chipFloor" class="num">$0</strong>/hr</span>
+    <div class="ctrl">
+      <label for="currency" class="sr-only">Currency</label>
+      <select id="currency" class="select-sm">
+        <option value="USD">USD $</option>
+        <option value="EUR">EUR €</option>
+        <option value="GBP">GBP £</option>
+        <option value="INR">INR ₹</option>
+        <option value="CAD">CAD $</option>
+        <option value="AUD">AUD $</option>
+      </select>
+      <button type="button" class="icon-btn" id="themeBtn" aria-label="Toggle dark mode">
+        <svg class="theme-light-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <svg class="theme-dark-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap" aria-labelledby="heroTitle">
+    <p class="eyebrow">Pricing studio for independents</p>
+    <h1 id="heroTitle">Price from <em>value</em>, not from fear.</h1>
+    <p class="lede">Most freelancers set rates by adding up costs and hoping. Ratecard starts with the number you can never go below, then shows you what the work is actually worth to the client, and turns both into a proposal you can send today. Everything stays in your browser.</p>
+  </section>
+
+  <nav class="tabs" aria-label="Ratecard modules">
+    <div class="wrap">
+      <div class="tablist" role="tablist" aria-label="Modules">
+        <button class="tab" role="tab" id="tab-floor" aria-controls="panel-floor" aria-selected="true"><span class="n">01</span>Floor rate</button>
+        <button class="tab" role="tab" id="tab-value" aria-controls="panel-value" aria-selected="false" tabindex="-1"><span class="n">02</span>Value pricing</button>
+        <button class="tab" role="tab" id="tab-proposal" aria-controls="panel-proposal" aria-selected="false" tabindex="-1"><span class="n">03</span>Proposal</button>
+        <button class="tab" role="tab" id="tab-change" aria-controls="panel-change" aria-selected="false" tabindex="-1"><span class="n">04</span>Change order</button>
+        <button class="tab" role="tab" id="tab-playbook" aria-controls="panel-playbook" aria-selected="false" tabindex="-1"><span class="n">05</span>Playbook</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 01 Floor rate -->
+  <section class="panel wrap" id="panel-floor" role="tabpanel" aria-labelledby="tab-floor" tabindex="0">
+    <div class="panel-head">
+      <p class="eyebrow">01 · Floor rate</p>
+      <h2>The number you never go below.</h2>
+      <p>Your floor covers the life you want, the taxes on it, and the cost of running the business, spread across the hours clients will actually pay for. It is a minimum, not a price.</p>
+    </div>
+    <div class="layout">
+      <form class="card inputs" onsubmit="return false" aria-label="Floor rate inputs">
+        <h3>Your numbers</h3>
+        <div class="field">
+          <label for="f-takeHome">Target take-home income <span class="hint-inline" aria-hidden="true"></span></label>
+          <div class="input-wrap has-pre"><span class="pre cur" aria-hidden="true">$</span><input class="input" id="f-takeHome" type="number" inputmode="decimal" min="0" step="1000" data-key="floor.takeHome"></div>
+          <p class="hint">Per year, after tax. What you want to actually keep.</p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-tax">Tax rate</label>
+            <div class="input-wrap has-post"><input class="input" id="f-tax" type="number" inputmode="decimal" min="0" max="90" step="1" data-key="floor.tax"><span class="post" aria-hidden="true">%</span></div>
+          </div>
+          <div class="field">
+            <label for="f-expenses">Expenses / mo</label>
+            <div class="input-wrap has-pre"><span class="pre cur" aria-hidden="true">$</span><input class="input" id="f-expenses" type="number" inputmode="decimal" min="0" step="50" data-key="floor.expenses"></div>
+          </div>
+        </div>
+        <p class="hint" style="margin:-8px 0 16px">Expenses: software, insurance, equipment, accountant, health cover, pension contributions.</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-weeksOff">Weeks off / yr</label>
+            <div class="input-wrap has-post"><input class="input" id="f-weeksOff" type="number" inputmode="numeric" min="0" max="51" step="1" data-key="floor.weeksOff"><span class="post" aria-hidden="true">wks</span></div>
+          </div>
+          <div class="field">
+            <label for="f-hours">Hours / week</label>
+            <div class="input-wrap has-post"><input class="input" id="f-hours" type="number" inputmode="numeric" min="1" max="100" step="1" data-key="floor.hours"><span class="post" aria-hidden="true">hrs</span></div>
+          </div>
+        </div>
+        <p class="hint" style="margin:-8px 0 16px">Count holidays, sick days, and conferences in weeks off.</p>
+        <div class="field">
+          <label for="f-util">Billable utilization <output class="range-out" id="o-util" for="f-util">60%</output></label>
+          <div class="range-row"><input id="f-util" type="range" min="10" max="100" step="1" data-key="floor.util"></div>
+          <p class="hint">Share of working hours you can invoice. 50 to 65% is realistic once you count sales, admin, and gaps between projects.</p>
+        </div>
+        <div class="field">
+          <label for="f-margin">Profit margin <output class="range-out" id="o-margin" for="f-margin">10%</output></label>
+          <div class="range-row"><input id="f-margin" type="range" min="0" max="40" step="1" data-key="floor.margin"></div>
+          <p class="hint">Money the business keeps on top of your pay, for slow months and reinvestment.</p>
+        </div>
+      </form>
+
+      <div class="results">
+        <div class="card stats" aria-live="polite">
+          <div class="stat lead"><p class="k">Minimum hourly</p><div class="v" id="r-hourly">$0</div><p class="s" id="r-hourly-s">per billable hour</p></div>
+          <div class="stat"><p class="k">Day rate</p><div class="v" id="r-day">$0</div><p class="s" id="r-day-s">8 hour day</p></div>
+          <div class="stat"><p class="k">Monthly revenue target</p><div class="v" id="r-month">$0</div><p class="s" id="r-month-s">invoiced per month</p></div>
+        </div>
+
+        <div class="card block">
+          <div class="block-head"><h3>Where each invoice goes</h3><span class="meta num" id="r-annual">Annual revenue $0</span></div>
+          <div class="chart" id="chart-split" role="img" aria-label="Stacked bar of annual revenue split"></div>
+          <ul class="legend" id="legend-split"></ul>
+        </div>
+
+        <div class="card block">
+          <div class="block-head"><h3>Your year in hours</h3><span class="meta num" id="r-billable">0 billable hours</span></div>
+          <div class="chart" id="chart-hours" role="img" aria-label="Stacked bar of yearly hours"></div>
+          <ul class="legend" id="legend-hours"></ul>
+        </div>
+
+        <div class="card block">
+          <div class="block-head"><h3>The utilization trap</h3><span class="meta">Floor rate at each utilization level</span></div>
+          <div class="chart" id="chart-trap" role="img" aria-label="Line chart of floor rate versus utilization"></div>
+          <div class="callout" id="trap-callout"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 Value pricing -->
+  <section class="panel wrap" id="panel-value" role="tabpanel" aria-labelledby="tab-value" tabindex="0" hidden>
+    <div class="panel-head">
+      <p class="eyebrow">02 · Value pricing</p>
+      <h2>Price the outcome, not the hours.</h2>
+      <p>Clients buy results. Estimate what this project is worth to them, discount it honestly for uncertainty, and charge a fair share of the value you help capture.</p>
+    </div>
+    <div class="layout">
+      <form class="card inputs" onsubmit="return false" aria-label="Value pricing inputs">
+        <h3>What the client gains, per year</h3>
+        <div class="field">
+          <label for="v-rev">Revenue gained</label>
+          <div class="input-wrap has-pre"><span class="pre cur" aria-hidden="true">$</span><input class="input" id="v-rev" type="number" inputmode="decimal" min="0" step="1000" data-key="value.revenue"></div>
+        </div>
+        <div class="field">
+          <label for="v-cost">Costs saved</label>
+          <div class="input-wrap has-pre"><span class="pre cur" aria-hidden="true">$</span><input class="input" id="v-cost" type="number" inputmode="decimal" min="0" step="1000" data-key="value.costs"></div>
+        </div>
+        <div class="field">
+          <label for="v-risk">Risk reduced</label>
+          <div class="input-wrap has-pre"><span class="pre cur" aria-hidden="true">$</span><input class="input" id="v-risk" type="number" inputmode="decimal" min="0" step="1000" data-key="value.risk"></div>
+          <p class="hint">Expected cost avoided: likelihood of the problem times what it would cost them.</p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="v-horizon">Time horizon</label>
+            <div class="input-wrap has-post"><input class="input" id="v-horizon" type="number" inputmode="decimal" min="0.25" max="10" step="0.5" data-key="value.horizon"><span class="post" aria-hidden="true">yrs</span></div>
+          </div>
+          <div class="field">
+            <label for="v-hours">Your est. hours</label>
+            <div class="input-wrap has-post"><input class="input" id="v-hours" type="number" inputmode="numeric" min="1" step="5" data-key="value.hours"><span class="post" aria-hidden="true">hrs</span></div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="v-conf">Confidence <output class="range-out" id="o-conf" for="v-conf">60%</output></label>
+          <div class="range-row"><input id="v-conf" type="range" min="10" max="100" step="5" data-key="value.confidence"></div>
+          <p class="hint">How sure are you, and the client, that these gains will happen? Be conservative. It makes your number defensible.</p>
+        </div>
+        <hr class="divider">
+        <h3>Your share</h3>
+        <div class="field-row">
+          <div class="field">
+            <label for="v-low">Capture low</label>
+            <div class="input-wrap has-post"><input class="input" id="v-low" type="number" inputmode="decimal" min="1" max="100" step="1" data-key="value.low"><span class="post" aria-hidden="true">%</span></div>
+          </div>
+          <div class="field">
+            <label for="v-high">Capture high</label>
+            <div class="input-wrap has-post"><input class="input" id="v-high" type="number" inputmode="decimal" min="1" max="100" step="1" data-key="value.high"><span class="post" aria-hidden="true">%</span></div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="v-rate">Hourly rate for comparison</label>
+          <div class="input-wrap has-pre"><span class="pre cur" aria-hidden="true">$</span><input class="input" id="v-rate" type="number" inputmode="decimal" min="1" step="5" data-key="value.rate"></div>
+          <label class="check"><input type="checkbox" data-key="value.useFloor"> Use my floor rate from step 01</label>
+        </div>
+      </form>
+
+      <div class="results">
+        <div class="card stats" aria-live="polite">
+          <div class="stat"><p class="k">Value captured by client</p><div class="v" id="r-value">$0</div><p class="s" id="r-value-s">confidence-adjusted</p></div>
+          <div class="stat lead"><p class="k">Recommended fee</p><div class="v" id="r-fee">$0</div><p class="s" id="r-fee-s">range</p></div>
+          <div class="stat"><p class="k">Hourly estimate</p><div class="v" id="r-hourlyEst">$0</div><p class="s" id="r-hourlyEst-s">hours x rate</p></div>
+        </div>
+        <div class="card block">
+          <div class="block-head"><h3>Hourly vs value, and what the client gets back</h3><span class="meta">ROI multiple = value captured / your fee</span></div>
+          <div class="chart" id="chart-value" role="img" aria-label="Bar chart comparing hourly estimate with value-based fees"></div>
+          <div class="callout" id="value-callout"></div>
+        </div>
+        <div class="card block">
+          <div class="block-head"><h3>Price ladder</h3><span class="meta">Shaded rows sit inside your capture range</span></div>
+          <div style="overflow-x:auto">
+            <table class="ladder" id="ladder">
+              <thead><tr><th scope="col">Share</th><th scope="col">Fee</th><th scope="col">Client ROI</th><th scope="col">Your rate / hr</th><th scope="col">Read</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <p class="note">A client paying for a 5x return or better rarely argues about price. Below 3x, expect pushback or a request to phase the work.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 Proposal -->
+  <section class="panel wrap" id="panel-proposal" role="tabpanel" aria-labelledby="tab-proposal" tabindex="0" hidden>
+    <div class="panel-head">
+      <p class="eyebrow">03 · Three-tier proposal</p>
+      <h2>Give them a choice between yeses.</h2>
+      <p>Three options turn "should we hire you?" into "which version do we want?" Design the middle tier to be chosen, and price the top tier to make it look sensible.</p>
+    </div>
+    <div class="prop-layout">
+      <form class="card prop-editor" onsubmit="return false" aria-label="Proposal editor">
+        <h3 class="card-title">Details</h3>
+        <div class="field-row">
+          <div class="field"><label for="p-you">Your name</label><input class="input" id="p-you" type="text" autocomplete="name" data-key="proposal.you"></div>
+          <div class="field"><label for="p-client">Client</label><input class="input" id="p-client" type="text" autocomplete="organization" data-key="proposal.client"></div>
+        </div>
+        <div class="field"><label for="p-project">Project name</label><input class="input" id="p-project" type="text" data-key="proposal.project"></div>
+        <div class="field-row">
+          <div class="field"><label for="p-date">Proposal date</label><input class="input" id="p-date" type="date" data-key="proposal.date"></div>
+          <div class="field"><label for="p-valid">Valid until</label><input class="input" id="p-valid" type="date" data-key="proposal.valid"></div>
+        </div>
+        <div class="field"><label for="p-intro">Opening summary</label><textarea class="textarea" id="p-intro" rows="4" data-key="proposal.intro"></textarea></div>
+        <div class="field">
+          <label for="p-deposit">Deposit to start</label>
+          <div class="input-wrap has-post"><input class="input" id="p-deposit" type="number" inputmode="numeric" min="0" max="100" step="5" data-key="proposal.deposit"><span class="post" aria-hidden="true">%</span></div>
+        </div>
+        <div class="field">
+          <span class="label" id="rec-label">Recommended tier</span>
+          <div class="radio-row" role="radiogroup" aria-labelledby="rec-label">
+            <label><input type="radio" name="rec" value="0" data-key="proposal.rec"> Good</label>
+            <label><input type="radio" name="rec" value="1" data-key="proposal.rec"> Better</label>
+            <label><input type="radio" name="rec" value="2" data-key="proposal.rec"> Best</label>
+          </div>
+        </div>
+        <hr class="divider">
+        <h3 class="card-title">Packages</h3>
+        <div id="tierEditors"></div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="autoPrice">Price tiers from step 02</button>
+        </div>
+        <p class="hint">Sets Good to the low end of your value range, Better to the recommended fee, and Best high enough to anchor.</p>
+      </form>
+
+      <div class="prop-side">
+        <div class="card guidance" aria-live="polite">
+          <div class="block-head" style="margin-bottom:12px"><h3 style="font-family:var(--serif);font-weight:500;font-size:20px;margin:0">Anchoring check</h3></div>
+          <ul class="checks" id="checks"></ul>
+        </div>
+        <div class="btn-row prop-toolbar">
+          <button type="button" class="btn primary" id="printBtn">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6V2h8v4M4 12H2.5V7h11v5H12M4 10h8v4H4z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+            Print or save as PDF
+          </button>
+        </div>
+        <article class="doc" id="proposalDoc" aria-label="Proposal preview"></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 Change order -->
+  <section class="panel wrap" id="panel-change" role="tabpanel" aria-labelledby="tab-change" tabindex="0" hidden>
+    <div class="panel-head">
+      <p class="eyebrow">04 · Change order</p>
+      <h2>Say yes to the request, and to getting paid for it.</h2>
+      <p>Scope creep is rarely malicious. It just never gets priced. Turn every "could you also..." into a short, friendly change order before you start the work.</p>
+    </div>
+    <div class="layout">
+      <form class="card inputs" onsubmit="return false" aria-label="Change order inputs">
+        <h3>The request</h3>
+        <div class="field"><label for="c-request">What did they ask for?</label><textarea class="textarea" id="c-request" rows="3" data-key="change.request"></textarea><p class="hint">Write it as a phrase: "add a reviews section to the product page".</p></div>
+        <div class="field-row">
+          <div class="field"><label for="c-contact">Contact first name</label><input class="input" id="c-contact" type="text" data-key="change.contact"></div>
+          <div class="field"><label for="c-you">Your name</label><input class="input" id="c-you" type="text" data-key="proposal.you"></div>
+        </div>
+        <div class="field"><label for="c-project">Project</label><input class="input" id="c-project" type="text" data-key="proposal.project"></div>
+        <hr class="divider">
+        <h3>The estimate</h3>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-hours">Estimated hours</label>
+            <div class="input-wrap has-post"><input class="input" id="c-hours" type="number" inputmode="decimal" min="0.5" step="0.5" data-key="change.hours"><span class="post" aria-hidden="true">hrs</span></div>
+          </div>
+          <div class="field">
+            <label for="c-buffer">Unknowns buffer</label>
+            <div class="input-wrap has-post"><input class="input" id="c-buffer" type="number" inputmode="numeric" min="0" max="100" step="5" data-key="change.buffer"><span class="post" aria-hidden="true">%</span></div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="c-rate">Hourly rate</label>
+          <div class="input-wrap has-pre"><span class="pre cur" aria-hidden="true">$</span><input class="input" id="c-rate" type="number" inputmode="decimal" min="1" step="5" data-key="change.rate"></div>
+          <label class="check"><input type="checkbox" data-key="change.useFloor"> Use my floor rate, rounded up</label>
+        </div>
+        <div class="field">
+          <label for="c-rush">Turnaround</label>
+          <select class="select" id="c-rush" data-key="change.rush">
+            <option value="1">Standard, next open slot (1x)</option>
+            <option value="1.25">Priority, within two weeks (1.25x)</option>
+            <option value="1.5">Rush, this week (1.5x)</option>
+            <option value="2">Emergency, within 48 hours (2x)</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-delay">Delivery impact</label>
+            <div class="input-wrap has-post"><input class="input" id="c-delay" type="number" inputmode="numeric" min="0" step="1" data-key="change.delay"><span class="post" aria-hidden="true">days</span></div>
+          </div>
+          <div class="field">
+            <label for="c-tone">Tone</label>
+            <select class="select" id="c-tone" data-key="change.tone">
+              <option value="friendly">Friendly</option>
+              <option value="formal">Formal</option>
+            </select>
+          </div>
+        </div>
+      </form>
+
+      <div class="results">
+        <div class="card block">
+          <div class="block-head"><h3>Cost of the change</h3><span class="meta" id="co-meta"></span></div>
+          <ul class="breakdown" id="co-breakdown" aria-live="polite"></ul>
+        </div>
+        <div class="card block">
+          <div class="block-head"><h3>Message, ready to send</h3>
+            <button type="button" class="btn primary" id="copyBtn">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5" y="5" width="8.5" height="8.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 10.5V3.5A1 1 0 014 2.5h7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+              Copy message
+            </button>
+          </div>
+          <pre class="message" id="co-message" tabindex="0" aria-label="Change order message"></pre>
+          <p class="note">Send it before you start. A change approved in writing is a change you get paid for.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 Playbook -->
+  <section class="panel wrap" id="panel-playbook" role="tabpanel" aria-labelledby="tab-playbook" tabindex="0" hidden>
+    <div class="panel-head">
+      <p class="eyebrow">05 · Pricing playbook</p>
+      <h2>Ten moves that pay for themselves.</h2>
+      <p>Tactics that hold up in real negotiations, with the exact words to use where words matter.</p>
+    </div>
+    <div class="playbook">
+      <article class="card tactic">
+        <p class="no">01</p>
+        <h3>Say the value out loud before you say the price.</h3>
+        <p>Before any number, restate the outcome in the client's own words and money: "You mentioned abandoned carts cost you around $40k a month." Your fee is now judged against $40k, not against another freelancer's hourly rate.</p>
+        <p>Price always lands in whatever frame was set right before it. Set it yourself.</p>
+      </article>
+      <article class="card tactic">
+        <p class="no">02</p>
+        <h3>Design three tiers from the middle out.</h3>
+        <p>Write the package you actually want to sell first. Strip it down for Good, so it solves the problem but leaves obvious value on the table. Load Best with speed, access, and ongoing support, priced at 1.6 to 2.5 times the middle.</p>
+        <p>Buyers avoid extremes. The top tier exists to make the middle feel sensible, and now and then someone buys it.</p>
+      </article>
+      <article class="card tactic">
+        <p class="no">03</p>
+        <h3>Never discount. Trade scope.</h3>
+        <p>A discount tells the client your first number was padded, and they will push on every future quote. When they ask for a lower price, move deliverables instead.</p>
+        <div class="script"><b>Say this</b>"I can work with that budget. To get there, we'd drop the usability testing and go to one revision round. Which of those matters less to you?"</div>
+      </article>
+      <article class="card tactic">
+        <p class="no">04</p>
+        <h3>Diagnose "that's too expensive" before you defend it.</h3>
+        <p>The objection means one of three things, and each has a different fix. Ask which one it is.</p>
+        <div class="script"><b>Say this</b>"Thanks for being direct. Is that compared to another quote, compared to the budget you had in mind, or compared to what you expect this to return?"</div>
+        <p style="margin-top:12px">Another quote: explain the difference in risk and outcome. Budget: offer the Good tier or split into phases. Return: rebuild the value math together, or part as friends.</p>
+      </article>
+      <article class="card tactic">
+        <p class="no">05</p>
+        <h3>Raise rates on existing clients every year, with 60 days notice.</h3>
+        <p>Clients rarely leave over a 10 to 15% increase delivered calmly and early. They leave over surprises. Put it in writing, keep it short, and do not apologize.</p>
+        <div class="script"><b>Send this</b>"Hi Sam, a quick note for your planning: from March 1, my rate for new work moves to $165 per hour. Anything we have already scoped stays at the current rate. Thank you for a great year. I'm looking forward to what we build next."</div>
+      </article>
+      <article class="card tactic">
+        <p class="no">06</p>
+        <h3>Retainers sell priority, not a bucket of hours.</h3>
+        <p>Price a retainer on guaranteed availability and response time. Set a three month minimum, and let unused time expire at month end, or roll over one month at most.</p>
+        <p>A 5 to 10% discount against project rates is a fair trade for predictable income. Hours that roll over forever turn you into the client's bank.</p>
+      </article>
+      <article class="card tactic">
+        <p class="no">07</p>
+        <h3>Charge for discovery.</h3>
+        <p>Sell a paid diagnostic, usually 10 to 15% of the likely project, that ends in a roadmap the client owns. It filters out tire kickers, pays you for the hardest thinking, and turns your proposal into an informed recommendation instead of a guess.</p>
+        <p>Credit the fee toward the project if they sign within 30 days. Most do.</p>
+      </article>
+      <article class="card tactic">
+        <p class="no">08</p>
+        <h3>Use precise numbers when you expect a counter.</h3>
+        <p>Negotiation research consistently finds that precise anchors like 18,400 draw smaller counteroffers than round ones like 18,000, because they read as calculated rather than guessed.</p>
+        <p>Use round numbers for premium tiers where you want to signal confidence. Use precise ones when you know procurement will push.</p>
+      </article>
+      <article class="card tactic">
+        <p class="no">09</p>
+        <h3>Write rush and change fees into the contract up front.</h3>
+        <p>A fee the client agreed to in advance is a policy. A fee you invent mid project is an argument. Spell it out: changes are quoted as change orders, work needed in under five business days is billed at 1.5x, weekend work at 2x.</p>
+        <p>You will rarely enforce it. Its job is to make "can you just..." expensive enough to think about.</p>
+      </article>
+      <article class="card tactic">
+        <p class="no">10</p>
+        <h3>Treat the deposit as a filter, not just cash flow.</h3>
+        <p>Ask for 50% to start and the rest on milestones, never all on completion. Work begins when the deposit clears, which protects your calendar from clients who are "almost ready".</p>
+        <p>A client who balks at a deposit is telling you exactly how invoicing will go.</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>Ratecard v1.0 by Nishu Legacy. Your inputs are saved only in this browser.</span>
+    <button type="button" class="link-btn" id="resetBtn">Reset all inputs</button>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var STORE_KEY = 'tbdlab.ratecard.v1';
+  var LOCALES = { USD: 'en-US', EUR: 'en-IE', GBP: 'en-GB', INR: 'en-IN', CAD: 'en-CA', AUD: 'en-AU' };
+
+  function isoDate(d) {
+    var z = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+    return z.toISOString().slice(0, 10);
+  }
+  var today = new Date();
+  var in30 = new Date(today.getTime() + 30 * 864e5);
+
+  var DEFAULTS = {
+    currency: 'USD',
+    tab: 'floor',
+    floor: { takeHome: 90000, tax: 30, expenses: 1200, weeksOff: 6, hours: 40, util: 60, margin: 10 },
+    value: { revenue: 120000, costs: 30000, risk: 20000, horizon: 2, confidence: 60, low: 10, high: 25, hours: 120, rate: 150, useFloor: true },
+    proposal: {
+      you: 'Alex Rivera',
+      client: 'Northwind Goods',
+      project: 'Checkout redesign',
+      date: isoDate(today),
+      valid: isoDate(in30),
+      intro: 'Thanks for the conversation last week. Below are three ways to approach the checkout redesign, from a focused fix of the biggest leaks to a partnership that keeps improving conversion after launch. Each option is a fixed price, so you know the full investment upfront.',
+      deposit: 50,
+      rec: '1',
+      tiers: [
+        { name: 'Essentials', tag: 'Fix the biggest leaks, fast', price: 9500, time: '3 weeks', items: 'Half-day discovery workshop\nCheckout audit with prioritized fixes\nRedesign of the 3 highest-drop screens\nOne round of revisions' },
+        { name: 'Growth', tag: 'A checkout built to convert', price: 18400, time: '6 weeks', items: 'Everything in Essentials\nFull checkout flow redesign, 8 screens\nUsability testing with 5 customers\nDeveloper handoff with design tokens\nTwo rounds of revisions' },
+        { name: 'Partner', tag: 'Launch, measure, keep improving', price: 34000, time: '10 weeks', items: 'Everything in Growth\nA/B test plan and 60 days of iteration\nWeekly analytics review calls\nPriority access on Slack\nRevisions within scope, no limit\nQuarterly conversion strategy session' }
+      ]
+    },
+    change: { request: 'add a customer reviews section to the product page', contact: 'Maya', hours: 14, buffer: 15, rate: 150, useFloor: true, rush: '1.25', delay: 4, tone: 'friendly' },
+    theme: null
+  };
+
+  /* ---------- storage, always guarded ---------- */
+  function load() {
+    try {
+      var raw = window.localStorage.getItem(STORE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+  var saveTimer = null;
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      try { window.localStorage.setItem(STORE_KEY, JSON.stringify(S)); } catch (e) { /* storage unavailable, keep working in memory */ }
+    }, 200);
+  }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function merge(def, saved) {
+    if (saved === undefined || saved === null) return clone(def);
+    if (Array.isArray(def)) {
+      if (!Array.isArray(saved)) return clone(def);
+      return def.map(function (d, i) { return merge(d, saved[i]); });
+    }
+    if (typeof def === 'object' && def !== null) {
+      if (typeof saved !== 'object') return clone(def);
+      var out = {};
+      Object.keys(def).forEach(function (k) { out[k] = merge(def[k], saved[k]); });
+      return out;
+    }
+    if (def === null) return saved;
+    return typeof saved === typeof def ? saved : def;
+  }
+  var S = merge(DEFAULTS, load());
+
+  function getPath(path) {
+    return path.split('.').reduce(function (o, k) { return o == null ? undefined : o[k]; }, S);
+  }
+  function setPath(path, val) {
+    var keys = path.split('.');
+    var o = S;
+    for (var i = 0; i < keys.length - 1; i++) o = o[keys[i]];
+    o[keys[keys.length - 1]] = val;
+  }
+
+  /* ---------- formatting ---------- */
+  function fmt(x, opts) {
+    opts = opts || {};
+    if (!isFinite(x)) x = 0;
+    var digits = opts.digits != null ? opts.digits : 0;
+    try {
+      return new Intl.NumberFormat(LOCALES[S.currency] || 'en-US', { style: 'currency', currency: S.currency, maximumFractionDigits: digits, minimumFractionDigits: digits }).format(x);
+    } catch (e) { return '$' + Math.round(x).toLocaleString(); }
+  }
+  function fmtCompact(x) {
+    if (!isFinite(x)) x = 0;
+    try {
+      return new Intl.NumberFormat(LOCALES[S.currency] || 'en-US', { style: 'currency', currency: S.currency, notation: 'compact', maximumFractionDigits: 1 }).format(x);
+    } catch (e) { return fmt(x); }
+  }
+  function symbol() {
+    try {
+      var parts = new Intl.NumberFormat(LOCALES[S.currency], { style: 'currency', currency: S.currency }).formatToParts(0);
+      var p = parts.filter(function (x) { return x.type === 'currency'; })[0];
+      return p ? p.value : '$';
+    } catch (e) { return '$'; }
+  }
+  function n(x, fallback) { var v = parseFloat(x); return isFinite(v) ? v : fallback; }
+  function clamp(x, a, b) { return Math.min(b, Math.max(a, x)); }
+  function niceUp(x) {
+    if (!isFinite(x) || x <= 0) return 0;
+    if (x < 100) return Math.ceil(x / 5) * 5;
+    var m = Math.pow(10, Math.floor(Math.log10(x)));
+    var step = m / 10;
+    return Math.ceil(x / step) * step;
+  }
+  function niceCeilAxis(x) {
+    if (!isFinite(x) || x <= 0) return 1;
+    var m = Math.pow(10, Math.floor(Math.log10(x)));
+    var r = x / m;
+    var nice = r <= 1 ? 1 : r <= 1.5 ? 1.5 : r <= 2 ? 2 : r <= 2.5 ? 2.5 : r <= 3 ? 3 : r <= 4 ? 4 : r <= 5 ? 5 : r <= 6 ? 6 : r <= 8 ? 8 : 10;
+    return nice * m;
+  }
+  function pct(x, d) { return (isFinite(x) ? x : 0).toFixed(d || 0) + '%'; }
+  function mult(x) { if (!isFinite(x) || x <= 0) return '0x'; return (x >= 10 ? x.toFixed(0) : x.toFixed(1)) + 'x'; }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function fmtDate(iso) {
+    if (!iso) return '';
+    var d = new Date(iso + 'T12:00:00');
+    if (isNaN(d)) return iso;
+    try { return d.toLocaleDateString(LOCALES[S.currency] || 'en-US', { year: 'numeric', month: 'long', day: 'numeric' }); } catch (e) { return iso; }
+  }
+
+  /* ---------- core math ---------- */
+  function floorCalc(util) {
+    var f = S.floor;
+    var takeHome = Math.max(0, n(f.takeHome, 0));
+    var tax = clamp(n(f.tax, 0), 0, 90) / 100;
+    var expensesYr = Math.max(0, n(f.expenses, 0)) * 12;
+    var weeksOff = clamp(n(f.weeksOff, 0), 0, 51);
+    var hours = clamp(n(f.hours, 40), 1, 100);
+    var u = clamp(n(util != null ? util : f.util, 60), 1, 100) / 100;
+    var margin = clamp(n(f.margin, 0), 0, 100) / 100;
+    var workWeeks = 52 - weeksOff;
+    var billable = workWeeks * hours * u;
+    var pretax = takeHome / (1 - tax);
+    var taxes = pretax - takeHome;
+    var base = pretax + expensesYr;
+    var marginAmt = base * margin;
+    var revenue = base + marginAmt;
+    var hourly = billable > 0 ? revenue / billable : 0;
+    var dayLen = hours / 5;
+    return {
+      takeHome: takeHome, taxes: taxes, expenses: expensesYr, marginAmt: marginAmt, revenue: revenue,
+      hourly: hourly, day: hourly * dayLen, dayLen: dayLen, month: revenue / 12,
+      billable: billable, workWeeks: workWeeks, weeksOff: weeksOff, hours: hours, u: u,
+      offHours: weeksOff * hours, nonBillable: workWeeks * hours * (1 - u), totalHours: 52 * hours
+    };
+  }
+  function linkedRate() { return niceUp(floorCalc().hourly); }
+  function valueCalc() {
+    var v = S.value;
+    var annual = Math.max(0, n(v.revenue, 0)) + Math.max(0, n(v.costs, 0)) + Math.max(0, n(v.risk, 0));
+    var horizon = clamp(n(v.horizon, 1), 0, 50);
+    var conf = clamp(n(v.confidence, 60), 0, 100) / 100;
+    var captured = annual * horizon * conf;
+    var lo = clamp(n(v.low, 10), 0, 100), hi = clamp(n(v.high, 25), 0, 100);
+    if (lo > hi) { var t = lo; lo = hi; hi = t; }
+    var mid = (lo + hi) / 2;
+    var hours = Math.max(0, n(v.hours, 0));
+    var rate = v.useFloor ? linkedRate() : Math.max(0, n(v.rate, 0));
+    return {
+      annual: annual, captured: captured, lo: lo, hi: hi, mid: mid,
+      feeLo: captured * lo / 100, feeHi: captured * hi / 100, feeMid: captured * mid / 100,
+      hours: hours, rate: rate, hourlyEst: hours * rate
+    };
+  }
+
+  /* ---------- SVG helpers ---------- */
+  function widthOf(el) { return Math.max(260, Math.floor(el.clientWidth || el.getBoundingClientRect().width || 600)); }
+  function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+  function stackedBar(el, legendEl, segs, opts) {
+    var W = widthOf(el), H = 46, r = 8;
+    var total = segs.reduce(function (a, s) { return a + Math.max(0, s.value); }, 0) || 1;
+    var x = 0, rects = '', labels = '';
+    var id = el.id + '-clip';
+    segs.forEach(function (s) {
+      var w = Math.max(0, s.value) / total * W;
+      if (w <= 0) return;
+      rects += '<rect x="' + x.toFixed(2) + '" y="0" width="' + (w + 0.5).toFixed(2) + '" height="' + H + '" fill="var(' + s.color + ')"/>';
+      var share = s.value / total * 100;
+      if (w > 46) {
+        labels += '<text x="' + (x + 10).toFixed(2) + '" y="' + (H / 2 + 4) + '" font-size="12" font-weight="600" fill="' + (s.dark ? 'rgba(255,255,255,.95)' : 'rgba(20,20,16,.85)') + '">' + share.toFixed(0) + '%</text>';
+      }
+      x += w;
+    });
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" aria-hidden="true">' +
+      '<defs><clipPath id="' + id + '"><rect x="0" y="0" width="' + W + '" height="' + H + '" rx="' + r + '"/></clipPath></defs>' +
+      '<g clip-path="url(#' + id + ')">' + rects + '</g>' + labels + '</svg>';
+    legendEl.innerHTML = segs.map(function (s) {
+      return '<li><span class="sw" style="background:var(' + s.color + ')"></span><span>' + esc(s.label) + '</span><span class="amt">' + s.fmt(s.value) + ' <span style="font-weight:400;color:var(--ink-3)">· ' + (s.value / total * 100).toFixed(0) + '%</span></span></li>';
+    }).join('');
+  }
+
+  function isDarkTheme() {
+    var t = document.documentElement.getAttribute('data-theme');
+    if (t) return t === 'dark';
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  function trapChart(el) {
+    var W = widthOf(el), H = W < 480 ? 220 : 260;
+    var cur = floorCalc();
+    var uCur = Math.round(cur.u * 100);
+    var uMin = Math.min(30, Math.max(10, Math.floor((uCur - 5) / 10) * 10));
+    var uMax = 100;
+    var pts = [];
+    for (var u = uMin; u <= uMax; u++) pts.push({ u: u, r: floorCalc(u).hourly });
+    var yMax = niceCeilAxis(pts[0].r * 1.05);
+    var labelW = Math.max(fmt(yMax).length, 4) * 7 + 10;
+    var pl = labelW, pr = 14, pt = 16, pb = 30;
+    var iw = W - pl - pr, ih = H - pt - pb;
+    function X(u) { return pl + (u - uMin) / (uMax - uMin) * iw; }
+    function Y(r) { return pt + ih - (r / yMax) * ih; }
+    var g = '';
+    // typical band
+    var b0 = Math.max(uMin, 50), b1 = 70;
+    g += '<rect x="' + X(b0) + '" y="' + pt + '" width="' + (X(b1) - X(b0)) + '" height="' + ih + '" fill="var(--surface-2)"/>';
+    g += '<text class="ax" x="' + ((X(b0) + X(b1)) / 2) + '" y="' + (pt + 14) + '" text-anchor="middle">typical range</text>';
+    // y grid
+    for (var i = 0; i <= 4; i++) {
+      var yv = yMax * i / 4, yy = Y(yv);
+      g += '<line class="ax-line" x1="' + pl + '" x2="' + (W - pr) + '" y1="' + yy + '" y2="' + yy + '" stroke-dasharray="' + (i === 0 ? '0' : '2 4') + '"/>';
+      g += '<text class="ax" x="' + (pl - 8) + '" y="' + (yy + 4) + '" text-anchor="end">' + fmt(yv) + '</text>';
+    }
+    var step = W < 480 ? 20 : 10;
+    for (var xv = Math.ceil(uMin / step) * step; xv <= uMax; xv += step) {
+      g += '<text class="ax" x="' + X(xv) + '" y="' + (H - 8) + '" text-anchor="middle">' + xv + '%</text>';
+    }
+    var line = pts.map(function (p, i) { return (i ? 'L' : 'M') + X(p.u).toFixed(1) + ' ' + Y(Math.min(p.r, yMax)).toFixed(1); }).join(' ');
+    var area = line + ' L' + X(uMax).toFixed(1) + ' ' + Y(0) + ' L' + X(uMin).toFixed(1) + ' ' + Y(0) + ' Z';
+    g += '<path d="' + area + '" fill="var(--accent)" opacity=".10"/>';
+    g += '<path d="' + line + '" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+    // current marker
+    var cx = X(uCur), cy = Y(Math.min(cur.hourly, yMax));
+    g += '<line x1="' + cx + '" x2="' + cx + '" y1="' + cy + '" y2="' + Y(0) + '" stroke="var(--ink-3)" stroke-dasharray="3 3"/>';
+    g += '<circle cx="' + cx + '" cy="' + cy + '" r="6" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/>';
+    var lab = 'You: ' + uCur + '% · ' + fmt(cur.hourly) + '/hr';
+    var lw = lab.length * 6.6 + 18;
+    var lx = cx + 12; if (lx + lw > W - pr) lx = cx - 12 - lw;
+    var ly = Math.max(pt, cy - 36);
+    g += '<rect x="' + lx + '" y="' + ly + '" width="' + lw + '" height="24" rx="12" fill="var(--ink)"/>';
+    g += '<text x="' + (lx + lw / 2) + '" y="' + (ly + 16) + '" text-anchor="middle" font-size="12" font-weight="600" fill="var(--bg)">' + esc(lab) + '</text>';
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" aria-hidden="true">' + g + '</svg>';
+  }
+
+  function valueChart(el, vc) {
+    var W = widthOf(el);
+    var rows = [
+      { label: 'Hourly estimate (' + vc.hours + ' hrs x ' + fmt(vc.rate) + ')', v: vc.hourlyEst, color: 'var(--ink-3)' },
+      { label: 'Value fee, low (' + vc.lo + '%)', v: vc.feeLo, color: 'var(--c-margin)' },
+      { label: 'Recommended (' + vc.mid.toFixed(vc.mid % 1 ? 1 : 0) + '%)', v: vc.feeMid, color: 'var(--accent)' },
+      { label: 'Value fee, high (' + vc.hi + '%)', v: vc.feeHi, color: 'var(--c-take)', op: 0.65 }
+    ];
+    var max = Math.max.apply(null, rows.map(function (r) { return r.v; })) || 1;
+    var rightW = W < 480 ? 120 : 150;
+    var bw = W - rightW;
+    var rowH = 52, H = rows.length * rowH;
+    var g = '';
+    rows.forEach(function (r, i) {
+      var y = i * rowH;
+      var w = Math.max(2, r.v / max * bw);
+      var roi = r.v > 0 ? vc.captured / r.v : 0;
+      g += '<text x="0" y="' + (y + 14) + '" font-size="12.5" fill="var(--ink-2)">' + esc(r.label) + '</text>';
+      g += '<rect x="0" y="' + (y + 22) + '" width="' + bw + '" height="18" rx="5" fill="var(--surface-2)"/>';
+      g += '<rect x="0" y="' + (y + 22) + '" width="' + w.toFixed(1) + '" height="18" rx="5" fill="' + r.color + '"' + (r.op ? ' opacity="' + r.op + '"' : '') + '/>';
+      g += '<text x="' + (bw + 10) + '" y="' + (y + 36) + '" font-size="13" font-weight="600" fill="var(--ink)">' + fmtCompact(r.v) + '</text>';
+      g += '<text x="' + (W) + '" y="' + (y + 36) + '" font-size="12.5" text-anchor="end" fill="' + (roi >= 3 ? 'var(--accent)' : 'var(--warn)') + '" font-weight="600">' + mult(roi) + ' ROI</text>';
+    });
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" aria-hidden="true">' + g + '</svg>';
+  }
+
+  /* ---------- renders ---------- */
+  var $ = function (id) { return document.getElementById(id); };
+
+  function renderFloor() {
+    var c = floorCalc();
+    $('chipFloor').textContent = fmt(c.hourly);
+    $('r-hourly').textContent = fmt(c.hourly);
+    $('r-hourly-s').textContent = 'Quote at least ' + fmt(niceUp(c.hourly * 1.2)) + ' to leave room';
+    $('r-day').textContent = fmt(c.day);
+    $('r-day-s').textContent = (Math.round(c.dayLen * 10) / 10) + ' hour billable day';
+    $('r-month').textContent = fmt(c.month);
+    $('r-month-s').textContent = fmt(c.workWeeks > 0 ? c.revenue / c.workWeeks : 0) + ' per working week';
+    $('r-annual').textContent = 'Annual revenue ' + fmt(c.revenue);
+    $('r-billable').textContent = Math.round(c.billable).toLocaleString() + ' billable of ' + Math.round(c.totalHours).toLocaleString() + ' hours';
+    $('o-util').textContent = Math.round(c.u * 100) + '%';
+    $('o-margin').textContent = Math.round(n(S.floor.margin, 0)) + '%';
+    var dark = isDarkTheme();
+    stackedBar($('chart-split'), $('legend-split'), [
+      { label: 'Your take-home', value: c.takeHome, color: '--c-take', dark: !dark, fmt: fmt },
+      { label: 'Taxes', value: c.taxes, color: '--c-tax', fmt: fmt },
+      { label: 'Business expenses', value: c.expenses, color: '--c-exp', dark: !dark, fmt: fmt },
+      { label: 'Profit margin', value: c.marginAmt, color: '--c-margin', dark: dark, fmt: fmt }
+    ]);
+    var hrs = function (v) { return Math.round(v).toLocaleString() + ' hrs'; };
+    stackedBar($('chart-hours'), $('legend-hours'), [
+      { label: 'Billable', value: c.billable, color: '--c-take', dark: !dark, fmt: hrs },
+      { label: 'Sales, admin, gaps', value: c.nonBillable, color: '--c-nonbill', dark: dark, fmt: hrs },
+      { label: 'Time off', value: c.offHours, color: '--c-off', dark: dark, fmt: hrs }
+    ]);
+    trapChart($('chart-trap'));
+    var uNow = Math.round(c.u * 100);
+    var uLow = Math.max(10, uNow - 20);
+    var low = floorCalc(uLow).hourly;
+    var rise = c.hourly > 0 ? (low / c.hourly - 1) * 100 : 0;
+    var html;
+    if (uNow - uLow < 5) {
+      html = '<strong>You are already near the bottom of the curve.</strong> At ' + uNow + '% utilization every lost hour is expensive. Raise your rate or protect billable time before you take on more unpaid work.';
+    } else {
+      html = 'If a slow quarter drops you from ' + uNow + '% to ' + uLow + '% utilization, your floor jumps to <strong>' + fmt(low) + '/hr</strong>, ' + pct(rise) + ' higher. Rates set at full utilization quietly assume you never sell, invoice, or rest. Price for the year you will actually have.';
+    }
+    $('trap-callout').innerHTML = html;
+  }
+
+  function renderValue() {
+    var vc = valueCalc();
+    var rateIn = $('v-rate');
+    rateIn.disabled = !!S.value.useFloor;
+    if (S.value.useFloor && document.activeElement !== rateIn) rateIn.value = vc.rate;
+    $('o-conf').textContent = Math.round(n(S.value.confidence, 0)) + '%';
+    $('r-value').textContent = fmtCompact(vc.captured);
+    $('r-value-s').textContent = fmt(vc.annual) + '/yr x ' + n(S.value.horizon, 0) + ' yrs x ' + Math.round(n(S.value.confidence, 0)) + '%';
+    $('r-fee').textContent = fmt(niceUp(vc.feeMid));
+    $('r-fee-s').textContent = 'Range ' + fmt(niceUp(vc.feeLo)) + ' to ' + fmt(niceUp(vc.feeHi));
+    $('r-hourlyEst').textContent = fmt(vc.hourlyEst);
+    $('r-hourlyEst-s').textContent = vc.hours + ' hrs x ' + fmt(vc.rate) + '/hr';
+    valueChart($('chart-value'), vc);
+    var co = $('value-callout');
+    if (vc.captured <= 0) {
+      co.className = 'callout warn';
+      co.innerHTML = '<strong>No value to price yet.</strong> Ask the client what this problem costs them today. If nobody can put a number on it, that is useful information too.';
+    } else if (vc.hourlyEst > 0 && vc.feeMid >= vc.hourlyEst * 1.1) {
+      var eff = vc.hours > 0 ? vc.feeMid / vc.hours : 0;
+      co.className = 'callout';
+      co.innerHTML = 'Pricing on value earns you <strong>' + mult(vc.feeMid / vc.hourlyEst) + '</strong> what billing hours would, an effective <strong>' + fmt(eff) + '/hr</strong>, while the client still gets a <strong>' + mult(vc.captured / vc.feeMid) + '</strong> return. Lead with the outcome and quote a fixed fee.';
+    } else if (vc.hourlyEst > 0 && vc.hourlyEst > vc.feeHi) {
+      co.className = 'callout warn';
+      co.innerHTML = '<strong>The value here does not cover your hourly estimate.</strong> Even at ' + vc.hi + '% of captured value the fee is below ' + fmt(vc.hourlyEst) + '. Shrink the scope, find a bigger outcome to attach to, or pass on this one.';
+    } else {
+      co.className = 'callout';
+      co.innerHTML = 'Value and hours land in a similar place. Quote the higher of the two as a fixed fee: the client gets certainty, and you keep the upside if you work faster.';
+    }
+    var tiers = [5, 10, 15, 20, 25, 30, 40];
+    $('ladder').querySelector('tbody').innerHTML = tiers.map(function (p) {
+      var fee = vc.captured * p / 100;
+      var roi = fee > 0 ? vc.captured / fee : 0;
+      var per = vc.hours > 0 ? fee / vc.hours : 0;
+      var read = roi >= 10 ? '<span class="pill good">Easy yes</span>' : roi >= 5 ? '<span class="pill good">Strong</span>' : roi >= 3 ? '<span class="pill">Fair</span>' : '<span class="pill bad">Hard sell</span>';
+      var inR = p >= vc.lo && p <= vc.hi;
+      return '<tr class="' + (inR ? 'in-range' : '') + '"><td>' + p + '%</td><td>' + fmt(fee) + '</td><td>' + mult(roi) + '</td><td>' + fmt(per) + '</td><td>' + read + '</td></tr>';
+    }).join('');
+  }
+
+  function renderTierEditors() {
+    var host = $('tierEditors');
+    var labels = ['Good', 'Better', 'Best'];
+    host.innerHTML = S.proposal.tiers.map(function (t, i) {
+      var p = 'proposal.tiers.' + i + '.';
+      return '<fieldset class="tier-edit"><legend>' + labels[i] + '</legend>' +
+        '<div class="field-row">' +
+        '<div class="field"><label for="t' + i + '-name">Name</label><input class="input" id="t' + i + '-name" type="text" data-key="' + p + 'name"></div>' +
+        '<div class="field"><label for="t' + i + '-price">Price</label><div class="input-wrap has-pre"><span class="pre cur" aria-hidden="true">$</span><input class="input" id="t' + i + '-price" type="number" inputmode="decimal" min="0" step="100" data-key="' + p + 'price"></div></div>' +
+        '</div>' +
+        '<div class="field-row">' +
+        '<div class="field"><label for="t' + i + '-tag">Best for</label><input class="input" id="t' + i + '-tag" type="text" data-key="' + p + 'tag"></div>' +
+        '<div class="field"><label for="t' + i + '-time">Timeline</label><input class="input" id="t' + i + '-time" type="text" data-key="' + p + 'time"></div>' +
+        '</div>' +
+        '<div class="field"><label for="t' + i + '-items">Deliverables, one per line</label><textarea class="textarea" id="t' + i + '-items" rows="4" data-key="' + p + 'items"></textarea></div>' +
+        '</fieldset>';
+    }).join('');
+  }
+
+  function itemsOf(t) { return String(t.items || '').split('\n').map(function (s) { return s.trim(); }).filter(Boolean); }
+
+  function renderProposal() {
+    var P = S.proposal;
+    var rec = String(P.rec);
+    var tiersHtml = P.tiers.map(function (t, i) {
+      var isRec = String(i) === rec;
+      return '<div class="tier' + (isRec ? ' rec' : '') + '">' +
+        (isRec ? '<span class="badge">Recommended</span>' : '') +
+        '<h4>' + esc(t.name || ['Good', 'Better', 'Best'][i]) + '</h4>' +
+        '<p class="tag">' + esc(t.tag) + '</p>' +
+        '<p class="price">' + fmt(n(t.price, 0)) + '</p>' +
+        '<p class="time">' + (t.time ? 'Timeline: ' + esc(t.time) : '&nbsp;') + '</p>' +
+        '<ul>' + itemsOf(t).map(function (it) { return '<li><span>' + esc(it) + '</span></li>'; }).join('') + '</ul>' +
+        '</div>';
+    }).join('');
+    var dep = clamp(n(P.deposit, 50), 0, 100);
+    $('proposalDoc').innerHTML =
+      '<div class="doc-top">' +
+        '<div style="min-width:0;flex:1 1 280px"><p class="doc-eyebrow">Proposal</p><h2 class="doc-title">' + esc(P.project || 'Untitled project') + '</h2>' +
+        '<p class="doc-for">Prepared for <strong>' + esc(P.client || 'Client') + '</strong> by ' + esc(P.you || 'You') + '</p></div>' +
+        '<div class="doc-meta">' + (P.date ? 'Issued <strong>' + esc(fmtDate(P.date)) + '</strong><br>' : '') + (P.valid ? 'Valid until <strong>' + esc(fmtDate(P.valid)) + '</strong>' : '') + '</div>' +
+      '</div>' +
+      (P.intro ? '<p class="doc-intro">' + esc(P.intro) + '</p>' : '') +
+      '<div class="doc-tiers">' + tiersHtml + '</div>' +
+      '<div class="doc-next">' +
+        '<div><h5>Next steps</h5><p>Reply with the option that fits best. I will send a short agreement and an invoice for the ' + dep + '% deposit, and we can begin within a week of signing. ' + (dep < 100 ? 'The balance is billed at milestones agreed in the contract. ' : '') + (P.valid ? 'Pricing is held until ' + esc(fmtDate(P.valid)) + '.' : '') + '</p></div>' +
+        '<div class="sign"><div>Accepted by, name and signature</div><div>Option chosen and date</div></div>' +
+      '</div>';
+
+    // anchoring checks
+    var p = P.tiers.map(function (t) { return n(t.price, 0); });
+    var counts = P.tiers.map(function (t) { return itemsOf(t).length; });
+    var vc = valueCalc();
+    var checks = [];
+    var r1 = p[0] > 0 ? p[1] / p[0] : 0, r2 = p[1] > 0 ? p[2] / p[1] : 0;
+    checks.push({ ok: r2 >= 1.6, html: r2 >= 1.6
+      ? '<strong>Strong anchor.</strong> Best is ' + mult(r2) + ' Better, so the middle reads as the sensible choice.'
+      : '<strong>Raise your Best tier.</strong> It is ' + mult(r2) + ' Better. At 1.6x or more it makes the middle look reasonable. Aim for about ' + fmt(niceUp(p[1] * 1.8)) + '.' });
+    checks.push({ ok: r1 >= 1.4 && r1 <= 2.5, html: (r1 >= 1.4 && r1 <= 2.5)
+      ? '<strong>Clear step up.</strong> Better is ' + mult(r1) + ' Good, a jump buyers can justify.'
+      : r1 < 1.4 ? '<strong>Good is too close to Better.</strong> At ' + mult(r1) + ' the cheap option steals the sale. Remove a deliverable from Good or price Better higher.'
+      : '<strong>Big gap from Good to Better.</strong> At ' + mult(r1) + ' the jump feels steep. Add value to Good or bring Better down.' });
+    checks.push({ ok: rec === '1', html: rec === '1'
+      ? '<strong>Middle tier is recommended.</strong> Most clients pick the option you visibly stand behind.'
+      : '<strong>Recommend the middle tier.</strong> Highlighting an end option weakens the decoy effect.' });
+    var grows = counts[1] > counts[0] && counts[2] > counts[1];
+    checks.push({ ok: grows, html: grows
+      ? '<strong>Each tier adds visible value</strong> (' + counts.join(' / ') + ' deliverables).'
+      : '<strong>Make each tier visibly bigger.</strong> Deliverable counts are ' + counts.join(' / ') + '. Higher tiers should add something the client can see.' });
+    if (vc.hourlyEst > 0) {
+      var okFloor = p[0] >= vc.hourlyEst;
+      checks.push({ ok: okFloor, html: okFloor
+        ? '<strong>Good clears your floor.</strong> Even the smallest option beats your hourly estimate of ' + fmt(vc.hourlyEst) + '.'
+        : '<strong>Good is below your hourly estimate</strong> of ' + fmt(vc.hourlyEst) + '. Cut its scope until the price covers the work.' });
+    }
+    $('checks').innerHTML = checks.map(function (c) {
+      return '<li class="' + (c.ok ? 'ok' : 'no') + '"><span class="ic" aria-hidden="true">' + (c.ok ? '✓' : '!') + '</span><span><span class="sr-only">' + (c.ok ? 'Pass: ' : 'Needs work: ') + '</span>' + c.html + '</span></li>';
+    }).join('');
+  }
+
+  function changeCalc() {
+    var c = S.change;
+    var hours = Math.max(0, n(c.hours, 0));
+    var rate = c.useFloor ? linkedRate() : Math.max(0, n(c.rate, 0));
+    var buffer = clamp(n(c.buffer, 0), 0, 200) / 100;
+    var m = clamp(n(c.rush, 1), 1, 5);
+    var base = hours * rate;
+    var bufAmt = base * buffer;
+    var sub = base + bufAmt;
+    var rushAmt = sub * (m - 1);
+    var total = niceUp(sub + rushAmt);
+    return { hours: hours, rate: rate, buffer: buffer, m: m, base: base, bufAmt: bufAmt, sub: sub, rushAmt: rushAmt, total: total, standard: niceUp(sub), delay: Math.max(0, Math.round(n(c.delay, 0))) };
+  }
+  var RUSH_NAMES = { '1': 'Standard', '1.25': 'Priority, within two weeks', '1.5': 'Rush, this week', '2': 'Emergency, within 48 hours' };
+
+  function changeMessage(cc) {
+    var c = S.change, P = S.proposal;
+    var req = String(c.request || 'the new request').trim().replace(/[.\s]+$/, '');
+    var reqLower = req.charAt(0).toLowerCase() + req.slice(1);
+    var name = String(c.contact || '').trim();
+    var proj = String(P.project || 'the project').trim();
+    var you = String(P.you || '').trim();
+    var effort = Math.round(cc.hours * (1 + cc.buffer) * 10) / 10;
+    var rushName = RUSH_NAMES[String(c.rush)] || 'Standard';
+    var delayLine = cc.delay > 0 ? 'This moves the final delivery by ' + cc.delay + ' business day' + (cc.delay === 1 ? '' : 's') + '.' : 'This fits inside the current timeline, so the delivery date does not change.';
+    var lines = [];
+    if (c.tone === 'formal') {
+      lines.push('Dear ' + (name || 'team') + ',', '');
+      lines.push('Thank you for the request to ' + reqLower + '. As this falls outside the agreed scope for ' + proj + ', I have prepared a change order for your approval before work begins.', '');
+    } else {
+      lines.push('Hi ' + (name || 'there') + ',', '');
+      lines.push('Thanks for sending this over, it is a good idea. Since it sits outside the scope we agreed for ' + proj + ', here is a quick change order before I start.', '');
+    }
+    lines.push('Change: ' + req.charAt(0).toUpperCase() + req.slice(1));
+    lines.push('Estimated effort: about ' + effort + ' hours, including testing and review');
+    lines.push('Turnaround: ' + rushName);
+    lines.push('Investment: ' + fmt(cc.total) + ', billed with the next invoice');
+    lines.push('Timeline: ' + delayLine, '');
+    if (cc.m > 1) {
+      lines.push(c.tone === 'formal'
+        ? 'Should the timing be flexible, I can schedule this after the current milestone at the standard rate of ' + fmt(cc.standard) + '.'
+        : 'If the timing is flexible, I can schedule it after the current milestone at the standard price of ' + fmt(cc.standard) + ' instead.', '');
+    }
+    lines.push(c.tone === 'formal'
+      ? 'Please reply to confirm your approval and I will incorporate this into the current schedule. I am happy to discuss a reduced version if that would be more suitable.'
+      : 'If you are happy to go ahead, just reply "approved" and I will fold it into the plan. Happy to talk through a smaller version too if that is more useful.', '');
+    lines.push(c.tone === 'formal' ? 'Kind regards,' : 'Best,');
+    lines.push(you || 'Your name');
+    return lines.join('\n');
+  }
+
+  function renderChange() {
+    var cc = changeCalc();
+    var rateIn = $('c-rate');
+    rateIn.disabled = !!S.change.useFloor;
+    if (S.change.useFloor && document.activeElement !== rateIn) rateIn.value = cc.rate;
+    var rows = [
+      ['Base: ' + cc.hours + ' hrs x ' + fmt(cc.rate), fmt(cc.base)],
+      ['Unknowns buffer (' + Math.round(cc.buffer * 100) + '%)', fmt(cc.bufAmt)]
+    ];
+    if (cc.m > 1) rows.push(['Rush premium (' + cc.m + 'x)', fmt(cc.rushAmt)]);
+    $('co-breakdown').innerHTML = rows.map(function (r) { return '<li><span>' + esc(r[0]) + '</span><span class="num">' + r[1] + '</span></li>'; }).join('') +
+      '<li class="total"><span>Change order total</span><span class="num">' + fmt(cc.total) + '</span></li>';
+    $('co-meta').textContent = cc.m > 1 ? 'Standard turnaround would be ' + fmt(cc.standard) : 'Rounded up to a clean number';
+    $('co-message').textContent = changeMessage(cc);
+  }
+
+  function renderCurrency() {
+    var sym = symbol();
+    document.querySelectorAll('.cur').forEach(function (el) {
+      el.textContent = sym;
+      var wrap = el.parentNode;
+      wrap.style.setProperty('--pre-w', (sym.length * 9) + 'px');
+    });
+  }
+
+  function renderAll() {
+    renderCurrency();
+    renderFloor();
+    renderValue();
+    renderProposal();
+    renderChange();
+  }
+
+  /* ---------- input binding ---------- */
+  function syncInputs() {
+    document.querySelectorAll('[data-key]').forEach(function (el) {
+      if (el === document.activeElement) return;
+      var v = getPath(el.getAttribute('data-key'));
+      if (el.type === 'checkbox') el.checked = !!v;
+      else if (el.type === 'radio') el.checked = String(v) === el.value;
+      else el.value = v == null ? '' : v;
+    });
+    $('currency').value = S.currency;
+  }
+  function onInput(e) {
+    var el = e.target;
+    var key = el.getAttribute && el.getAttribute('data-key');
+    if (!key) return;
+    var val;
+    if (el.type === 'checkbox') val = el.checked;
+    else if (el.type === 'radio') { if (!el.checked) return; val = el.value; }
+    else if (el.type === 'number' || el.type === 'range') { val = el.value === '' ? '' : parseFloat(el.value); if (val !== '' && !isFinite(val)) val = ''; }
+    else val = el.value;
+    setPath(key, val);
+    // mirror shared keys into twin inputs
+    document.querySelectorAll('[data-key="' + key + '"]').forEach(function (twin) {
+      if (twin !== el && twin.type !== 'radio' && twin.type !== 'checkbox') twin.value = val;
+    });
+    renderAll();
+    save();
+  }
+  document.addEventListener('input', onInput);
+  document.addEventListener('change', function (e) { if (e.target.type === 'checkbox' || e.target.type === 'radio' || e.target.tagName === 'SELECT') onInput(e); });
+
+  $('currency').addEventListener('change', function (e) { S.currency = e.target.value; renderAll(); save(); });
+
+  /* ---------- tabs ---------- */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function activate(name, focus) {
+    tabs.forEach(function (t) {
+      var on = t.id === 'tab-' + name;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      $(t.getAttribute('aria-controls')).hidden = !on;
+      if (on && focus) t.focus();
+      if (on) { try { t.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch (e) {} }
+    });
+    S.tab = name;
+    save();
+    renderAll();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () {
+      activate(t.id.replace('tab-', ''));
+      var nav = document.querySelector('.tabs');
+      var top = nav.getBoundingClientRect().top + window.scrollY - 60;
+      if (window.scrollY > top) window.scrollTo({ top: top });
+    });
+    t.addEventListener('keydown', function (e) {
+      var j = null;
+      if (e.key === 'ArrowRight') j = (i + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
+      else if (e.key === 'Home') j = 0;
+      else if (e.key === 'End') j = tabs.length - 1;
+      if (j !== null) { e.preventDefault(); activate(tabs[j].id.replace('tab-', ''), true); }
+    });
+  });
+
+  /* ---------- actions ---------- */
+  var toastTimer;
+  function toast(msg) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2200);
+  }
+
+  $('autoPrice').addEventListener('click', function () {
+    var vc = valueCalc();
+    if (vc.captured <= 0) { toast('Add the client value in step 02 first'); return; }
+    var good = niceUp(Math.max(vc.feeLo, vc.hourlyEst));
+    var better = niceUp(Math.max(vc.feeMid, good * 1.5));
+    var best = niceUp(Math.max(vc.feeHi, better * 1.8));
+    S.proposal.tiers[0].price = good;
+    S.proposal.tiers[1].price = better;
+    S.proposal.tiers[2].price = best;
+    S.proposal.rec = '1';
+    syncInputs(); renderAll(); save();
+    toast('Tiers priced from your value range');
+  });
+
+  $('printBtn').addEventListener('click', function () { window.print(); });
+
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return fallbackCopy(text); });
+    }
+    return Promise.resolve(fallbackCopy(text));
+  }
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0'; ta.style.left = '-9999px';
+    document.body.appendChild(ta); ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+  $('copyBtn').addEventListener('click', function () {
+    copyText($('co-message').textContent).then(function (ok) {
+      toast(ok ? 'Change order copied to clipboard' : 'Select the message text to copy it');
+    });
+  });
+
+  $('resetBtn').addEventListener('click', function () {
+    if (!window.confirm('Reset every input to the example values?')) return;
+    var theme = S.theme;
+    S = clone(DEFAULTS);
+    S.theme = theme;
+    try { window.localStorage.removeItem(STORE_KEY); } catch (e) {}
+    renderTierEditors(); syncInputs(); activate('floor'); save();
+    toast('Inputs reset');
+  });
+
+  /* ---------- theme ---------- */
+  function applyTheme() {
+    if (S.theme === 'light' || S.theme === 'dark') document.documentElement.setAttribute('data-theme', S.theme);
+    else document.documentElement.removeAttribute('data-theme');
+    $('themeBtn').setAttribute('aria-label', isDarkTheme() ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  $('themeBtn').addEventListener('click', function () {
+    S.theme = isDarkTheme() ? 'light' : 'dark';
+    applyTheme(); renderAll(); save();
+  });
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var onMq = function () { if (!S.theme) { applyTheme(); renderAll(); } };
+    if (mq.addEventListener) mq.addEventListener('change', onMq); else if (mq.addListener) mq.addListener(onMq);
+  }
+
+  /* ---------- resize: charts are drawn at real pixel width ---------- */
+  var rz;
+  window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(renderAll, 120); });
+
+  /* ---------- init ---------- */
+  applyTheme();
+  renderTierEditors();
+  syncInputs();
+  var startTab = ['floor', 'value', 'proposal', 'change', 'playbook'].indexOf(S.tab) >= 0 ? S.tab : 'floor';
+  activate(startTab);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(renderAll);
+})();
+</script>
+</body>
+</html>

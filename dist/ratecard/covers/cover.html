@@ -1,0 +1,73 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f1ea;--ink:#1a1a17;--muted:#5d5a52;--green:#1f6b4a;--line:#e2ddd2}
+*{box-sizing:border-box;margin:0}
+body{width:1280px;height:720px;overflow:hidden;background:var(--bg);font-family:Inter,sans-serif;color:var(--ink)}
+.c{position:relative;width:1280px;height:720px;overflow:hidden;display:none}
+.c.on{display:block}
+.copy{position:absolute;left:72px;top:72px;width:500px}
+.brand{display:flex;align-items:center;gap:10px;font:700 26px Fraunces,serif}
+.brand i{width:14px;height:14px;border-radius:4px;background:var(--green)}
+.eyebrow{margin-top:44px;font:600 13px Inter;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
+h1{margin-top:14px;font:700 64px/1.02 Fraunces,serif;letter-spacing:-.02em}
+h1 em{font-style:italic;font-weight:500;color:var(--green)}
+ul{list-style:none;padding:0;margin-top:28px;display:grid;gap:12px}
+li{font-size:19px;color:var(--muted);display:flex;gap:12px;align-items:baseline}
+li b{color:var(--ink);font-weight:600}
+li:before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--green);transform:translateY(-2px)}
+.foot{position:absolute;left:72px;bottom:56px;font-size:15px;color:var(--muted)}
+.foot b{color:var(--ink)}
+.shot{position:absolute;border-radius:16px;overflow:hidden;box-shadow:0 2px 6px rgba(30,25,15,.08),0 30px 70px rgba(30,25,15,.18);background:#fffdf9;border:1px solid var(--line)}
+.shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+.big{font:700 120px/1 Fraunces,serif;color:var(--green);letter-spacing:-.03em}
+</style></head><body>
+
+<section class="c" id="c1">
+  <div class="copy">
+    <div class="brand"><i></i>Ratecard</div>
+    <div class="eyebrow">Pricing studio for freelancers</div>
+    <h1>Price from <em>value,</em> not from fear.</h1>
+    <ul>
+      <li><span><b>Floor rate</b> you can never go below</span></li>
+      <li><span><b>Value pricing</b> with client ROI</span></li>
+      <li><span><b>Three-tier proposals</b> that print to PDF</span></li>
+      <li><span><b>Change orders</b> for scope creep</span></li>
+    </ul>
+  </div>
+  <div class="foot"><b>One file.</b> Works offline. No account, no subscription.</div>
+  <div class="shot" style="left:640px;top:70px;width:704px;height:620px;transform:rotate(-1.5deg)"><img src="el-floor-results.png"></div>
+  <div class="shot" style="left:930px;top:300px;width:400px;height:470px;transform:rotate(2deg)"><img src="el-doc.png" style="object-position:0 32%"></div>
+</section>
+
+<section class="c" id="c2">
+  <div class="copy">
+    <div class="brand"><i></i>Ratecard</div>
+    <div class="eyebrow">Three-tier proposal builder</div>
+    <h1>Give them a choice between <em>yeses.</em></h1>
+    <ul>
+      <li><span>Good, Better, Best packages, <b>fully editable</b></span></li>
+      <li><span>A live <b>anchoring check</b> on your tiers</span></li>
+      <li><span>Prints to a <b>clean PDF</b> in one click</span></li>
+    </ul>
+  </div>
+  <div class="foot">Works in <b>6 currencies</b>: USD, EUR, GBP, INR, CAD, AUD</div>
+  <div class="shot" style="left:640px;top:64px;width:600px;height:700px;transform:rotate(1.2deg)"><img src="el-doc.png" style="object-position:0 0"></div>
+</section>
+
+<section class="c" id="c3">
+  <div class="copy">
+    <div class="brand"><i></i>Ratecard</div>
+    <div class="eyebrow">Value pricing</div>
+    <h1>Charge for the outcome, <em>not the hours.</em></h1>
+    <ul>
+      <li><span>Estimate revenue gained, costs saved, <b>risk reduced</b></span></li>
+      <li><span>See the <b>ROI multiple</b> at every price point</span></li>
+      <li><span>Plus a playbook with <b>word-for-word scripts</b></span></li>
+    </ul>
+  </div>
+  <div class="foot">Raise one project fee by 5% and it has paid for itself many times over.</div>
+  <div class="shot" style="left:640px;top:70px;width:704px;height:640px;transform:rotate(-1.2deg)"><img src="el-value-results.png"></div>
+</section>
+<script>const id=new URLSearchParams(location.search).get('id')||'c1';document.getElementById(id).classList.add('on')</script>
+</body></html>
