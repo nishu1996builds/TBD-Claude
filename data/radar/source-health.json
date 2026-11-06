@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-06T04:02:27.089Z",
+ "generated": "2026-11-06T04:04:57.771Z",
  "today": "2026-11-05",
  "since": "2026-10-29",
  "mock": false,
@@ -11,14 +11,42 @@
    "ok": true,
    "rows": 156,
    "pages": 1,
-   "ms": 768,
+   "ms": 1054,
    "status": 200,
    "error": "",
    "missingFields": [
     "lic"
    ],
    "hasEmail": false,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "2028-02-26",
+   "columnsSeen": [
+    "business_corridor",
+    "business_zip",
+    "certificate_number",
+    "city",
+    "community_benefit_district",
+    "data_as_of",
+    "data_loaded_at",
+    "dba_name",
+    "dba_start_date",
+    "full_business_address",
+    "location",
+    "location_start_date",
+    "mail_city",
+    "mail_state",
+    "mail_zipcode",
+    "mailing_address_1",
+    "neighborhoods_analysis_boundaries",
+    "ownership_name",
+    "parking_tax",
+    "self_reported_naics_code",
+    "state",
+    "supervisor_district",
+    "transient_occupancy_tax",
+    "ttxid",
+    "uniqueid"
+   ]
   },
   {
    "id": "chicago",
@@ -27,12 +55,13 @@
    "ok": true,
    "rows": 169,
    "pages": 1,
-   "ms": 693,
+   "ms": 831,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "error 503"
   },
   {
    "id": "chicago_food",
@@ -41,12 +70,13 @@
    "ok": true,
    "rows": 19,
    "pages": 1,
-   "ms": 4995,
+   "ms": 9055,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "2026-11-03"
   },
   {
    "id": "la",
@@ -55,12 +85,13 @@
    "ok": true,
    "rows": 88,
    "pages": 1,
-   "ms": 787,
+   "ms": 3742,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "2027-04-01"
   },
   {
    "id": "nyc_lic",
@@ -69,12 +100,40 @@
    "ok": true,
    "rows": 0,
    "pages": 1,
-   "ms": 8609,
+   "ms": 910,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": true
+   "hasPhone": true,
+   "latestDate": "2026-08-19",
+   "columnsSeen": [
+    "address_borough",
+    "address_building",
+    "address_city",
+    "address_state",
+    "address_street_name",
+    "address_type",
+    "address_zip",
+    "bbl",
+    "bin",
+    "business_category",
+    "business_name",
+    "business_unique_id",
+    "census_block_2010_",
+    "census_tract",
+    "community_board",
+    "contact_phone",
+    "council_district",
+    "latitude",
+    "lic_expir_dd",
+    "license_creation_date",
+    "license_nbr",
+    "license_status",
+    "license_type",
+    "longitude",
+    "nta"
+   ]
   },
   {
    "id": "nyc_app",
@@ -83,12 +142,44 @@
    "ok": true,
    "rows": 0,
    "pages": 1,
-   "ms": 5385,
+   "ms": 15423,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": true
+   "hasPhone": true,
+   "latestDate": "2026-04-17",
+   "columnsSeen": [
+    "address_type",
+    "application_id",
+    "application_type",
+    "bbl",
+    "bin",
+    "borough",
+    "building_number",
+    "business_category",
+    "business_name",
+    "business_unique_id",
+    "census_block_2010_",
+    "census_tract_2010_",
+    "city",
+    "community_board",
+    "contact_phone",
+    "council_district",
+    "intake_channel",
+    "latitude",
+    "license_number",
+    "license_type",
+    "longitude",
+    "nta",
+    "state",
+    "status",
+    "street",
+    "submission_date",
+    "unit",
+    "unit_type",
+    "zip"
+   ]
   },
   {
    "id": "seattle",
@@ -97,12 +188,13 @@
    "ok": true,
    "rows": 131,
    "pages": 1,
-   "ms": 634,
+   "ms": 797,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": true
+   "hasPhone": true,
+   "latestDate": "20270331"
   },
   {
    "id": "nola",
@@ -111,12 +203,13 @@
    "ok": true,
    "rows": 15,
    "pages": 1,
-   "ms": 644,
+   "ms": 839,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "2027-02-27"
   },
   {
    "id": "orlando",
@@ -125,14 +218,37 @@
    "ok": true,
    "rows": 27,
    "pages": 1,
-   "ms": 371,
+   "ms": 650,
    "status": 200,
    "error": "",
    "missingFields": [
     "business_email"
    ],
    "hasEmail": true,
-   "hasPhone": true
+   "hasPhone": true,
+   "latestDate": "2026-11-05",
+   "columnsSeen": [
+    "business_address",
+    "business_close_date",
+    "business_mailing_address",
+    "business_name",
+    "business_open_date",
+    "business_owner_name",
+    "case_number",
+    "commissioner_district",
+    "employees",
+    "gpsx",
+    "gpsy",
+    "last_licensed_issue_date",
+    "license_category",
+    "license_status",
+    "license_type",
+    "main_street_district_name",
+    "neighborhood_name",
+    "phone",
+    "received_date",
+    "years_open"
+   ]
   },
   {
    "id": "norfolk",
@@ -141,12 +257,13 @@
    "ok": true,
    "rows": 17,
    "pages": 1,
-   "ms": 454,
+   "ms": 551,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "2026-11-05"
   },
   {
    "id": "tx_sales",
@@ -155,12 +272,13 @@
    "ok": true,
    "rows": 859,
    "pages": 1,
-   "ms": 6866,
+   "ms": 734,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "2026-10-31"
   },
   {
    "id": "tx_tabc",
@@ -169,12 +287,13 @@
    "ok": true,
    "rows": 232,
    "pages": 1,
-   "ms": 992,
+   "ms": 909,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "2026-11-05"
   },
   {
    "id": "co_liquor",
@@ -183,26 +302,40 @@
    "ok": true,
    "rows": 0,
    "pages": 1,
-   "ms": 418,
+   "ms": 1004,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "2262-04-01",
+   "columnsSeen": [
+    "city",
+    "doing_business_as",
+    "issue_date",
+    "license_number",
+    "license_type",
+    "licensee_name",
+    "location",
+    "state",
+    "street_address",
+    "zip"
+   ]
   },
   {
    "id": "co_sos",
    "label": "Colorado new entities",
    "state": "CO",
    "ok": true,
-   "rows": 3000,
-   "pages": 3,
-   "ms": 1572,
+   "rows": 3165,
+   "pages": 4,
+   "ms": 2513,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "2026-11-04"
   },
   {
    "id": "ct_sos",
@@ -211,21 +344,22 @@
    "ok": true,
    "rows": 968,
    "pages": 1,
-   "ms": 972,
+   "ms": 1244,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": true,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "2026-11-04"
   },
   {
    "id": "ny_sos",
    "label": "New York State new corporations",
    "state": "NY",
    "ok": true,
-   "rows": 3000,
-   "pages": 3,
-   "ms": 1884,
+   "rows": 4796,
+   "pages": 5,
+   "ms": 8472,
    "status": 200,
    "error": "",
    "missingFields": [
@@ -234,7 +368,28 @@
     "location_address_1"
    ],
    "hasEmail": false,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "2026-11-04",
+   "columnsSeen": [
+    "county",
+    "current_entity_name",
+    "dos_id",
+    "dos_process_address_1",
+    "dos_process_address_2",
+    "dos_process_city",
+    "dos_process_name",
+    "dos_process_state",
+    "dos_process_zip",
+    "entity_type",
+    "initial_dos_filing_date",
+    "jurisdiction",
+    "registered_agent_address_1",
+    "registered_agent_address_2",
+    "registered_agent_city",
+    "registered_agent_name",
+    "registered_agent_state",
+    "registered_agent_zip"
+   ]
   },
   {
    "id": "or_sos",
@@ -243,12 +398,13 @@
    "ok": true,
    "rows": 1154,
    "pages": 2,
-   "ms": 1123,
+   "ms": 1158,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "2026-11-02"
   },
   {
    "id": "or_olcc",
@@ -257,12 +413,21 @@
    "ok": true,
    "rows": 0,
    "pages": 1,
-   "ms": 543,
+   "ms": 981,
    "status": 200,
    "error": "",
    "missingFields": [],
    "hasEmail": false,
-   "hasPhone": false
+   "hasPhone": false,
+   "latestDate": "2026-10-29",
+   "columnsSeen": [
+    "address",
+    "application_status",
+    "application_type",
+    "date_received",
+    "license_type",
+    "trade_name"
+   ]
   }
  ]
 }
