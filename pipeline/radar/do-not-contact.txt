@@ -1,0 +1,2 @@
+# One entry per line: an email address, or a business name.
+# Anyone who replies "stop" goes here. They are excluded from outreach-ready.csv.

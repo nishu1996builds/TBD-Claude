@@ -1,0 +1,23 @@
+{
+  "lookbackDays": 7,
+  "maxRowsPerSource": 3000,
+  "sources": "all",
+  "territory": {
+    "states": [],
+    "cities": [],
+    "zipPrefixes": []
+  },
+  "industries": ["food", "bars", "retail", "beauty", "fitness", "auto"],
+  "includeUnclassified": false,
+  "minScore": 55,
+  "digestTopN": 40,
+  "sender": {
+    "my_name": "",
+    "my_company": "",
+    "my_phone": "",
+    "my_email": "",
+    "my_address": "",
+    "offer": ""
+  },
+  "emailTemplate": "seq1"
+}
