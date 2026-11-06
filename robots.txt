@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nishu1996builds.github.io/TBD-Claude/sitemap.xml
