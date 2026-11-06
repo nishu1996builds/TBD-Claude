@@ -103,11 +103,29 @@ async function fetchSource(src) {
     }
     health.ok = true;
     health.rows = rows.length;
+    if (!MOCK) {
+      // Newest date in the whole dataset tells us whether a quiet source is stale or our filter is wrong.
+      try {
+        const u = "https://" + src.domain + "/resource/" + src.dataset + ".json?$select=" + encodeURIComponent("max(" + src.dateField + ") as latest") + (src.baseWhere ? "&$where=" + encodeURIComponent(src.baseWhere) : "") + (R.S.settings.appToken ? "&$$app_token=" + encodeURIComponent(R.S.settings.appToken) : "");
+        const res = await fetch(u, { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(45000) });
+        const b = await res.json();
+        health.latestDate = Array.isArray(b) && b[0] ? String(b[0].latest || "").slice(0, 10) : "";
+        if (!res.ok) health.latestDate = "error " + res.status;
+      } catch (e) { health.latestDate = "unknown"; }
+    }
     if (rows.length) {
       const seenKeys = new Set();
       rows.slice(0, 200).forEach((r) => Object.keys(r).forEach((k) => seenKeys.add(k)));
       // A field that never appears in 200 rows is either renamed or always empty.
       health.missingFields = expectedFields(src).filter((f) => !seenKeys.has(f));
+      if (health.missingFields.length) health.columnsSeen = [...seenKeys].sort();
+    } else if (!MOCK) {
+      try {
+        const u = "https://" + src.domain + "/resource/" + src.dataset + ".json?$limit=1&$order=" + encodeURIComponent(src.dateField + " DESC");
+        const res = await fetch(u, { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(45000) });
+        const b = await res.json();
+        if (Array.isArray(b) && b[0]) health.columnsSeen = Object.keys(b[0]).sort();
+      } catch (e) {}
     }
   } catch (e) {
     health.error = String(e && e.message ? e.message : e);
@@ -134,11 +152,17 @@ function inIndustry(l) {
 }
 
 /* ---------- Outreach text ---------- */
+// "Serve & Sip Cafe L.L.C." reads better as "Serve & Sip Cafe" in an email.
+function friendlyName(name) {
+  let n = String(name || "").trim();
+  for (let i = 0; i < 2; i++) n = n.replace(/[,\s]+(l\.?\s?l\.?\s?c\.?|inc\.?|incorporated|corp\.?|corporation|co\.|company|ltd\.?|l\.?l\.?p\.?|p\.?l\.?l\.?c\.?|lp)\s*$/i, "").trim();
+  return n || String(name || "");
+}
 function fill(text, l) {
   const s = R.S.settings;
   const opened = l.date ? (l.date > today ? "opening " + R.fmtDate(l.date, { month: "long", day: "numeric" }) : R.fmtDate(l.date, { month: "long", day: "numeric" })) : "recently";
   const v = {
-    business: l.name, city: l.city || "your city", state: l.state, category: R.categoryNoun(l), opened,
+    business: friendlyName(l.name), city: l.city || "your city", state: l.state, category: R.categoryNoun(l), opened,
     my_name: s.my_name || "[your name]", my_company: s.my_company || "[your company]", my_phone: s.my_phone || "[your phone]",
     my_email: s.my_email || "[your email]", my_address: s.my_address || "[your mailing address]", offer: s.offer || R.DEFAULT_OFFER
   };
@@ -167,11 +191,16 @@ async function main() {
   let leads = [];
   for (const r of results) {
     const src = srcById[r.health.id];
-    for (const row of r.rows) { const l = R.normalizeRow(row, src); if (l) leads.push(l); }
+    for (const row of r.rows) {
+      for (const k of Object.keys(row)) if (typeof row[k] === "string") row[k] = row[k].replace(/\uFFFD/g, "'");
+      const l = R.normalizeRow(row, src);
+      if (l) leads.push(l);
+    }
   }
   leads = R.dedupe(leads);
   const totalScored = leads.length;
-  leads = leads.filter((l) => inTerritory(l) && inIndustry(l) && !l.chain);
+  const numberedChain = (l) => l.why.some((w) => w.k === "Independent owner" && w.pts < 15);
+  leads = leads.filter((l) => inTerritory(l) && inIndustry(l) && !l.chain && !numberedChain(l));
 
   // New-since-last-run tracking.
   const seenPath = join(OUT, "seen.json");
@@ -194,7 +223,7 @@ async function main() {
   writeFileSync(join(OUT, "archive", "leads-" + today + ".csv"), toCsv(head, qualified.filter((l) => l.isNew).map(rowOf)));
 
   const oHead = ["email", "business", "first_name", "city", "state", "industry", "score", "new_today", "subject", "body"];
-  writeFileSync(join(OUT, "outreach-ready.csv"), toCsv(oHead, emailable.map((l) => [l.email, l.name, "", l.city, l.state, R.presetOf(l.cls).label, l.score, l.isNew ? "yes" : "", fill(TPL.subject, l), fill(TPL.body, l)])));
+  writeFileSync(join(OUT, "outreach-ready.csv"), toCsv(oHead, emailable.map((l) => [l.email, friendlyName(l.name), "", l.city, l.state, R.presetOf(l.cls).label, l.score, l.isNew ? "yes" : "", fill(TPL.subject, l), fill(TPL.body, l)])));
 
   writeFileSync(join(OUT, "leads.json"), JSON.stringify({
     generated: new Date().toISOString(), today, since, mock: MOCK,
@@ -226,14 +255,14 @@ async function main() {
   }
   if (newQ.length > top.length) lines.push("Plus " + (newQ.length - top.length) + " more in `data/radar/leads.csv`.\n");
   lines.push("<details><summary>Source health: " + okSources.length + " of " + health.length + " sources responded</summary>\n");
-  lines.push("| Source | Status | Rows | Notes |");
-  lines.push("|---|---|---:|---|");
-  for (const h of health) lines.push("| " + h.label + " | " + (h.ok ? "OK" : "FAILED") + " | " + h.rows + " | " + (h.error || (h.missingFields.length ? "Fields not seen: " + h.missingFields.join(", ") : "")) + " |");
+  lines.push("| Source | Status | Rows | Newest filing | Notes |");
+  lines.push("|---|---|---:|---|---|");
+  for (const h of health) lines.push("| " + h.label + " | " + (h.ok ? "OK" : "FAILED") + " | " + h.rows + " | " + (h.latestDate || "") + " | " + (h.error || (h.missingFields.length ? "Fields not seen: " + h.missingFields.join(", ") : "")) + " |");
   lines.push("\n</details>");
   writeFileSync(join(OUT, "digest.md"), lines.join("\n") + "\n");
 
   console.log(JSON.stringify({ today, since, scored: totalScored, qualified: qualified.length, newQualified: newQ.length, emailable: emailable.length, sourcesOk: okSources.length, sourcesTotal: health.length }));
-  for (const h of health) console.log((h.ok ? "OK    " : "FAIL  ") + h.label.padEnd(42) + String(h.rows).padStart(6) + " rows  " + (h.error || (h.missingFields.length ? "missing: " + h.missingFields.join(",") : "")));
+  for (const h of health) console.log((h.ok ? "OK    " : "FAIL  ") + h.label.padEnd(42) + String(h.rows).padStart(6) + " rows  latest " + (h.latestDate || "?") + "  " + (h.error || (h.missingFields.length ? "missing: " + h.missingFields.join(",") : "")));
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

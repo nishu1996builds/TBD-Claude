@@ -1,13 +1,20 @@
 {
   "lookbackDays": 7,
-  "maxRowsPerSource": 3000,
+  "maxRowsPerSource": 6000,
   "sources": "all",
   "territory": {
     "states": [],
     "cities": [],
     "zipPrefixes": []
   },
-  "industries": ["food", "bars", "retail", "beauty", "fitness", "auto"],
+  "industries": [
+    "food",
+    "bars",
+    "retail",
+    "beauty",
+    "fitness",
+    "auto"
+  ],
   "includeUnclassified": false,
   "minScore": 55,
   "digestTopN": 40,
