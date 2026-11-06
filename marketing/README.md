@@ -34,7 +34,7 @@ Post (LinkedIn, Reddit, X)
        launch code LAUNCH ($10 off through Nov 19): https://nishulegacy.gumroad.com/l/job-search-kit/LAUNCH
 
 BOTH
-  -> The Career Independence Bundle (coming soon) [BUNDLE LINK]
+  -> The Career Independence Bundle (coming soon) https://nishulegacy.gumroad.com/l/career-independence-bundle
 ```
 
 Why this order:
