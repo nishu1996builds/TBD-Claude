@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freelance Hourly Rate Calculator: Find Your Minimum Rate</title>
+<meta name="description" content="Free freelance hourly rate calculator. Enter the income you want to keep, taxes, expenses, time off and billable hours to get your minimum hourly rate, day rate and monthly revenue target.">
+<link rel="canonical" href="https://nishu1996builds.github.io/TBD-Claude/free/rate-calculator/">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Nishu Legacy">
+<meta name="theme-color" content="#F6F4EE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121310" media="(prefers-color-scheme: dark)">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nishu Legacy">
+<meta property="og:title" content="Freelance Hourly Rate Calculator: Find Your Minimum Rate">
+<meta property="og:description" content="Work out the hourly rate you should never go below. Free, private, and honest about billable hours.">
+<meta property="og:url" content="https://nishu1996builds.github.io/TBD-Claude/free/rate-calculator/">
+<meta property="og:image" content="https://nishu1996builds.github.io/TBD-Claude/free/rate-calculator/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Freelance hourly rate calculator showing a minimum rate of 142 dollars per hour">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Freelance Hourly Rate Calculator: Find Your Minimum Rate">
+<meta name="twitter:description" content="Work out the hourly rate you should never go below. Free, private, and honest about billable hours.">
+<meta name="twitter:image" content="https://nishu1996builds.github.io/TBD-Claude/free/rate-calculator/og.png">
+<meta name="twitter:image:alt" content="Freelance hourly rate calculator showing a minimum rate of 142 dollars per hour">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Freelance Hourly Rate Calculator",
+  "url": "https://nishu1996builds.github.io/TBD-Claude/free/rate-calculator/",
+  "description": "Free calculator that works out a freelancer or consultant's minimum hourly rate, day rate and monthly revenue target from take-home income, taxes, expenses, time off, hours and billable utilization.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "image": "https://nishu1996builds.github.io/TBD-Claude/free/rate-calculator/og.png",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Organization", "name": "Nishu Legacy", "url": "https://nishulegacy.gumroad.com/" }
+}
+</script>
+<script type="application/ld+json" id="faq-ld">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much should a beginner freelancer charge?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start with your floor, not with what feels comfortable. Run this calculator with a lower utilization, around 30 to 40%, because new freelancers spend more time finding work. The result is often higher than beginners expect. If the market will not pay it yet, that is a signal to cut costs, niche down, or keep part time income while you build a client base. Avoid pricing far below your floor to win work. It is hard to raise rates on clients who came for a low price."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I charge hourly or per project?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hourly is simple and fair when scope is unclear, such as ongoing support or open ended advice. Per project pricing usually works better when the deliverable is well defined, because you are rewarded for getting faster and the client gets a fixed number. Either way, know your floor first. A project fee should cover your estimated hours at your floor rate, plus a buffer for the unknowns."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I raise my rates with existing clients?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Give notice in writing, usually 30 to 60 days, and name the new rate and the date it starts. Keep the message short and do not apologize. Thank them for the work so far and offer to hold the current rate for a fixed block of work booked before the change. Raise rates for new clients first."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I turn a salary into a freelance hourly rate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Do not just divide your salary by 2,080 hours. An employer pays for your holidays, your equipment, part of your taxes, and every hour you are not billable. Put the after tax pay you want into take-home income, add the benefits you used to get for free as monthly expenses, and set a realistic utilization. The calculator does the rest."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a good billable utilization rate for a freelancer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For most solo freelancers, somewhere between 50 and 65% is a reasonable working assumption once sales, admin, and gaps are counted. New freelancers are often lower. People on a long retainer can be higher. The best number is your own, measured over a few months."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should my day rate be eight times my hourly rate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The calculator uses your weekly hours divided by five, so a 40 hour week gives an 8 hour day. If you discount full day bookings, start from your quoted rate, not your floor, so the discount never takes you below the minimum."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What should I include in business expenses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Anything you pay to run the business: software and subscriptions, hardware spread over its useful life, insurance, accounting, a coworking desk, training, health cover, and retirement contributions an employer would have paid. Enter the monthly average. If a cost is yearly, divide it by 12."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this calculator save or send my numbers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Everything runs in your browser. Your inputs live only in the page address, which is how the share link works. Close the tab and they are gone unless you saved the link."
+      }
+    }
+  ]
+}
+</script>
+
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('nl.ratecalc.theme');
+    if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+<style>
+:root {
+  --bg: #F6F4EE;
+  --surface: #FFFFFF;
+  --surface-2: #EFECE3;
+  --ink: #1A1915;
+  --ink-2: #4E4B43;
+  --ink-3: #69655B;
+  --line: #E0DCD0;
+  --line-strong: #CBC6B8;
+  --accent: #1D6A51;
+  --accent-strong: #154F3C;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E0EEE7;
+  --c-take: #1D6A51;
+  --c-tax: #C27C2C;
+  --c-exp: #5F7593;
+  --c-margin: #A9C7B8;
+  --on-take: #FFFFFF;
+  --on-tax: #1A1915;
+  --on-exp: #FFFFFF;
+  --on-margin: #1A1915;
+  --lock-bg: #1A1915;
+  --lock-ink: #F6F4EE;
+  --shadow: 0 1px 2px rgba(26,25,21,.04), 0 8px 24px rgba(26,25,21,.06);
+  --radius: 14px;
+  --serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121310;
+    --surface: #1A1B17;
+    --surface-2: #23241F;
+    --ink: #EEEBE3;
+    --ink-2: #C3BFB4;
+    --ink-3: #A29E93;
+    --line: #2E2F29;
+    --line-strong: #44463E;
+    --accent: #5CC29A;
+    --accent-strong: #7DD3B0;
+    --accent-ink: #0B1A14;
+    --accent-soft: #1C3228;
+    --c-take: #5CC29A;
+    --c-tax: #E0A458;
+    --c-exp: #8EA4C2;
+    --c-margin: #3D6656;
+    --on-take: #0B1A14;
+    --on-tax: #1A1408;
+    --on-exp: #0E1520;
+    --on-margin: #EEEBE3;
+    --lock-bg: #EEEBE3;
+    --lock-ink: #121310;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121310;
+  --surface: #1A1B17;
+  --surface-2: #23241F;
+  --ink: #EEEBE3;
+  --ink-2: #C3BFB4;
+  --ink-3: #A29E93;
+  --line: #2E2F29;
+  --line-strong: #44463E;
+  --accent: #5CC29A;
+  --accent-strong: #7DD3B0;
+  --accent-ink: #0B1A14;
+  --accent-soft: #1C3228;
+  --c-take: #5CC29A;
+  --c-tax: #E0A458;
+  --c-exp: #8EA4C2;
+  --c-margin: #3D6656;
+  --on-take: #0B1A14;
+  --on-tax: #1A1408;
+  --on-exp: #0E1520;
+  --on-margin: #EEEBE3;
+  --lock-bg: #EEEBE3;
+  --lock-ink: #121310;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:hover { color: var(--accent-strong); }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.skip { position: absolute; left: 16px; top: -60px; background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; z-index: 100; text-decoration: none; font-size: 14px; }
+.skip:focus { top: 12px; color: var(--bg); }
+.num { font-variant-numeric: tabular-nums; }
+
+/* Header */
+.site-header { border-bottom: 1px solid var(--line); background: var(--bg); }
+.bar { display: flex; align-items: center; gap: 14px; min-height: 60px; }
+.brand { display: flex; align-items: baseline; gap: 10px; margin-right: auto; min-width: 0; text-decoration: none; color: var(--ink); }
+.brand:hover { color: var(--ink); }
+.brand-name { font-family: var(--serif); font-weight: 600; font-size: 20px; letter-spacing: -.01em; white-space: nowrap; }
+.brand-by { font-size: 13px; color: var(--ink-3); white-space: nowrap; }
+.brand-mark { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); display: inline-block; transform: translateY(-1px); flex: 0 0 auto; }
+.ctrl { display: flex; align-items: center; gap: 8px; }
+.select-sm { appearance: none; -webkit-appearance: none; background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23888' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 10px center; border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 28px 6px 12px; font-size: 13px; cursor: pointer; min-height: 36px; }
+.icon-btn { width: 36px; height: 36px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface); display: inline-grid; place-items: center; cursor: pointer; color: var(--ink-2); }
+.icon-btn:hover { color: var(--ink); border-color: var(--ink-3); }
+.icon-btn svg { width: 18px; height: 18px; }
+.theme-dark-icon { display: none; }
+:root[data-theme="dark"] .theme-dark-icon { display: block; }
+:root[data-theme="dark"] .theme-light-icon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-dark-icon { display: block; }
+  :root:not([data-theme="light"]) .theme-light-icon { display: none; }
+}
+
+/* Hero */
+.hero { padding-top: 52px; padding-bottom: 30px; }
+.eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin: 0 0 14px; }
+.hero h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(36px, 5.6vw, 62px); line-height: 1.04; letter-spacing: -.025em; margin: 0 0 18px; max-width: 16ch; }
+.hero h1 em { font-style: italic; color: var(--accent); }
+.lede { font-size: 18px; color: var(--ink-2); max-width: 62ch; margin: 0; }
+.trust { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--ink-3); }
+.trust li { display: inline-flex; align-items: center; gap: 7px; }
+.trust li::before { content: ""; width: 6px; height: 6px; border-radius: 99px; background: var(--accent); }
+
+/* Calculator */
+.calc { padding-bottom: 56px; }
+.layout { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 28px; align-items: start; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+.inputs { padding: 22px; }
+.card-title { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--ink-3); font-weight: 600; margin: 0 0 14px; }
+.field { margin-bottom: 16px; }
+.field label { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+.hint { font-size: 12.5px; color: var(--ink-3); margin: 6px 0 0; line-height: 1.45; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field-row + .hint { margin: -8px 0 16px; }
+.input-wrap { position: relative; display: flex; align-items: center; }
+.input {
+  width: 100%; background: var(--bg); border: 1px solid var(--line-strong); border-radius: 10px;
+  padding: 10px 12px; font-size: 16px; color: var(--ink); transition: border-color .15s, box-shadow .15s;
+  font-variant-numeric: tabular-nums; min-height: 44px;
+}
+.input:hover { border-color: var(--ink-3); }
+.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.input-wrap .pre, .input-wrap .post { position: absolute; font-size: 14px; color: var(--ink-3); pointer-events: none; }
+.input-wrap .pre { left: 12px; }
+.input-wrap .post { right: 12px; }
+.input-wrap.has-pre .input { padding-left: calc(18px + var(--pre-w, 10px)); }
+.input-wrap.has-post .input { padding-right: 48px; }
+input[type=range] { width: 100%; accent-color: var(--accent); height: 28px; margin: 0; }
+input[type=range]:focus-visible { outline-offset: 4px; }
+output.range-out { font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
+.inputs .field:last-child { margin-bottom: 0; }
+
+.results { display: grid; gap: 20px; min-width: 0; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); overflow: hidden; }
+.stat { padding: 22px 22px 20px; border-right: 1px solid var(--line); min-width: 0; }
+.stat:last-child { border-right: 0; }
+.stat .k { font-size: 13px; color: var(--ink-3); font-weight: 500; margin: 0 0 6px; }
+.stat .v { font-family: var(--serif); font-size: clamp(30px, 3.4vw, 42px); font-weight: 500; letter-spacing: -.02em; line-height: 1.05; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; margin: 0; }
+.stat .s { font-size: 13px; color: var(--ink-3); margin: 6px 0 0; }
+.stat.lead .v { color: var(--accent); }
+.block { padding: 22px; min-width: 0; }
+.block-head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.block-head h2 { font-family: var(--serif); font-weight: 500; font-size: 21px; margin: 0; letter-spacing: -.01em; }
+.block-head .meta { font-size: 13px; color: var(--ink-3); }
+.split { display: flex; height: 46px; border-radius: 8px; overflow: hidden; background: var(--surface-2); }
+.seg { height: 100%; display: flex; align-items: center; padding-left: 10px; font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; transition: flex-basis .25s ease; min-width: 0; }
+.legend { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 18px; }
+.legend li { display: grid; grid-template-columns: 10px 1fr; column-gap: 8px; font-size: 13px; color: var(--ink-2); align-items: baseline; }
+.legend .sw { width: 10px; height: 10px; border-radius: 3px; transform: translateY(1px); }
+.legend .amt { grid-column: 2; color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.legend .amt span { font-weight: 400; color: var(--ink-3); }
+.callout { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 14px 16px; border-radius: 0 10px 10px 0; font-size: 15px; color: var(--ink); margin: 16px 0 0; }
+.share-row { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; }
+.share-row .note { font-size: 13px; color: var(--ink-3); margin: 0; flex: 1 1 220px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 18px; border-radius: 999px; font-weight: 600; font-size: 15px; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: background-color .15s, border-color .15s; text-align: center; }
+.btn svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { background: var(--accent-strong); color: var(--accent-ink); }
+.btn-ghost { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
+.btn-ghost:hover { border-color: var(--ink-3); color: var(--ink); }
+.link-btn { background: none; border: 0; color: var(--ink-3); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 4px; font-size: 13px; }
+.link-btn:hover { color: var(--ink); }
+
+/* Locked preview */
+.upsell { padding: 0 0 64px; }
+.upsell-card { padding: 32px; }
+.upsell-head { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px 40px; align-items: end; margin-bottom: 26px; }
+.upsell-head h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(26px, 3.2vw, 36px); letter-spacing: -.02em; line-height: 1.12; margin: 0; }
+.upsell-head p { margin: 0; color: var(--ink-2); }
+.modules { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.module { position: relative; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); padding: 18px 18px 16px; min-width: 0; display: flex; flex-direction: column; }
+.module .no { font-family: var(--serif); font-size: 13px; color: var(--accent); font-weight: 600; margin: 0 0 6px; display: flex; justify-content: space-between; align-items: center; }
+.lock { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 99px; background: var(--lock-bg); color: var(--lock-ink); }
+.lock svg { width: 12px; height: 12px; }
+.module h3 { font-family: var(--serif); font-weight: 500; font-size: 19px; line-height: 1.2; margin: 0 0 8px; letter-spacing: -.01em; }
+.module p { margin: 0; font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+.ghost { margin-top: auto; padding-top: 16px; display: grid; gap: 6px; }
+.ghost i { display: block; height: 8px; border-radius: 99px; background: var(--line); }
+.ghost i:nth-child(1) { width: 92%; }
+.ghost i:nth-child(2) { width: 70%; }
+.ghost i:nth-child(3) { width: 82%; background: var(--accent-soft); }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; margin-top: 26px; }
+.cta-row .fine { font-size: 13px; color: var(--ink-3); margin: 0; flex: 1 1 260px; }
+.secondary-link { font-size: 14px; color: var(--ink-2); }
+
+/* Article */
+.article { padding: 8px 0 24px; }
+.prose { max-width: 720px; }
+.prose h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(26px, 3vw, 34px); letter-spacing: -.02em; line-height: 1.15; margin: 48px 0 14px; }
+.prose h2:first-child { margin-top: 0; }
+.prose h3 { font-size: 17px; font-weight: 600; margin: 26px 0 8px; }
+.prose p, .prose li { color: var(--ink-2); font-size: 17px; }
+.prose p { margin: 0 0 16px; }
+.prose ul, .prose ol { padding-left: 22px; margin: 0 0 16px; }
+.prose li { margin-bottom: 6px; }
+.prose strong { color: var(--ink); font-weight: 600; }
+.formula { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin: 0 0 18px; font-size: 15.5px; line-height: 1.9; color: var(--ink); overflow-wrap: anywhere; }
+.formula code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14.5px; }
+.formula .eq { display: block; }
+.table-wrap { overflow-x: auto; margin: 0 0 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 15px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); font-weight: 600; }
+td { color: var(--ink-2); }
+tr:last-child td { border-bottom: 0; }
+td.r, th.r { text-align: right; white-space: nowrap; }
+td strong { color: var(--ink); }
+
+.faq { margin: 0; }
+.faq details { border-top: 1px solid var(--line); }
+.faq details:last-child { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; list-style: none; padding: 16px 36px 16px 0; position: relative; font-weight: 600; font-size: 17px; color: var(--ink); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; position: absolute; right: 6px; top: 50%; width: 9px; height: 9px; border-right: 2px solid var(--ink-3); border-bottom: 2px solid var(--ink-3); transform: translateY(-70%) rotate(45deg); transition: transform .2s; }
+.faq details[open] summary::after { transform: translateY(-30%) rotate(-135deg); }
+.faq .a p { margin: 0 0 16px; }
+
+.final { padding: 40px 0 72px; }
+.final-card { padding: 36px 32px; text-align: center; }
+.final-card h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(26px, 3.2vw, 36px); letter-spacing: -.02em; line-height: 1.15; margin: 0 auto 12px; max-width: 22ch; }
+.final-card p { color: var(--ink-2); max-width: 58ch; margin: 0 auto; }
+.final-card .cta-row { justify-content: center; }
+.final-card .fine { flex: 1 1 100%; text-align: center; font-size: 13px; color: var(--ink-3); margin: 0; }
+
+.site-footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--ink-3); font-size: 14px; }
+.site-footer .wrap { display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; align-items: center; }
+.site-footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.site-footer a { color: var(--ink-2); }
+.site-footer a:hover { color: var(--ink); }
+
+.toast { position: fixed; left: 50%; bottom: 24px; width: max-content; max-width: calc(100vw - 32px); text-align: center; transform: translate(-50%, 20px); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 50; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 1000px) {
+  .modules { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 960px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .upsell-head { grid-template-columns: minmax(0, 1fr); align-items: start; }
+}
+@media (max-width: 640px) {
+  .wrap { padding: 0 16px; }
+  .brand-by { display: none; }
+  .hero { padding-top: 32px; padding-bottom: 22px; }
+  .lede { font-size: 16.5px; }
+  .stats { grid-template-columns: minmax(0, 1fr); }
+  .stat { border-right: 0; border-bottom: 1px solid var(--line); padding: 18px; }
+  .stat:last-child { border-bottom: 0; }
+  .inputs, .block { padding: 18px; }
+  .upsell-card { padding: 22px 18px; }
+  .modules { grid-template-columns: minmax(0, 1fr); }
+  .cta-row .btn { width: 100%; }
+  .final-card { padding: 28px 18px; }
+  .prose p, .prose li { font-size: 16.5px; }
+  th, td { padding: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#calculator">Skip to the calculator</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="./" aria-label="Freelance rate calculator, home">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">Rate calculator</span>
+      <span class="brand-by">by Nishu Legacy</span>
+    </a>
+    <div class="ctrl">
+      <label for="currency" class="sr-only">Currency</label>
+      <select id="currency" class="select-sm">
+        <option value="USD">USD $</option>
+        <option value="EUR">EUR €</option>
+        <option value="GBP">GBP £</option>
+        <option value="INR">INR ₹</option>
+        <option value="CAD">CAD $</option>
+        <option value="AUD">AUD $</option>
+      </select>
+      <button type="button" class="icon-btn" id="themeBtn" aria-label="Toggle dark mode">
+        <svg class="theme-light-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <svg class="theme-dark-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap" aria-labelledby="heroTitle">
+    <p class="eyebrow">Free freelance hourly rate calculator</p>
+    <h1 id="heroTitle">Find the hourly rate you should <em>never</em> go below.</h1>
+    <p class="lede">Enter the income you want to keep, your taxes, your costs, and how many hours clients will really pay for. You get a minimum hourly rate, a day rate, and a monthly revenue target. It works for freelancers, consultants, and contractors in any field.</p>
+    <ul class="trust">
+      <li>Free, no sign up</li>
+      <li>Runs in your browser</li>
+      <li>Share your result with a link</li>
+    </ul>
+  </section>
+
+  <section class="calc wrap" id="calculator" aria-labelledby="calcTitle">
+    <h2 id="calcTitle" class="sr-only">Floor rate calculator</h2>
+    <div class="layout">
+      <form class="card inputs" id="calcForm" onsubmit="return false" aria-label="Your numbers">
+        <p class="card-title">Your numbers</p>
+        <div class="field">
+          <label for="f-takeHome">Target take-home income</label>
+          <div class="input-wrap has-pre"><span class="pre cur" aria-hidden="true">$</span><input class="input" id="f-takeHome" name="takeHome" type="number" inputmode="decimal" min="0" step="1000" value="90000" aria-describedby="h-takeHome"></div>
+          <p class="hint" id="h-takeHome">Per year, after tax. What you want to actually keep.</p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-tax">Tax rate</label>
+            <div class="input-wrap has-post"><input class="input" id="f-tax" name="tax" type="number" inputmode="decimal" min="0" max="90" step="1" value="30"><span class="post" aria-hidden="true">%</span></div>
+          </div>
+          <div class="field">
+            <label for="f-expenses">Expenses / mo</label>
+            <div class="input-wrap has-pre"><span class="pre cur" aria-hidden="true">$</span><input class="input" id="f-expenses" name="expenses" type="number" inputmode="decimal" min="0" step="50" value="1200" aria-describedby="h-expenses"></div>
+          </div>
+        </div>
+        <p class="hint" id="h-expenses">Expenses: software, insurance, equipment, accountant, health cover, pension contributions.</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-weeksOff">Weeks off / yr</label>
+            <div class="input-wrap has-post"><input class="input" id="f-weeksOff" name="weeksOff" type="number" inputmode="numeric" min="0" max="51" step="1" value="6" aria-describedby="h-weeks"><span class="post" aria-hidden="true">wks</span></div>
+          </div>
+          <div class="field">
+            <label for="f-hours">Hours / week</label>
+            <div class="input-wrap has-post"><input class="input" id="f-hours" name="hours" type="number" inputmode="numeric" min="1" max="100" step="1" value="40"><span class="post" aria-hidden="true">hrs</span></div>
+          </div>
+        </div>
+        <p class="hint" id="h-weeks">Count holidays, sick days, and conferences in weeks off.</p>
+        <div class="field">
+          <label for="f-util">Billable utilization <output class="range-out" id="o-util" for="f-util">60%</output></label>
+          <input id="f-util" name="util" type="range" min="10" max="100" step="1" value="60" aria-describedby="h-util">
+          <p class="hint" id="h-util">Share of working hours you can invoice. 50 to 65% is realistic once you count sales, admin, and gaps between projects.</p>
+        </div>
+        <div class="field">
+          <label for="f-margin">Profit margin <output class="range-out" id="o-margin" for="f-margin">10%</output></label>
+          <input id="f-margin" name="margin" type="range" min="0" max="40" step="1" value="10" aria-describedby="h-margin">
+          <p class="hint" id="h-margin">Money the business keeps on top of your pay, for slow months and reinvestment.</p>
+        </div>
+      </form>
+
+      <div class="results">
+        <div class="card stats" aria-live="polite">
+          <div class="stat lead"><p class="k">Minimum hourly rate</p><p class="v" id="r-hourly">$142</p><p class="s" id="r-hourly-s">Quote at least $180 to leave room</p></div>
+          <div class="stat"><p class="k">Day rate</p><p class="v" id="r-day">$1,140</p><p class="s" id="r-day-s">8 hour billable day</p></div>
+          <div class="stat"><p class="k">Monthly revenue target</p><p class="v" id="r-month">$13,106</p><p class="s" id="r-month-s">$3,419 per working week</p></div>
+        </div>
+
+        <div class="card block">
+          <div class="block-head"><h2>Where each invoice goes</h2><span class="meta num" id="r-annual">Annual revenue $157,269</span></div>
+          <div class="split" id="split" role="img" aria-label="Annual revenue split: take-home 57%, taxes 25%, expenses 9%, profit margin 9%"></div>
+          <ul class="legend" id="legend"></ul>
+          <p class="callout" id="r-callout">You need <strong>1,104 billable hours</strong> a year out of 2,080 total. That is about 24 billable hours in each working week.</p>
+        </div>
+
+        <div class="card block share-row">
+          <button type="button" class="btn btn-ghost" id="copyBtn">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 9.5l3-3M7 4.5l1.2-1.2a2.6 2.6 0 013.6 3.6L10.6 8M9 11.5l-1.2 1.2a2.6 2.6 0 01-3.6-3.6L5.4 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Copy link to my result
+          </button>
+          <p class="note">The link stores your inputs in the URL, so anyone who opens it sees the same numbers. Nothing is sent to a server.</p>
+          <button type="button" class="link-btn" id="resetBtn">Reset to example</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="upsell wrap" aria-labelledby="upsellTitle">
+    <div class="card upsell-card">
+      <div class="upsell-head">
+        <div>
+          <p class="eyebrow">Next step: price above the floor</p>
+          <h2 id="upsellTitle">Your floor stops you losing money. Ratecard helps you earn more than it.</h2>
+        </div>
+        <p>This calculator is the first module of Ratecard, a pricing studio for freelancers and consultants. The full version uses the same floor math, then helps you set a price clients say yes to and keep it when scope grows.</p>
+      </div>
+      <ul class="modules">
+        <li class="module">
+          <p class="no">02 <span class="lock" title="Included in Ratecard"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 5.5V4a2.5 2.5 0 015 0v1.5" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="2.5" y="5.5" width="7" height="5" rx="1" fill="currentColor"/></svg><span class="sr-only">Included in Ratecard</span></span></p>
+          <h3>Value pricing with client ROI</h3>
+          <p>Estimate what the project is worth to the client, discount it for uncertainty, and see a fee range with the return they get at each price.</p>
+          <div class="ghost" aria-hidden="true"><i></i><i></i><i></i></div>
+        </li>
+        <li class="module">
+          <p class="no">03 <span class="lock" title="Included in Ratecard"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 5.5V4a2.5 2.5 0 015 0v1.5" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="2.5" y="5.5" width="7" height="5" rx="1" fill="currentColor"/></svg><span class="sr-only">Included in Ratecard</span></span></p>
+          <h3>Three-tier proposals</h3>
+          <p>Build a Good, Better, Best proposal with an anchoring check that flags weak tiers. Prints to a clean PDF in one click.</p>
+          <div class="ghost" aria-hidden="true"><i></i><i></i><i></i></div>
+        </li>
+        <li class="module">
+          <p class="no">04 <span class="lock" title="Included in Ratecard"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 5.5V4a2.5 2.5 0 015 0v1.5" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="2.5" y="5.5" width="7" height="5" rx="1" fill="currentColor"/></svg><span class="sr-only">Included in Ratecard</span></span></p>
+          <h3>Change orders</h3>
+          <p>Turn "can you also add..." into paid work. Enter the request and estimate, pick a rush level, and copy a polite message ready to send.</p>
+          <div class="ghost" aria-hidden="true"><i></i><i></i><i></i></div>
+        </li>
+        <li class="module">
+          <p class="no">05 <span class="lock" title="Included in Ratecard"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 5.5V4a2.5 2.5 0 015 0v1.5" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="2.5" y="5.5" width="7" height="5" rx="1" fill="currentColor"/></svg><span class="sr-only">Included in Ratecard</span></span></p>
+          <h3>Pricing playbook</h3>
+          <p>Ten tactics with word for word scripts, for raising rates, answering "that is too expensive", and trading scope instead of discounting.</p>
+          <div class="ghost" aria-hidden="true"><i></i><i></i><i></i></div>
+        </li>
+      </ul>
+      <div class="cta-row">
+        <a class="btn btn-primary js-cta" href="https://nishulegacy.gumroad.com/l/ratecard/LAUNCH19" rel="noopener">
+          <span class="js-cta-text">Get Ratecard for $19 with code LAUNCH19</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <p class="fine"><span class="js-promo">Launch code LAUNCH19 takes $5 off the $24 price through November 20, 2026.</span> One file, works offline, no account. <a class="secondary-link" href="https://nishulegacy.gumroad.com/l/ratecard" rel="noopener">See the full product page</a></p>
+      </div>
+    </div>
+  </section>
+
+  <article class="article wrap" aria-labelledby="guideTitle">
+    <div class="prose">
+      <h2 id="guideTitle">How this freelance rate calculator works</h2>
+      <p>Most people pick a rate by looking at what others charge, then knocking a bit off to feel safe. That tells you nothing about whether the rate pays your bills. A floor rate starts with the life you want to fund, adds taxes and business costs, and spreads the total over the hours a client will actually pay for.</p>
+      <p>Here is the exact formula the calculator uses:</p>
+      <div class="formula" role="group" aria-label="Floor rate formula">
+        <span class="eq"><strong>Pre-tax income</strong> = take-home income / (1 - tax rate)</span>
+        <span class="eq"><strong>Costs</strong> = pre-tax income + (monthly expenses x 12)</span>
+        <span class="eq"><strong>Revenue target</strong> = costs x (1 + profit margin)</span>
+        <span class="eq"><strong>Billable hours</strong> = (52 - weeks off) x hours per week x utilization</span>
+        <span class="eq"><strong>Minimum hourly rate</strong> = revenue target / billable hours</span>
+      </div>
+      <p>The day rate is your hourly rate times one fifth of your weekly hours, so a 40 hour week gives an 8 hour day. The monthly target is the annual revenue divided by 12. It is what you need to invoice on average, not what lands in your account each month.</p>
+      <p>The tax rate is one blended number: the share of gross income you expect to pay across income tax and any self employment or social charges. If you are not sure, ask an accountant for a rough figure.</p>
+
+      <h2>Why billable utilization is the number most freelancers get wrong</h2>
+      <p>Utilization is the share of your working hours that you can invoice. Many simple rate calculators skip it, which quietly assumes you bill every hour you work. Nobody does.</p>
+      <p>Think about a normal week. You answer emails, write proposals, chase invoices, and take discovery calls that go nowhere. Then there are gaps between projects, when you are available but nobody is paying. All of that is real work. None of it is billable.</p>
+      <p>Get this number wrong and the whole rate is wrong. With the example inputs above, moving utilization from 60% to 40% raises the floor from about $142 to about $214 an hour. Same life, same costs. The only change is being honest about how many hours you sell.</p>
+
+      <h3>Typical utilization ranges</h3>
+      <p>These are common rules of thumb, not survey data. Use them as a starting point and replace them with your own numbers once you have tracked a few months.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Situation</th><th scope="col" class="r">Utilization</th></tr></thead>
+          <tbody>
+            <tr><td><strong>New freelancer</strong>, still building a pipeline</td><td class="r">30 to 50%</td></tr>
+            <tr><td><strong>Established</strong>, steady referrals and repeat clients</td><td class="r">50 to 65%</td></tr>
+            <tr><td><strong>Long retainer</strong> or embedded contract</td><td class="r">65 to 80%</td></tr>
+            <tr><td>Anything above 80% for a full year</td><td class="r">Rare</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>To find yours, track four weeks and divide hours invoiced by hours worked.</p>
+
+      <h2>Why you should quote above your floor</h2>
+      <p>The floor is the price at which the business just about works. It is not a target. Quote at the floor and every surprise comes out of your pocket: a project that runs long, a late payment, a quiet month.</p>
+      <p>That is why the calculator suggests a quote about 20% above the floor. It gives you room to negotiate without dropping into the red. Many experienced freelancers go further: they price the outcome the client is buying, then check the fee against the floor. If a project cannot clear your floor, better to know before you say yes.</p>
+
+      <h2>A worked example</h2>
+      <p>Take the default inputs. This is an illustrative designer, not a benchmark:</p>
+      <ul>
+        <li>Wants to keep $90,000 a year after tax, with a blended tax rate of 30%. That needs about $128,571 before tax.</li>
+        <li>Spends $1,200 a month on software, insurance, and equipment. That adds $14,400 a year.</li>
+        <li>Adds a 10% profit margin, which brings the revenue target to about $157,269.</li>
+        <li>Takes 6 weeks off and works 40 hours a week, so 46 working weeks and 1,840 working hours.</li>
+        <li>Bills 60% of those hours, which is 1,104 billable hours.</li>
+      </ul>
+      <p>$157,269 divided by 1,104 hours is about <strong>$142 an hour</strong>. The day rate is about $1,140, and the monthly revenue target is about $13,106. A sensible first quote would be $180 an hour or more.</p>
+      <p>Notice how little of each invoice is take-home pay: about 57 cents of every dollar. The rest goes to taxes, costs, and the buffer that keeps the business alive.</p>
+
+      <h2>Frequently asked questions</h2>
+      <div class="faq" id="faq">
+        <details>
+          <summary>How much should a beginner freelancer charge?</summary>
+          <div class="a"><p>Start with your floor, not with what feels comfortable. Run this calculator with a lower utilization, around 30 to 40%, because new freelancers spend more time finding work. The result is often higher than beginners expect. If the market will not pay it yet, that is a signal to cut costs, niche down, or keep part time income while you build a client base. Avoid pricing far below your floor to win work. It is hard to raise rates on clients who came for a low price.</p></div>
+        </details>
+        <details>
+          <summary>Should I charge hourly or per project?</summary>
+          <div class="a"><p>Hourly is simple and fair when scope is unclear, such as ongoing support or open ended advice. Per project pricing usually works better when the deliverable is well defined, because you are rewarded for getting faster and the client gets a fixed number. Either way, know your floor first. A project fee should cover your estimated hours at your floor rate, plus a buffer for the unknowns.</p></div>
+        </details>
+        <details>
+          <summary>How do I raise my rates with existing clients?</summary>
+          <div class="a"><p>Give notice in writing, usually 30 to 60 days, and name the new rate and the date it starts. Keep the message short and do not apologize. Thank them for the work so far and offer to hold the current rate for a fixed block of work booked before the change. Raise rates for new clients first.</p></div>
+        </details>
+        <details>
+          <summary>How do I turn a salary into a freelance hourly rate?</summary>
+          <div class="a"><p>Do not just divide your salary by 2,080 hours. An employer pays for your holidays, your equipment, part of your taxes, and every hour you are not billable. Put the after tax pay you want into take-home income, add the benefits you used to get for free as monthly expenses, and set a realistic utilization. The calculator does the rest.</p></div>
+        </details>
+        <details>
+          <summary>What is a good billable utilization rate for a freelancer?</summary>
+          <div class="a"><p>For most solo freelancers, somewhere between 50 and 65% is a reasonable working assumption once sales, admin, and gaps are counted. New freelancers are often lower. People on a long retainer can be higher. The best number is your own, measured over a few months.</p></div>
+        </details>
+        <details>
+          <summary>Should my day rate be eight times my hourly rate?</summary>
+          <div class="a"><p>The calculator uses your weekly hours divided by five, so a 40 hour week gives an 8 hour day. If you discount full day bookings, start from your quoted rate, not your floor, so the discount never takes you below the minimum.</p></div>
+        </details>
+        <details>
+          <summary>What should I include in business expenses?</summary>
+          <div class="a"><p>Anything you pay to run the business: software and subscriptions, hardware spread over its useful life, insurance, accounting, a coworking desk, training, health cover, and retirement contributions an employer would have paid. Enter the monthly average. If a cost is yearly, divide it by 12.</p></div>
+        </details>
+        <details>
+          <summary>Does this calculator save or send my numbers?</summary>
+          <div class="a"><p>No. Everything runs in your browser. Your inputs live only in the page address, which is how the share link works. Close the tab and they are gone unless you saved the link.</p></div>
+        </details>
+      </div>
+    </div>
+  </article>
+
+  <section class="final wrap" aria-labelledby="finalTitle">
+    <div class="card final-card">
+      <p class="eyebrow">Ratecard by Nishu Legacy</p>
+      <h2 id="finalTitle">Know your floor. Then price the work on what it is worth.</h2>
+      <p>Ratecard adds value pricing with client ROI, three-tier proposals that print to PDF, polite change orders, and a 10 tactic playbook with scripts. It is one file that runs in your browser, with no account or subscription.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary js-cta" href="https://nishulegacy.gumroad.com/l/ratecard/LAUNCH19" rel="noopener">
+          <span class="js-cta-text">Get Ratecard for $19 with code LAUNCH19</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="https://nishulegacy.gumroad.com/l/ratecard" rel="noopener">View product page</a>
+        <p class="fine js-promo">Launch code LAUNCH19 takes $5 off the $24 price through November 20, 2026.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>Made by Nishu Legacy</span>
+    <nav aria-label="Footer">
+      <a href="https://nishulegacy.gumroad.com/l/ratecard" rel="noopener">Ratecard</a>
+      <a href="https://nishulegacy.gumroad.com/l/tailoring-checklist" rel="noopener">Free Resume Tailoring Checklist</a>
+    </nav>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var LOCALES = { USD: 'en-US', EUR: 'en-IE', GBP: 'en-GB', INR: 'en-IN', CAD: 'en-CA', AUD: 'en-AU' };
+  var CANONICAL = 'https://nishu1996builds.github.io/TBD-Claude/free/rate-calculator/';
+  var PROMO_END = new Date('2026-11-21T00:00:00Z').getTime() + 12 * 3600e3;
+  var REGULAR_URL = 'https://nishulegacy.gumroad.com/l/ratecard';
+  var DEFAULTS = { takeHome: 90000, tax: 30, expenses: 1200, weeksOff: 6, hours: 40, util: 60, margin: 10, currency: 'USD' };
+  // Hash keys, kept short so shared links stay tidy.
+  var KEYS = { takeHome: 'i', tax: 't', expenses: 'e', weeksOff: 'w', hours: 'h', util: 'u', margin: 'm', currency: 'c' };
+  var RANGES = { takeHome: [0, 1e9], tax: [0, 90], expenses: [0, 1e8], weeksOff: [0, 51], hours: [1, 100], util: [10, 100], margin: [0, 40] };
+  var FIELDS = ['takeHome', 'tax', 'expenses', 'weeksOff', 'hours', 'util', 'margin'];
+
+  var S = clone(DEFAULTS);
+  var $ = function (id) { return document.getElementById(id); };
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function n(x, fallback) { var v = parseFloat(x); return isFinite(v) ? v : fallback; }
+  function clamp(x, a, b) { return Math.min(b, Math.max(a, x)); }
+
+  /* Formatting */
+  function fmt(x) {
+    if (!isFinite(x)) x = 0;
+    try {
+      return new Intl.NumberFormat(LOCALES[S.currency] || 'en-US', { style: 'currency', currency: S.currency, maximumFractionDigits: 0, minimumFractionDigits: 0 }).format(x);
+    } catch (e) { return '$' + Math.round(x).toLocaleString(); }
+  }
+  function symbol() {
+    try {
+      var parts = new Intl.NumberFormat(LOCALES[S.currency], { style: 'currency', currency: S.currency }).formatToParts(0);
+      var p = parts.filter(function (x) { return x.type === 'currency'; })[0];
+      return p ? p.value : '$';
+    } catch (e) { return '$'; }
+  }
+  function int(x) { return Math.round(isFinite(x) ? x : 0).toLocaleString('en-US'); }
+  function niceUp(x) {
+    if (!isFinite(x) || x <= 0) return 0;
+    if (x < 100) return Math.ceil(x / 5) * 5;
+    var m = Math.pow(10, Math.floor(Math.log10(x)));
+    var step = m / 10;
+    return Math.ceil(x / step) * step;
+  }
+
+  /* Floor rate math. Identical to the Floor rate module in Ratecard. */
+  function floorCalc(f) {
+    var takeHome = Math.max(0, n(f.takeHome, 0));
+    var tax = clamp(n(f.tax, 0), 0, 90) / 100;
+    var expensesYr = Math.max(0, n(f.expenses, 0)) * 12;
+    var weeksOff = clamp(n(f.weeksOff, 0), 0, 51);
+    var hours = clamp(n(f.hours, 40), 1, 100);
+    var u = clamp(n(f.util, 60), 1, 100) / 100;
+    var margin = clamp(n(f.margin, 0), 0, 100) / 100;
+    var workWeeks = 52 - weeksOff;
+    var billable = workWeeks * hours * u;
+    var pretax = takeHome / (1 - tax);
+    var taxes = pretax - takeHome;
+    var base = pretax + expensesYr;
+    var marginAmt = base * margin;
+    var revenue = base + marginAmt;
+    var hourly = billable > 0 ? revenue / billable : 0;
+    var dayLen = hours / 5;
+    return {
+      takeHome: takeHome, taxes: taxes, expenses: expensesYr, marginAmt: marginAmt, revenue: revenue,
+      hourly: hourly, day: hourly * dayLen, dayLen: dayLen, month: revenue / 12,
+      billable: billable, workWeeks: workWeeks, hours: hours, u: u, totalHours: 52 * hours
+    };
+  }
+
+  /* Render */
+  function render() {
+    var c = floorCalc(S);
+    $('r-hourly').textContent = fmt(c.hourly);
+    $('r-hourly-s').textContent = 'Quote at least ' + fmt(niceUp(c.hourly * 1.2)) + ' to leave room';
+    $('r-day').textContent = fmt(c.day);
+    $('r-day-s').textContent = (Math.round(c.dayLen * 10) / 10) + ' hour billable day';
+    $('r-month').textContent = fmt(c.month);
+    $('r-month-s').textContent = fmt(c.workWeeks > 0 ? c.revenue / c.workWeeks : 0) + ' per working week';
+    $('r-annual').textContent = 'Annual revenue ' + fmt(c.revenue);
+    $('o-util').textContent = Math.round(c.u * 100) + '%';
+    $('o-margin').textContent = Math.round(n(S.margin, 0)) + '%';
+    var perWeek = c.workWeeks > 0 ? c.billable / c.workWeeks : 0;
+    $('r-callout').innerHTML = 'You need <strong>' + int(c.billable) + ' billable hours</strong> a year out of ' + int(c.totalHours) + ' total. That is about ' + int(perWeek) + ' billable hours in each working week.';
+
+    var segs = [
+      { label: 'Your take-home', value: c.takeHome, color: '--c-take', on: '--on-take' },
+      { label: 'Taxes', value: c.taxes, color: '--c-tax', on: '--on-tax' },
+      { label: 'Business expenses', value: c.expenses, color: '--c-exp', on: '--on-exp' },
+      { label: 'Profit margin', value: c.marginAmt, color: '--c-margin', on: '--on-margin' }
+    ];
+    var total = segs.reduce(function (a, s) { return a + Math.max(0, s.value); }, 0);
+    var bar = '', legend = '', aria = [];
+    segs.forEach(function (s) {
+      var share = total > 0 ? Math.max(0, s.value) / total * 100 : 0;
+      var label = share >= 8 ? Math.round(share) + '%' : '';
+      if (share > 0) bar += '<div class="seg" style="flex:0 0 ' + share.toFixed(3) + '%;background:var(' + s.color + ');color:var(' + s.on + ')">' + label + '</div>';
+      legend += '<li><span class="sw" style="background:var(' + s.color + ')"></span><span>' + s.label + '</span><span class="amt">' + fmt(s.value) + ' <span>' + Math.round(share) + '%</span></span></li>';
+      aria.push(s.label.replace('Your ', '') + ' ' + Math.round(share) + '%');
+    });
+    $('split').innerHTML = bar;
+    $('split').setAttribute('aria-label', 'Annual revenue split: ' + aria.join(', '));
+    $('legend').innerHTML = legend;
+
+    var sym = symbol();
+    document.querySelectorAll('.cur').forEach(function (el) { el.textContent = sym; });
+    document.querySelectorAll('.input-wrap.has-pre').forEach(function (el) { el.style.setProperty('--pre-w', (sym.length * 9) + 'px'); });
+  }
+
+  /* Inputs */
+  function syncInputs() {
+    FIELDS.forEach(function (k) {
+      var el = $('f-' + k);
+      if (el !== document.activeElement) el.value = S[k] === '' ? '' : S[k];
+    });
+    $('currency').value = S.currency;
+  }
+  FIELDS.forEach(function (k) {
+    $('f-' + k).addEventListener('input', function (e) {
+      var v = e.target.value;
+      S[k] = v === '' ? '' : n(v, '');
+      render();
+      writeHash();
+    });
+    $('f-' + k).addEventListener('blur', syncInputs);
+  });
+  $('currency').addEventListener('change', function (e) {
+    S.currency = LOCALES[e.target.value] ? e.target.value : 'USD';
+    render();
+    writeHash();
+  });
+  $('resetBtn').addEventListener('click', function () {
+    S = clone(DEFAULTS);
+    syncInputs();
+    render();
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+    toast('Reset to the example numbers');
+  });
+
+  /* URL hash: shareable results */
+  function buildHash() {
+    var parts = [];
+    FIELDS.forEach(function (k) {
+      var v = n(S[k], null);
+      if (v === null) return;
+      parts.push(KEYS[k] + '=' + encodeURIComponent(+v.toFixed(2)));
+    });
+    parts.push(KEYS.currency + '=' + S.currency);
+    return '#' + parts.join('&');
+  }
+  function writeHash() {
+    try { history.replaceState(null, '', location.pathname + location.search + buildHash()); } catch (e) {}
+  }
+  function readHash() {
+    var h = (location.hash || '').replace(/^#/, '');
+    if (!h) return false;
+    var map = {};
+    h.split('&').forEach(function (p) {
+      var i = p.indexOf('=');
+      if (i > 0) map[p.slice(0, i)] = decodeURIComponent(p.slice(i + 1));
+    });
+    var found = false;
+    FIELDS.forEach(function (k) {
+      if (map[KEYS[k]] == null) return;
+      var v = parseFloat(map[KEYS[k]]);
+      if (!isFinite(v)) return;
+      S[k] = clamp(v, RANGES[k][0], RANGES[k][1]);
+      found = true;
+    });
+    var cur = (map[KEYS.currency] || '').toUpperCase();
+    if (LOCALES[cur]) { S.currency = cur; found = true; }
+    return found;
+  }
+  window.addEventListener('hashchange', function () {
+    S = clone(DEFAULTS);
+    readHash();
+    syncInputs();
+    render();
+  });
+
+  /* Copy link */
+  function shareUrl() {
+    var base = location.protocol === 'file:' ? location.href.split('#')[0] : CANONICAL;
+    return base + buildHash();
+  }
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+  $('copyBtn').addEventListener('click', function () {
+    var url = shareUrl();
+    writeHash();
+    function done(ok) { toast(ok ? 'Link copied. Paste it anywhere to share this result.' : 'Copy failed. The link is in your address bar.'); }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(url).then(function () { done(true); }, function () { done(fallbackCopy(url)); });
+    } else {
+      done(fallbackCopy(url));
+    }
+  });
+
+  var toastTimer = null;
+  function toast(msg) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2600);
+  }
+
+  /* Theme */
+  function isDark() {
+    var t = document.documentElement.getAttribute('data-theme');
+    if (t) return t === 'dark';
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function syncThemeBtn() {
+    $('themeBtn').setAttribute('aria-label', isDark() ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  $('themeBtn').addEventListener('click', function () {
+    var next = isDark() ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('nl.ratecalc.theme', next); } catch (e) {}
+    syncThemeBtn();
+  });
+
+  /* Launch code expiry: after the promo ends, point buttons to the regular price. */
+  if (Date.now() > PROMO_END) {
+    document.querySelectorAll('.js-cta').forEach(function (a) { a.href = REGULAR_URL; });
+    document.querySelectorAll('.js-cta-text').forEach(function (s) { s.textContent = 'Get Ratecard for $24'; });
+    document.querySelectorAll('.js-promo').forEach(function (s) { s.textContent = 'One time purchase.'; });
+  }
+
+  readHash();
+  syncInputs();
+  render();
+  syncThemeBtn();
+})();
+</script>
+</body>
+</html>
