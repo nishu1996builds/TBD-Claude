@@ -657,7 +657,7 @@ const SOURCES = [
     title: "Registered Business Locations",
     dateField: "location_start_date", nameField: "ownership_name", dbaField: "dba_name",
     addressField: "full_business_address", cityField: "city", stateField: "state", zipField: "business_zip",
-    categoryFields: ["self_reported_naics_code", "lic"], locationField: "location",
+    categoryFields: ["self_reported_naics_code"], locationField: "location",
     baseWhere: "location_end_date IS NULL AND dba_end_date IS NULL"
   },
   {
@@ -729,7 +729,7 @@ const SOURCES = [
     title: "Business Tax Receipts",
     dateField: "received_date", nameField: "business_owner_name", dbaField: "business_name",
     addressField: "business_address", defaultCity: "Orlando",
-    categoryFields: ["license_type", "license_category"], phoneField: "phone", emailField: "business_email", statusField: "license_status"
+    categoryFields: ["license_type", "license_category"], phoneField: "phone", statusField: "license_status"
   },
   {
     id: "norfolk", label: "Norfolk", group: "City", state: "VA",
@@ -788,7 +788,7 @@ const SOURCES = [
     domain: "data.ny.gov", dataset: "n9v6-gdp6", kind: "entity",
     title: "Active Corporations: Beginning 1800",
     dateField: "initial_dos_filing_date", nameField: "current_entity_name",
-    addressField: "location_address_1", cityField: "location_city", zipField: "location_zip",
+    addressField: "dos_process_address_1", cityField: "dos_process_city", stateField: "dos_process_state", zipField: "dos_process_zip",
     categoryFields: ["entity_type"],
     baseWhere: "entity_type not like '%NOT-FOR-PROFIT%'"
   },

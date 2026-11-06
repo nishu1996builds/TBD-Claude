@@ -92,3 +92,18 @@ Field reference:
 - `baseWhere` is any SoQL condition, and the app ANDs it with the date window. Use it to drop renewals, nonprofits or placeholder rows.
 
 5. **Scan and check the log.** Every request appears in **Sources and log** with its full SoQL URL. A 400 error usually means a field name is wrong. A 0-row result with a 200 usually means the date window is too short, or the dataset updates monthly.
+
+## Live check, November 6, 2026
+
+The daily pipeline (`pipeline/radar/`) queried every source live. All 18 responded. What it found:
+
+| Source | Newest filing on the portal | Note |
+|---|---|---|
+| NYC DCWP issued licenses | 2026-08-19 | The city has not updated this dataset since August. It returns leads again when NYC refreshes it. |
+| NYC DCWP new applications | 2026-04-17 | Same: stale at the source, not a query problem. |
+| Orlando business tax receipts | 2026-11-05 | No email column in the live data, so the email mapping was removed. Phone numbers are present. |
+| NY State corporations | 2026-11-04 | Address columns are `dos_process_*` (the service-of-process address, often a lawyer or agent). Mapped, but treat these addresses as a starting point. |
+| Connecticut business registry | 2026-11-04 | The best email source: about 180 new businesses a week with an owner email on file. |
+| Texas TABC and sales tax permits | 2026-11-05 | The biggest source by volume. No emails; use for walk-ins and mailers. |
+
+`data/radar/source-health.json` is refreshed every morning with each source's newest date and the columns it actually returned.
