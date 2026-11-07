@@ -1,0 +1,8 @@
+{
+  "generated": "2026-11-06T18:32:26.046Z",
+  "leads": [
+    { "id": "Lfix0001", "score": 100, "band": "hot", "isNew": true, "firstSeen": "2026-11-06", "name": "Pecan Street Taqueria", "legal": "Pecan Street Taqueria LLC", "industry": "Restaurants and food", "category": "MB", "address": "1200 Pecan St, Suite 4", "city": "Austin", "state": "TX", "zip": "78701", "filed": "2026-11-06", "phone": "", "email": "", "sources": ["Texas liquor applications (TABC)"], "kind": "application", "why": [{ "k": "Industry fit for POS", "pts": 35, "max": 35, "note": "Restaurants and food" }] },
+    { "id": "Lfix0002", "score": 82, "band": "hot", "isNew": false, "firstSeen": "2026-11-05", "name": "Northside Barbers", "legal": "Northside Barbers LLC", "industry": "Beauty and wellness", "category": "812111", "address": "88 Main St", "city": "Hartford", "state": "CT", "zip": "06103", "filed": "2026-11-04", "phone": "", "email": "owner@example.com", "sources": ["Connecticut new businesses"], "kind": "entity", "why": [] },
+    { "id": "Lfix0003", "score": 61, "band": "warm", "isNew": false, "firstSeen": "2026-11-05", "name": "Lakeview Fitness", "legal": "Lakeview Fitness Inc", "industry": "Fitness", "category": "", "address": "2400 N Lake Shore Dr", "city": "Chicago", "state": "IL", "zip": "60614", "filed": "2026-11-03", "phone": "312-555-0100", "email": "", "sources": ["Chicago"], "kind": "license", "why": [] }
+  ]
+}

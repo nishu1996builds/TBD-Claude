@@ -1,0 +1,33 @@
+# Softopen
+
+> Businesses that are about to open, before they pick their vendors. Scored pre-opening storefront leads from public filings, plus a human phone confirmation on any lead. Built for sales reps and for AI agents that prospect on their behalf.
+
+Base URL: {{BASE_URL}}
+OpenAPI: {{BASE_URL}}/openapi.json
+Coverage (free): {{BASE_URL}}/v1/sources
+Pricing (free): {{BASE_URL}}/v1/pricing
+
+## How to use it
+
+1. Get an API key (so_live_...). Keys hold prepaid credits in US cents.
+2. Send `Authorization: Bearer so_live_...` on every call.
+3. Metered calls return `X-Charged-Cents` and `X-Balance-Cents`. When credits run out you get HTTP 402 with a JSON body that includes an `add_credits` link. Show that link to your user.
+4. Each key has a daily spend cap (default $20). Hitting it returns 429 with Retry-After.
+
+## Endpoints
+
+- GET /v1/leads?state=TX&city=Houston&industry=Restaurants%20and%20food&min_score=75&first_seen_since=YYYY-MM-DD&limit=25 : search. A few cents per call, up to 50 leads. Sorted by score then most recent filing.
+- GET /v1/leads/{id} : one lead, one cent. Includes any confirmation you requested.
+- POST /v1/leads/{id}/confirm {"questions": ["..."], "callback_url": "..."} : a person phones the business, confirms it is real and opening, gets the decision maker and opening date, asks up to 3 questions. A few dollars, refunded if unreachable or not opening. Usually within 2 business days.
+- GET /v1/confirmations/{id} : status and result. Free.
+- GET /v1/account : balance, today's spend, cap. Free.
+
+## What a lead is
+
+Each lead comes from a public filing that happens before or at opening: liquor license applications, pre-license health inspections, sales tax permits, business licenses and tax receipts, new business entities. Fields: id (stable), name, legal_name, industry, address, city, state, zip, filed, first_seen, stage (application, inspection, tax, license, registration, entity, earliest first), score 0 to 100, band hot or warm, phone and email when the filing had one, sources, and a `why` breakdown of the score (POS fit 35, recency 25, physical storefront 15, independent owner 15, pre-opening signal 10).
+
+Public records can be late or wrong. Treat a lead as a signal. Use a confirmation before anyone drives there or sends money.
+
+## MCP
+
+A stdio MCP server ships with the API (tools: search_leads, get_lead, request_confirmation, get_confirmation, get_account, get_coverage). See the README.

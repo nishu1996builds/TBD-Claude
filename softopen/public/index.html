@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Softopen</title>
+<meta name="description" content="Businesses that are about to open, before they pick their vendors. A metered API and MCP server for sales reps and AI agents.">
+<style>
+:root{--bg:#f6f3ee;--ink:#1b1a17;--muted:#6b665d;--line:#e4ded3;--accent:#d9542b;--surface:#fffdf9}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11110f;--ink:#f1ede5;--muted:#a39d92;--line:#2c2a25;--accent:#ff7a4d;--surface:#1a1916}}
+:root[data-theme="dark"]{--bg:#11110f;--ink:#f1ede5;--muted:#a39d92;--line:#2c2a25;--accent:#ff7a4d;--surface:#1a1916}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Inter,sans-serif}
+main{max-width:720px;margin:0 auto;padding:48px 16px 80px}h1{font-size:2.2rem;margin:0 0 .25em}h1 small{display:block;font-size:1rem;color:var(--muted);font-weight:400}
+h2{margin-top:2.2em;font-size:1.2rem}p{color:var(--ink)}code,pre{font:14px/1.5 ui-monospace,SFMono-Regular,JetBrains Mono,monospace}
+pre{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow:auto}
+table{border-collapse:collapse;width:100%}td,th{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:500}
+a{color:var(--accent)}.muted{color:var(--muted)}
+</style></head><body><main>
+<h1>Softopen <small>Businesses that are about to open, before they pick their vendors.</small></h1>
+<p>Every day, restaurants, bars, shops, salons and gyms file for liquor licenses, health inspections, sales tax permits and business licenses weeks before they open. Softopen reads those filings, scores each one for whether it's a real independent storefront, and serves them as leads to sales reps and to the AI agents that prospect for them. Any lead can be confirmed by a person who phones the business.</p>
+<h2>For agents</h2>
+<pre>GET  /v1/leads?state=TX&amp;industry=Restaurants%20and%20food&amp;min_score=75
+GET  /v1/leads/{id}
+POST /v1/leads/{id}/confirm        {"questions": ["Who picks the POS?"]}
+GET  /v1/confirmations/{id}
+Authorization: Bearer so_live_...   credits are prepaid, in cents</pre>
+<p><a href="/openapi.json">OpenAPI</a> · <a href="/llms.txt">llms.txt</a> · <a href="/v1/sources">Coverage</a> · <a href="/v1/pricing">Pricing</a></p>
+<h2>Pricing</h2>
+<table><tr><th>Call</th><th>Price</th></tr>
+<tr><td>Search, up to 50 leads</td><td>$0.05</td></tr>
+<tr><td>One lead by id</td><td>$0.01</td></tr>
+<tr><td>Human phone confirmation</td><td>$3.00, refunded if unreachable or not opening</td></tr></table>
+<p class="muted">Default daily cap $20 per key. No subscription.</p>
+<h2 id="keys">Keys</h2>
+<p>Keys are issued by hand while Softopen is in early access. Say what you are building and which territory you care about: <a href="{{CONTACT_URL}}">{{CONTACT_URL}}</a>.</p>
+<p class="muted">Public records can be late or wrong. Treat a lead as a signal and confirm before you drive there.</p>
+</main></body></html>

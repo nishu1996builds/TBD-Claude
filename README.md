@@ -8,6 +8,7 @@ Every app is **one HTML file**: no build step, no npm install, no server. Open i
 | --- | --- | --- |
 | [Ratecard](tools/ratecard/) | Make money | Pricing studio for freelancers and consultants: floor rate, value pricing, three-tier proposals, change orders. Gumroad listing in [`GUMROAD.md`](tools/ratecard/GUMROAD.md). |
 | Storefront Radar | Make money | Graduated to its own private repo (`storefront-radar`): a daily lead engine for POS sales built on new-business filings. |
+| [Softopen](softopen/) | Make money | Pre-opening storefront leads as a metered API and MCP server for sales reps and AI agents, with a paid human phone confirmation on any lead. Fed by Storefront Radar. Not a single HTML file: a zero-dependency Node service with SQLite. |
 | [Venture Lens](tools/venture/) | Make money | Pressure-test a business idea: weighted scorecard, unit economics, bottom-up market sizing, pre-mortem, printable one-pager. |
 | [Slingshot](games/slingshot/) | Play | Original gravity-slingshot physics puzzle game with handcrafted levels and an endless seeded mode. |
 | [Groovebox](games/groovebox/) | Play | Drum machine and synth sequencer, every sound synthesized live with WebAudio. Shareable pattern links. |
