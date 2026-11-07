@@ -153,7 +153,7 @@ The free calculator and Ratecard are one product with a free edition, so list th
   > The paid version ($24, one-time) is a single HTML file that runs offline in your browser. It adds value pricing based on client ROI, a Good / Better / Best proposal builder that prints to PDF, a change order generator, and a pricing playbook with word-for-word scripts. Six currencies, no account.
 - **Tags:** freelance, pricing, rate-calculator, proposals, consulting, invoicing-alternative (drop that last one if AlternativeTo flags it)
 - **Suggest as an alternative to** (only where the overlap is honest; check each is listed): Proposify, Better Proposals, Bonsai. These are proposal and business suites. Ratecard covers pricing and simple tiered proposals only, with no e-signature or CRM. Also search AlternativeTo for "rate calculator" and add any freelance rate calculators it lists, since those are the closest match.
-- **Screenshots:** the calculator's "Where each invoice goes" section, the Ratecard Floor rate tab with the utilization chart, and the Good / Better / Best tab. Cover images are in `dist/ratecard/covers/`.
+- **Screenshots:** the calculator's "Where each invoice goes" section, the Ratecard Floor rate tab with the utilization chart, and the Good / Better / Best tab. Cover images are in `dist/covers/` in the private `ratecard` repo.
 
 ### 3.2 SaaSHub
 
