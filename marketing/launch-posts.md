@@ -103,7 +103,7 @@ Freelance, Productivity, Sales, Consulting (pick from what Product Hunt offers a
 
 ### Gallery: 5 images with captions
 
-Existing covers are in `dist/ratecard/covers/` at 1280x720. There are three cover PNGs and a quick-start page. Image 4 needs to be exported from `quickstart.html`, and image 5 does not exist yet: take a screenshot from the app.
+Existing covers are in `dist/covers/` in the private `ratecard` repo, at 1280x720. There are three cover PNGs and a quick-start page. Image 4 needs to be exported from `quickstart.html`, and image 5 does not exist yet: take a screenshot from the app.
 
 | # | File | Caption |
 |---|---|---|
