@@ -38,7 +38,7 @@ Next in line: Product Hunt (already planned for Nov 18), TikTok screen-recording
 4. **Indie Hackers.** Good for build-in-public feedback on pricing ($79 to $149 per agent per metro), not for buyers.
 5. **BetaList, once there is a landing page on its own domain.** It is made for pre-launch waitlists, but it is now reported as paid and its audience is tech early adopters, not POS agents.
 
-Before any of these: build a one-page site on a custom domain with a waitlist form. Every channel above needs somewhere to send people.
+Landing page (built Nov 7): https://nishu1996builds.github.io/TBD-Claude/radar/ , with signups through the free Gumroad waitlist at https://nishulegacy.gumroad.com/l/storefront-radar . Send every Radar channel above there. Move it to a custom domain when you buy one.
 
 ### C. POS reselling to local merchants: candid view
 
