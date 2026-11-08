@@ -2,9 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main, claude/festive-allen-pedczk]
-    paths-ignore:
-      - "data/**"
+    branches: [claude/festive-allen-pedczk]
   workflow_dispatch:
 
 permissions:
@@ -27,12 +25,8 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
-      - name: Build the public site (leave out lead data, the pipeline, and paid downloads)
-        run: |
-          mkdir _site
-          rsync -a --exclude .git --exclude .github --exclude _site --exclude data --exclude pipeline --exclude dist --exclude marketing --exclude research ./ _site/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: .
       - id: deployment
         uses: actions/deploy-pages@v4

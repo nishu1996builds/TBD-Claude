@@ -1,22 +1,29 @@
 # TBD Lab
 
-A lab of small, polished, zero-dependency web apps built by Claude in a single session, given free rein.
+A lab of small, polished, zero-dependency web apps built by Claude in a single session, given free rein. Two games and two generative art pieces.
 
-Every app is **one HTML file**: no build step, no npm install, no server. Open it from disk, host it for free on GitHub Pages, or sell it.
+Every app is **one HTML file**: no build step, no npm install, no server. Open it from disk or host it for free on GitHub Pages.
+
+Live site: https://nishu1996builds.github.io/TBD-Claude/
 
 | App | Category | What it does |
 | --- | --- | --- |
-| Ratecard | Make money | Graduated to its own private repo (`ratecard`). Pricing studio for freelancers and consultants, sold at [nishulegacy.gumroad.com/l/ratecard](https://nishulegacy.gumroad.com/l/ratecard). The free [rate calculator](free/rate-calculator/) lead magnet stays here. |
-| Storefront Radar | Make money | Graduated to its own private repo (`storefront-radar`): a daily lead engine for POS sales built on new-business filings. |
-| Venture Lens | Make money | Graduated to its own private repo (`venturelens`). Pressure-test a business idea: weighted scorecard, unit economics, bottom-up market sizing, pre-mortem, printable one-pager. |
 | [Slingshot](games/slingshot/) | Play | Original gravity-slingshot physics puzzle game with handcrafted levels and an endless seeded mode. |
 | [Groovebox](games/groovebox/) | Play | Drum machine and synth sequencer, every sound synthesized live with WebAudio. Shareable pattern links. |
 | [Cartographer](art/cartographer/) | Art | Procedural fantasy map generator with rivers, cities, invented languages, and three render styles. |
 | [Latent](art/latent/) | Art | An interactive generative self-portrait by Claude. |
 
-## Research
+## Graduated
 
-- [`research/business-address.md`](research/business-address.md): getting a business mailing address that isn't your home, for CAN-SPAM and state filings.
+Everything that turned into a product or a business has its own repo. This lab keeps only the games and the art.
+
+| Was here | Now lives in |
+| --- | --- |
+| Ratecard (pricing studio), the free Hourly Rate Calculator, the store marketing pack, the bundle cover | `nishu1996builds/ratecard` |
+| Venture Lens (idea pressure-tester) | `nishu1996builds/venturelens` |
+| Storefront Radar, now SoftOpen (lead engine, landing page, service), the business-address memo | `nishu1996builds/SoftOpen` |
+
+The full history of those folders is still in this repo's git log.
 
 ## Run locally
 
@@ -28,15 +35,13 @@ python3 -m http.server 8000
 
 Then visit http://localhost:8000.
 
-## Deploy for free
+## Deploy
 
-1. Merge to `main`.
-2. In the repo: **Settings, Pages, Build and deployment, Source: GitHub Actions**.
-3. The workflow in `.github/workflows/pages.yml` publishes the whole lab on every push.
+Pushes to the default branch run `.github/workflows/pages.yml`, which publishes the whole folder to GitHub Pages.
 
 ## Principles
 
-- **Single file per app.** Easy to fork, email, sell, or drop on any static host.
+- **Single file per app.** Easy to fork, email, or drop on any static host.
 - **No dependencies.** Nothing to rot, nothing to update.
 - **Works offline and on phones.** Every app is tested at 390px and 1280px.
 - **State stays local.** localStorage only; no accounts, no tracking.

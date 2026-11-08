@@ -2,11 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://nishu1996builds.github.io/TBD-Claude/</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-08</lastmod>
   </url>
-  <url>
-    <loc>https://nishu1996builds.github.io/TBD-Claude/free/rate-calculator/</loc>
-    <lastmod>2026-11-06</lastmod>
-  </url>
-  <url><loc>https://nishu1996builds.github.io/TBD-Claude/radar/</loc></url>
+  <url><loc>https://nishu1996builds.github.io/TBD-Claude/games/slingshot/</loc></url>
+  <url><loc>https://nishu1996builds.github.io/TBD-Claude/games/groovebox/</loc></url>
+  <url><loc>https://nishu1996builds.github.io/TBD-Claude/art/cartographer/</loc></url>
+  <url><loc>https://nishu1996builds.github.io/TBD-Claude/art/latent/</loc></url>
 </urlset>

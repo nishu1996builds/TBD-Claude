@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TBD Lab</title>
-<meta name="description" content="A lab of small, polished, zero-dependency web apps. Some make money, some just make you smile.">
+<meta name="description" content="A lab of small, polished, zero-dependency web apps: two games and two generative art pieces, each a single HTML file.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -109,7 +109,6 @@
     font: 500 11px "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .08em;
     background: var(--chip); border-radius: 999px; padding: 4px 9px; color: var(--muted);
   }
-  .tag.money { color: #1f8a4c; background: color-mix(in srgb, #1f8a4c 14%, transparent); }
   .tag.play { color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 14%, transparent); }
   .tag.art { color: #a24bd6; background: color-mix(in srgb, #a24bd6 14%, transparent); }
   .card h3 { font: 600 24px Fraunces, serif; margin: 2px 0 0; }
@@ -117,14 +116,6 @@
   .why { margin-top: auto !important; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 13.5px !important; }
   .why b { color: var(--ink); font-weight: 600; }
 
-  .memo {
-    margin: 64px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
-    padding: clamp(22px, 4vw, 40px); box-shadow: var(--shadow);
-  }
-  .memo h2 { font: 600 30px Fraunces, serif; margin: 0 0 6px; }
-  .memo .sub { color: var(--muted); margin: 0 0 22px; }
-  .memo ol { margin: 0; padding-left: 22px; display: grid; gap: 12px; }
-  .memo li::marker { font-family: "JetBrains Mono", monospace; color: var(--accent); }
   footer { padding: 32px 0 48px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
   @media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
 </style>
@@ -139,54 +130,14 @@
   <section class="hero">
     <div class="eyebrow">Built by Claude, given free rein</div>
     <h1>Small things, <em>made well.</em></h1>
-    <p class="lede">A lab of polished, zero-dependency web apps. Each one is a single HTML file you can open offline, host for free, or sell. Three help you make money, two are for play, two are art.</p>
+    <p class="lede">A lab of polished, zero-dependency web apps. Each one is a single HTML file you can open offline or host for free. Two are for play, two are art. The tools that grew into products have moved to their own repos.</p>
     <div class="stats">
-      <div class="stat"><b>7</b><span>apps</span></div>
+      <div class="stat"><b>4</b><span>apps</span></div>
       <div class="stat"><b>0</b><span>dependencies</span></div>
       <div class="stat"><b>$0</b><span>to host</span></div>
       <div class="stat"><b>1</b><span>session</span></div>
     </div>
   </section>
-
-  <div class="section-head">
-    <h2>Make money</h2>
-    <p>Tools sharp enough to sell</p>
-  </div>
-  <div class="grid">
-    <a class="card" href="https://nishulegacy.gumroad.com/l/ratecard">
-      <div class="thumb" style="--g: linear-gradient(135deg,#1f8a4c,#0f3d2a)">
-        <div class="glyph">$/hr</div>
-      </div>
-      <div class="body">
-        <div class="tags"><span class="tag money">Graduated</span><span class="tag">On Gumroad</span></div>
-        <h3>Ratecard</h3>
-        <p>A pricing studio for freelancers and consultants. Find your floor rate, price on value, build a three-tier proposal, and handle scope creep with a ready-to-send change order. Now sold on Gumroad from its own private repo.</p>
-        <p class="why"><b>Why:</b> most independents underprice because they start from cost. This flips the frame to value. Try the <a href="free/rate-calculator/">free rate calculator</a> first.</p>
-      </div>
-    </a>
-    <a class="card" href="https://nishulegacy.gumroad.com">
-      <div class="thumb" style="--g: linear-gradient(135deg,#2b6cd9,#122c5c)">
-        <div class="glyph">GO?</div>
-      </div>
-      <div class="body">
-        <div class="tags"><span class="tag money">Graduated</span><span class="tag">Coming to Gumroad</span></div>
-        <h3>Venture Lens</h3>
-        <p>Pressure-test a business idea like a seed investor: weighted scorecard, unit economics, bottom-up market sizing, a pre-mortem with cheap validation tests, and a printable one-pager. Now in its own private repo, Gumroad listing next.</p>
-        <p class="why"><b>Why:</b> the cheapest time to kill a bad idea is before you build it.</p>
-      </div>
-    </a>
-    <a class="card" href="radar/">
-      <div class="thumb" style="--g: linear-gradient(135deg,#e0a21b,#5a3a05)">
-        <div class="glyph">&#9678;</div>
-      </div>
-      <div class="body">
-        <div class="tags"><span class="tag money">Graduated</span><span class="tag">Private beta</span></div>
-        <h3>Storefront Radar</h3>
-        <p>Finds businesses that are about to open, straight from city and state filings, and scores each one for POS fit. It now runs every morning as its own product, in a founding-agent beta.</p>
-        <p class="why"><b>Why:</b> the best time to win a merchant is before they pick a processor. Public records tell you who is about to open.</p>
-      </div>
-    </a>
-  </div>
 
   <div class="section-head">
     <h2>Play</h2>
@@ -250,21 +201,9 @@
     </a>
   </div>
 
-  <section class="memo" aria-labelledby="memo-h">
-    <h2 id="memo-h">The consultant's memo</h2>
-    <p class="sub">If you want to turn this lab into revenue, here is the shortest path.</p>
-    <ol>
-      <li><b>Work the Storefront Radar digest every morning.</b> Fresh filings in your territory, scored for POS fit, with outreach drafted. It now lives in its own private repo.</li>
-      <li><b>Ship Ratecard on Gumroad this week.</b> The listing copy is in <code>GUMROAD.md</code> in the private <code>ratecard</code> repo. Price it at pay-what-you-want with a suggested floor; it collects emails, which are worth more than the first sales.</li>
-      <li><b>Turn on GitHub Pages.</b> Settings, Pages, Source: GitHub Actions. The workflow is already in the repo. Every app gets a free public URL.</li>
-      <li><b>Use the free tools as lead magnets.</b> Venture Lens and Ratecard both end in a printable one-pager. Add a "made with" footer link to your offer and every shared PDF becomes distribution.</li>
-      <li><b>Cartographer has a niche market.</b> Tabletop RPG players buy maps. A "100 hand-picked worlds" print pack is a weekend of curation on top of what already exists.</li>
-      <li><b>Measure one thing.</b> Visitors to paid conversion on the Gumroad page. Ignore everything else for the first 30 days.</li>
-    </ol>
-  </section>
 
   <footer>
-    Made by Claude in one session. Every app is a single file with no build step. Fork it, ship it, sell it.
+    Made by Claude in one session. Every app is a single file with no build step. Fork it, ship it, play it.
   </footer>
 </div>
 <script>
