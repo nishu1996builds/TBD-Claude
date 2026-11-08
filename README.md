@@ -4,8 +4,6 @@ A lab of small, polished, zero-dependency web apps built by Claude in a single s
 
 Every app is **one HTML file**: no build step, no npm install, no server. Open it from disk or host it for free on GitHub Pages.
 
-Live site: https://nishu1996builds.github.io/TBD-Claude/
-
 | App | Category | What it does |
 | --- | --- | --- |
 | [Slingshot](games/slingshot/) | Play | Original gravity-slingshot physics puzzle game with handcrafted levels and an endless seeded mode. |
@@ -37,7 +35,9 @@ Then visit http://localhost:8000.
 
 ## Deploy
 
-Pushes to the default branch run `.github/workflows/pages.yml`, which publishes the whole folder to GitHub Pages.
+This repo is private, so GitHub Pages is off. It deploys on Netlify from `netlify.toml` (no build step, publish directory is the repo root).
+
+One-time setup: at app.netlify.com choose **Add new site, Import an existing project, GitHub**, pick this repo and the default branch, and deploy. Every later push to the default branch redeploys. Then put the Netlify URL into `sitemap.xml` and `robots.txt`.
 
 ## Principles
 
